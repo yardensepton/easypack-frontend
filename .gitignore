@@ -19,6 +19,7 @@ unlinked.ds
 unlinked_spec.ds
 .metadata
 pubspec.lock
+*.iml
 # Android related
 **/android/**/gradle-wrapper.jar
 .gradle/
