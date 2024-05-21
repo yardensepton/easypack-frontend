@@ -6,7 +6,7 @@ class InputField extends StatelessWidget {
   final String labelText;
   final TextInputType inputType;
   final IconData? icon;
-  final String? errorText; // Add errorText parameter
+  final String? Function(String?)? validator; 
 
   const InputField({
     super.key,
@@ -15,23 +15,23 @@ class InputField extends StatelessWidget {
     required this.labelText,
     required this.inputType,
     this.icon,
-    this.errorText, // Add errorText parameter
+    this.validator, // Add validator parameter
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
-        onChanged: onChanged , // No need for null check as it's optional
+        onChanged: onChanged, // No need for null check as it's optional
         keyboardType: inputType,
         decoration: InputDecoration(
           labelText: labelText,
-          errorText: errorText, // Use errorText parameter
           border: const OutlineInputBorder(),
           prefixIcon: icon != null ? Icon(icon) : null,
         ),
+        validator: validator, // Use validator parameter
       ),
     );
   }

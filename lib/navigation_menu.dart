@@ -1,4 +1,7 @@
+import 'package:easypack/font_style.dart';
+import 'package:easypack/pages/home_user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -12,8 +15,6 @@ class NavigationMenu extends StatefulWidget {
 
 class _NavigationMenuState extends State<NavigationMenu> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'New Trip',
@@ -23,10 +24,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
       'Packing Lists',
       style: optionStyle,
     ),
-    Text(
-      'Profile',
-      style: optionStyle,
-    ),
+
+    HomeUser()
+
   ];
 
   @override
@@ -35,7 +35,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 20,
-        title: const Text('GoogleNavBar'),
+        title: const Text('Main Menu'),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

@@ -11,9 +11,9 @@ class _HomeUserState extends State<HomeUser> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      // body: Center(
-      //   child: 
-      // ),
+      body: Center(
+        child:Text("hi user how are you")
+      ),
     );
   }
 }

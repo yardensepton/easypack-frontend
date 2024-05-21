@@ -9,10 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:easypack/services/city_search_service.dart';
 import 'package:easypack/services/create_user_service.dart';
 import 'package:easypack/navigation_menu.dart';
-// import 'package:easypack/pages/home_user.dart';
-
 import 'dart:async';
-// import 'package:easypack/models/user.dart';
+import 'package:line_icons/line_icons.dart';
 
 class CreateUserScreen extends StatefulWidget {
   const CreateUserScreen({super.key});
@@ -26,7 +24,7 @@ class CreateUserScreen extends StatefulWidget {
 class _CreateUserScreenState extends State<CreateUserScreen> {
   Timer? _debounce;
   final CitySearchService _cityService = CitySearchService();
-  final UserCreationService _userCreationService = UserCreationService( UserAPIService());
+  final UserCreationService _userCreationService = UserCreationService(UserAPIService());
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -35,10 +33,8 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   List<City> _autocompleteResults = [];
 
   final CityPhotoService _cityPhotoService = CityPhotoService();
-
-  String? _nameError;
-  String? _emailError;
-  String? _residenceError;
+  final _formKey = GlobalKey<FormState>(); 
+  final _scaffoldKey = GlobalKey<ScaffoldState>(); 
 
   _onSearchChanged(String input) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
@@ -57,8 +53,6 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
     if (input.isEmpty) {
       setState(() {
         _autocompleteResults.clear();
-        _errorsCreateUser();
-
       });
       return;
     }
@@ -80,188 +74,157 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
       final String formattedUrl = uri.toString();
       
       _selectedCity!.cityUrl = formattedUrl;
-      
-    //   showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         title: const Text('City Photo'),
-    //         content: Image.network(
-    //           formattedUrl,
-    //           fit: BoxFit.cover,
-    //         ),
-    //         actions: <Widget>[
-    //           TextButton(
-    //             onPressed: () {
-    //               Navigator.of(context).pop();
-    //             },
-    //             child: const Text('Close'),
-    //           ),
-    //         ],
-    //       );
-    //     },
-    //   );
     } catch (e) {
-      // Handle errors
       Exception('Error fetching and showing photo: $e');
     }
   }
 
-    bool get isAnyTextFieldEmpty =>
-      _nameController.text.isEmpty ||
-      _emailController.text.isEmpty ||
-      _genderController.text.isEmpty ||
-      _searchController.text.isEmpty;
-
-  void _errorsCreateUser() async {
-    setState(() {
-      _nameError = _nameController.text.isEmpty ? "Name can't be empty" : null;
-      _emailError = _emailController.text.isEmpty ? "Email can't be empty" : null;
-      _residenceError = _searchController.text.isEmpty ? "Residence can't be empty" : null;
-
-    if (_nameController.text.isEmpty || _emailController.text.isEmpty || _searchController.text.isEmpty ) {
-      return;
-    }
-    });
-
-  }
 
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: 
-    Scaffold(
-      backgroundColor: const Color.fromARGB(255, 249, 246, 246),
-      appBar: AppBar(
-      backgroundColor: const Color.fromARGB(255, 249, 246, 246),
-        title: const Text('Create User'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 500.0,
-              child: InputField(
-                controller: _nameController,
-                labelText: 'Enter your name',
-                icon: Icons.person,
-                inputType: TextInputType.name,
-                errorText: _nameError,
-                 onChanged: (value) {
-                  _errorsCreateUser();
-                },
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            SizedBox(
-              width: 500.0,
-              child: InputField(
-                controller: _emailController,
-                labelText: 'Enter your email',
-                icon: Icons.email,
-                inputType: TextInputType.emailAddress,
-                errorText: _emailError,
-                onChanged: (value) {
-                  _errorsCreateUser();
-                },
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            SizedBox(
-              width: 500.0,
-              child:    GenderToggleButton(
-            onChanged: (gender) {
-              _errorsCreateUser();
-             _genderController.text = gender;
-  },
-),
-       
-            ),
-            const SizedBox(height: 16.0),
-            SizedBox(
-              width: 500.0,
-              child: InputField(
-                controller: _searchController,
-                labelText: 'Enter your residence',
-                icon: Icons.location_city_outlined,
-                inputType: TextInputType.text,
-                onChanged: (value) {
-                  _onSearchChanged(value);
-                  _errorsCreateUser();
-                },
-                errorText: _residenceError,
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _autocompleteResults.length,
-                itemBuilder: (context, index) {
-                  return CityListItem(
-                    cityName: _autocompleteResults[index].text,
-                    placeId: _autocompleteResults[index].placeId,
-                    onTap: (placeId) {
-                      setState(() {
-                        _searchController.text =
-                          _autocompleteResults[index].text;
-                          _selectedCity = _autocompleteResults[index];
-                        _fetchAndShowPhoto(context, placeId);
-                        _autocompleteResults.clear();
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            SizedBox(
-              child: TextButton(
-                  onPressed: isAnyTextFieldEmpty ? null : onClickCreateUser,
-              style: TextButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor:const Color.fromARGB(255, 18, 94, 156),
-      ),
-                // onPressed: _createUser,
-                child: const Text("Create User",),
-                
-              ),
-            ),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: Colors.grey[300],
+        appBar: AppBar(
+          backgroundColor: Colors.grey[300],
+          title: const Text('Create User'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child:createUserForm()
         ),
       ),
-    ));
+    );
   }
 
- Future<void> onClickCreateUser() async {
-    _errorsCreateUser();
+  Form createUserForm() {
+    return Form(
+          key: _formKey, 
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 500.0,
+                child: InputField(
+                  controller: _nameController,
+                  labelText: 'Enter your name',
+                  icon: LineIcons.user,
+                  inputType: TextInputType.name,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Name can't be empty";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              SizedBox(
+                width: 500.0,
+                child: InputField(
+                  controller: _emailController,
+                  labelText: 'Enter your email',
+                  icon: LineIcons.envelope,
+                  inputType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Email can't be empty";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              SizedBox(
+                width: 500.0,
+                child: GenderToggleButton(
+                  onChanged: (gender) {
+                    _genderController.text = gender;
+                  },
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              SizedBox(
+                width: 500.0,
+                child: InputField(
+                  controller: _searchController,
+                  labelText: 'Enter your residence',
+                  icon: LineIcons.city,
+                  inputType: TextInputType.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Residence can't be empty";
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    _onSearchChanged(value);
+                  },
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _autocompleteResults.length,
+                  itemBuilder: (context, index) {
+                    return CityListItem(
+                      cityName: _autocompleteResults[index].text,
+                      placeId: _autocompleteResults[index].placeId,
+                      onTap: (placeId) {
+                        setState(() {
+                          _searchController.text = _autocompleteResults[index].text;
+                          _selectedCity = _autocompleteResults[index];
+                          _fetchAndShowPhoto(context, placeId);
+                          _autocompleteResults.clear();
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              SizedBox(
+                child: TextButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      onClickCreateUser();
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color.fromARGB(255, 18, 94, 156),
+                  ),
+                  child: const Text("Create User"),
+                ),
+              ),
+            ],
+          ),
+        );
+  }
+
+  Future<void> onClickCreateUser() async {
     if (_selectedCity != null) {
-      User? createdUser = 
-     await _userCreationService.createUser(
+      User? createdUser = await _userCreationService.createUser(
         nameController: _nameController,
         emailController: _emailController,
         genderController: _genderController,
         selectedCity: _selectedCity!,
-        context: context
+        context: context,
       );
 
- if (!mounted) return;
-       if(createdUser != null){
-               Navigator.push(context,
-      MaterialPageRoute(builder: (context) => const NavigationMenu()),
+      if (!mounted) return;
+      if (createdUser != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const NavigationMenu()),
         );
       }
-
-
     } else {
-     ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-          content: Text("choose a city")));
-
-      
-  
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Choose a city"),
+      ));
     }
- }
+  }
 }
-
-

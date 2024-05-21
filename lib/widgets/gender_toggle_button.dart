@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 
 class GenderToggleButton extends StatefulWidget {
   final ValueChanged<String>? onChanged;
@@ -14,37 +15,36 @@ class GenderToggleButton extends StatefulWidget {
 
 
 class _GenderToggleButtonState extends State<GenderToggleButton> {
-  String _selectedGender = '';
-    List<bool> isSelected = [true, false]; 
-
+  String _selectedGender = 'male';
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      
-      child: Row (
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-        const Text("Choose your gender",
-        style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal)),
-          ToggleButtons(
-            
-            
-        isSelected: [_selectedGender == 'male', _selectedGender == 'female'],
-        onPressed: (int index) {
-          setState(() {
-            _selectedGender = index == 0 ? 'male' : 'female';
-            if (widget.onChanged != null) {
-              widget.onChanged!(_selectedGender);
-            }
-          });
-        },
-        children: const [
-          Icon(Icons.man),
-          Icon(Icons.woman),
-        ],
-      )
-      ]),
+        child: Row (
+          mainAxisAlignment: MainAxisAlignment.spaceAround ,
+          children: <Widget>[
+     
+             const Text("Choose your gender",
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal)),
+     
+            ToggleButtons(
+              
+              
+          isSelected: [_selectedGender == 'male', _selectedGender == 'female'],
+          onPressed: (int index) {
+            setState(() {
+              _selectedGender = index == 0 ? 'male' : 'female';
+              if (widget.onChanged != null) {
+                widget.onChanged!(_selectedGender);
+              }
+            });
+          },
+          children: const [
+            Icon(LineIcons.male),
+            Icon(LineIcons.female),
+          ],
+        )
+        ]),
     );
   
   }
