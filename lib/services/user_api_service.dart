@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:easypack/models/user.dart';
 
 class UserAPIService {
-  static const String apiUrl = 'http://localhost:8000/users'; 
-    // static const String apiUrl = 'http://192.168.1.197:8000/users'; 
+  // static const String apiUrl = 'http://localhost:8000/users'; 
+    static const String apiUrl = 'http://192.168.1.197:8000/users'; 
 
 
   Future<User?> createUser(User user) async {
