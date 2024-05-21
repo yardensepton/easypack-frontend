@@ -1,25 +1,27 @@
+import 'package:easypack/models/city.dart';
+
 class User {
   String? id;
   String name;
   String email;
   String gender;
-  String residence;
+  City city;
 
   User({
     this.id,
     required this.name,
     required this.email,
     required this.gender,
-    required this.residence,
+    required this.city,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
+factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['_id'],
       name: json['name'],
       email: json['email'],
       gender: json['gender'],
-      residence: json['residence'],
+      city: City.fromJson(json['city']),
     );
   }
 
@@ -28,7 +30,10 @@ class User {
       'name': name,
       'email': email,
       'gender': gender,
-      'residence': residence,
+      'city': city,
     };
   }
+
+
+  
 }

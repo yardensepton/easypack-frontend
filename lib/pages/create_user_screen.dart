@@ -1,4 +1,5 @@
 import 'package:easypack/models/city.dart';
+import 'package:easypack/models/user.dart';
 import 'package:easypack/services/city_photo_service.dart';
 import 'package:easypack/services/user_api_service.dart';
 import 'package:easypack/widgets/city_list_item.dart';
@@ -7,6 +8,9 @@ import 'package:easypack/widgets/gender_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:easypack/services/city_search_service.dart';
 import 'package:easypack/services/create_user_service.dart';
+import 'package:easypack/navigation_menu.dart';
+// import 'package:easypack/pages/home_user.dart';
+
 import 'dart:async';
 // import 'package:easypack/models/user.dart';
 
@@ -27,8 +31,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
-  // final GlobalKey<_CreateUserScreenState> _createUserKey = GlobalKey();
-  // // final GlobalKey key = GlobalKey();
+  City? _selectedCity;
   List<City> _autocompleteResults = [];
 
   final CityPhotoService _cityPhotoService = CityPhotoService();
@@ -75,32 +78,40 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
       String photoUrl = await _cityPhotoService.fetchPhotoResult(placeId);
       Uri uri = Uri.parse(photoUrl);
       final String formattedUrl = uri.toString();
-
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('City Photo'),
-            content: Image.network(
-              formattedUrl,
-              fit: BoxFit.cover,
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
-      );
+      
+      _selectedCity!.cityUrl = formattedUrl;
+      
+    //   showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         title: const Text('City Photo'),
+    //         content: Image.network(
+    //           formattedUrl,
+    //           fit: BoxFit.cover,
+    //         ),
+    //         actions: <Widget>[
+    //           TextButton(
+    //             onPressed: () {
+    //               Navigator.of(context).pop();
+    //             },
+    //             child: const Text('Close'),
+    //           ),
+    //         ],
+    //       );
+    //     },
+    //   );
     } catch (e) {
       // Handle errors
       Exception('Error fetching and showing photo: $e');
     }
   }
+
+    bool get isAnyTextFieldEmpty =>
+      _nameController.text.isEmpty ||
+      _emailController.text.isEmpty ||
+      _genderController.text.isEmpty ||
+      _searchController.text.isEmpty;
 
   void _errorsCreateUser() async {
     setState(() {
@@ -118,7 +129,8 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(child: 
+    Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
       appBar: AppBar(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
@@ -188,12 +200,13 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                 itemCount: _autocompleteResults.length,
                 itemBuilder: (context, index) {
                   return CityListItem(
-                    cityName: _autocompleteResults[index].cityName,
+                    cityName: _autocompleteResults[index].text,
                     placeId: _autocompleteResults[index].placeId,
                     onTap: (placeId) {
                       setState(() {
                         _searchController.text =
-                            _autocompleteResults[index].cityName;
+                          _autocompleteResults[index].text;
+                          _selectedCity = _autocompleteResults[index];
                         _fetchAndShowPhoto(context, placeId);
                         _autocompleteResults.clear();
                       });
@@ -205,7 +218,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
             const SizedBox(height: 16.0),
             SizedBox(
               child: TextButton(
-                  onPressed: onClickCreateUser,
+                  onPressed: isAnyTextFieldEmpty ? null : onClickCreateUser,
               style: TextButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor:const Color.fromARGB(255, 18, 94, 156),
@@ -218,17 +231,37 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
 
-  void onClickCreateUser() {
-                  _errorsCreateUser();
-              _userCreationService.createUser(
-                nameController: _nameController,
-                emailController: _emailController,
-                genderController: _genderController,
-                searchController: _searchController,
-                context:context
-              );
-            }
+ Future<void> onClickCreateUser() async {
+    _errorsCreateUser();
+    if (_selectedCity != null) {
+      User? createdUser = 
+     await _userCreationService.createUser(
+        nameController: _nameController,
+        emailController: _emailController,
+        genderController: _genderController,
+        selectedCity: _selectedCity!,
+        context: context
+      );
+
+ if (!mounted) return;
+       if(createdUser != null){
+               Navigator.push(context,
+      MaterialPageRoute(builder: (context) => const NavigationMenu()),
+        );
+      }
+
+
+    } else {
+     ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+          content: Text("choose a city")));
+
+      
+  
+    }
+ }
 }
+
+
