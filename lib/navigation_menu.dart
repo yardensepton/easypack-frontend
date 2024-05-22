@@ -1,10 +1,13 @@
 import 'package:easypack/font_style.dart';
+import 'package:easypack/pages/create_packing_list_page.dart';
 import 'package:easypack/pages/home_user.dart';
+import 'package:easypack/pages/packing_list_page.dart';
+import 'package:easypack/pages/trip_details_page.dart';
+import 'package:easypack/pages/trip_list_page.dart';
+import 'package:easypack/pages/trip_planner_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
-
 
 class NavigationMenu extends StatefulWidget {
   const NavigationMenu({super.key});
@@ -15,18 +18,12 @@ class NavigationMenu extends StatefulWidget {
 
 class _NavigationMenuState extends State<NavigationMenu> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'New Trip',
-      style: optionStyle,
-    ),
-    Text(
-      'Packing Lists',
-      style: optionStyle,
-    ),
-
-    HomeUser()
-
+  static  final List<Widget> _widgetOptions = <Widget>[
+   CreatePackingListPage(),
+ const PackingListPage(),
+    const HomeUser(),
+    TripsListPage(),
+    const TripPlannerPage()
   ];
 
   @override
@@ -58,7 +55,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
               hoverColor: Colors.grey[100]!,
               gap: 8,
               activeColor: Colors.black,
-              iconSize: 24,
+              iconSize: 20,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: const Duration(milliseconds: 400),
               tabBackgroundColor: Colors.grey[100]!,
@@ -75,6 +72,14 @@ class _NavigationMenuState extends State<NavigationMenu> {
                 GButton(
                   icon: LineIcons.user,
                   text: 'Profile',
+                ),
+                             GButton(
+                  icon: LineIcons.home,
+                  text: 'Home',
+                ),
+                  GButton(
+                  icon: LineIcons.plus,
+                  text: 'New Trip',
                 ),
               ],
               selectedIndex: _selectedIndex,
