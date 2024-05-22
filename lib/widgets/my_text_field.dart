@@ -8,15 +8,14 @@ class MyTextField extends StatelessWidget {
   final String? errorText;
   final void Function(String)? onChanged;
 
-  
-
-
   const MyTextField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.obscureText,
-     required this.inputType, required this.errorText, required this.onChanged,
+    required this.inputType,
+    required this.errorText,
+    required this.onChanged,
   });
 
   @override

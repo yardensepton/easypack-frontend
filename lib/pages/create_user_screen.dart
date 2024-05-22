@@ -51,7 +51,7 @@ class CreateUserScreen extends StatelessWidget {
                           icon: LineIcons.envelope,
                           inputType: TextInputType.emailAddress,
                           validator: (value) =>
-                              Validators.validateNotEmpty(value, 'Email')),
+                              Validators.validateEmailPattern(value)),
                     ),
                     const SizedBox(height: 16.0),
                     SizedBox(
