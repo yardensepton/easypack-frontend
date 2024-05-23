@@ -18,7 +18,6 @@ class _GenderToggleButtonState extends State<GenderToggleButton> {
   @override
   void initState() {
     super.initState();
-    // Trigger the onChanged function with the default value when the widget is first built
     if (widget.onChanged != null) {
       widget.onChanged!(_selectedGender);
     }
@@ -31,7 +30,7 @@ class _GenderToggleButtonState extends State<GenderToggleButton> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           const Text(
-            "Choose your gender",
+            "Gender",
             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
           ),
           ToggleButtons(

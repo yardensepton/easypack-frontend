@@ -22,6 +22,8 @@
 //     );
 //   }
 // }
+import 'package:easypack/providers/auto_complete_provider.dart';
+import 'package:easypack/providers/create_trip_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/providers/create_user_provider.dart';
@@ -32,6 +34,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => CreateUserProvider()),
+        ChangeNotifierProvider(create: (context) => AutoCompleteProvider()),
       ],
       child: const MyApp(),
     ),
