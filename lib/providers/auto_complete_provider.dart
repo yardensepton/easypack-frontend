@@ -9,19 +9,19 @@ class AutoCompleteProvider with ChangeNotifier {
   final CitySearchService _cityService = CitySearchService();
   final CityPhotoService _cityPhotoService = CityPhotoService();
 
-    Timer? _debounce;
+  Timer? _debounce;
   TextEditingController searchController = TextEditingController();
-    City? selectedCity;
+  City? selectedCity;
   List<City> autocompleteResults = [];
 
-    @override
+  @override
   void dispose() {
     _debounce?.cancel();
     searchController.dispose();
     super.dispose();
   }
 
-   void onSearchChanged(String input) {
+  void onSearchChanged(String input) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       fetchAutocompleteResults(input);
@@ -30,18 +30,23 @@ class AutoCompleteProvider with ChangeNotifier {
 
   Future<void> fetchAutocompleteResults(String input) async {
     if (input.isEmpty) {
-      autocompleteResults.clear();
-      notifyListeners();
+      clearResults();
       return;
     }
 
     try {
+      clearResults();
       List<City> results = await _cityService.fetchAutocompleteResults(input);
       autocompleteResults = results;
       notifyListeners();
     } catch (e) {
       throw Exception('$e');
     }
+  }
+
+  void clearResults() {
+    autocompleteResults.clear();
+    notifyListeners();
   }
 
   Future<void> fetchAndShowPhoto(BuildContext context, String placeId) async {
@@ -59,7 +64,4 @@ class AutoCompleteProvider with ChangeNotifier {
       }
     }
   }
-
-
-
 }

@@ -5,8 +5,8 @@ import 'dart:convert';
 
 class CitySearchService {
   Future<List<City>> fetchAutocompleteResults(String input) async {
-    // String apiUrl = 'http://localhost:8000/cities/city-autocomplete/$input';
-    String apiUrl = 'http://192.168.1.197:8000/cities/city-autocomplete/$input';
+    String apiUrl = 'http://localhost:8000/cities/city-autocomplete/$input';
+    // String apiUrl = 'http://192.168.1.197:8000/cities/city-autocomplete/$input';
 
     try {
       http.Response response = await http.get(Uri.parse(apiUrl));

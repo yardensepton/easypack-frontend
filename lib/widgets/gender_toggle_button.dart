@@ -18,6 +18,7 @@ class _GenderToggleButtonState extends State<GenderToggleButton> {
   @override
   void initState() {
     super.initState();
+    // Trigger the onChanged function with the default value when the widget is first built
     if (widget.onChanged != null) {
       widget.onChanged!(_selectedGender);
     }
@@ -27,13 +28,14 @@ class _GenderToggleButtonState extends State<GenderToggleButton> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceAround, // Align text and buttons properly
         children: <Widget>[
           const Text(
             "Gender",
             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
           ),
           ToggleButtons(
+            borderRadius: BorderRadius.circular(10),
             isSelected: [_selectedGender == 'male', _selectedGender == 'female'],
             onPressed: (int index) {
               setState(() {
@@ -43,9 +45,20 @@ class _GenderToggleButtonState extends State<GenderToggleButton> {
                 }
               });
             },
-            children: const [
-              Icon(LineIcons.male),
-              Icon(LineIcons.female),
+            children:  [
+               Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: const Column(
+            children: [ Icon(LineIcons.male), Text('Male')],
+          ),
+        ),
+                       Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: const Column(
+            children: [  Icon(LineIcons.female), Text('Female')],
+          ),
+        ),
+             
             ],
           )
         ],
@@ -53,4 +66,3 @@ class _GenderToggleButtonState extends State<GenderToggleButton> {
     );
   }
 }
-

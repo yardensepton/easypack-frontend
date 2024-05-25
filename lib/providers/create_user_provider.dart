@@ -12,7 +12,8 @@ class CreateUserProvider with ChangeNotifier {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController genderController = TextEditingController();
-  
+  bool isLoading = false;
+
   @override
   void dispose() {
     nameController.dispose();
@@ -21,19 +22,21 @@ class CreateUserProvider with ChangeNotifier {
     super.dispose();
   }
 
-  Future<void> createUser(
-      BuildContext context, GlobalKey<FormState> formKey, City? selectedCity) async {
+  Future<void> createUser(BuildContext context, GlobalKey<FormState> formKey,
+      City? selectedCity) async {
     if (selectedCity != null) {
       final String name = nameController.text;
       final String email = emailController.text;
       final String gender = genderController.text;
 
       try {
+        isLoading = true;
+        notifyListeners(); // Notify listeners to update UI for loading state
         User? createdUser = await _userAPIService.createUser(
           name: name,
           email: email,
           gender: gender,
-          city: selectedCity!,
+          city: selectedCity,
         );
 
         if (createdUser != null) {
@@ -53,9 +56,11 @@ class CreateUserProvider with ChangeNotifier {
             SnackBar(content: Text("$e")),
           );
         }
+      } finally {
+        isLoading = false;
+        notifyListeners(); // Notify listeners to update UI for loading state
       }
-    }
-    if (selectedCity == null) {
+    } else {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Choose a city')),
