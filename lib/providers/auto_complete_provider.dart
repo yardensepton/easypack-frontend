@@ -29,13 +29,9 @@ class AutoCompleteProvider with ChangeNotifier {
   }
 
   Future<void> fetchAutocompleteResults(String input) async {
-    if (input.isEmpty) {
-      clearResults();
-      return;
-    }
-
     try {
       clearResults();
+      selectedCity=null;
       List<City> results = await _cityService.fetchAutocompleteResults(input);
       autocompleteResults = results;
       notifyListeners();

@@ -5,24 +5,29 @@ class User {
   String name;
   String email;
   String gender;
-  City city;
+  String password;
+  String role;
+  City? city;
 
   User({
     this.id,
     required this.name,
+    required this.password,
     required this.email,
     required this.gender,
-    required this.city,
+    required this.role,
+    this.city,
   });
 
-factory User.fromJson(Map<String, dynamic> json) {
+  factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['_id'],
-      name: json['name'],
-      email: json['email'],
-      gender: json['gender'],
-      city: City.fromJson(json['city']),
-    );
+        id: json['_id'],
+        name: json['name'],
+        email: json['email'],
+        gender: json['gender'],
+        city: json['city'] != null ? City.fromJson(json['city']) : null,
+        password: json['password'],
+        role: json['role']);
   }
 
   Map<String, dynamic> toJson() {
@@ -30,10 +35,9 @@ factory User.fromJson(Map<String, dynamic> json) {
       'name': name,
       'email': email,
       'gender': gender,
-      'city': city,
+       if (city != null) 'city': city!.toJson(),
+      'password': password,
+      'role': role
     };
   }
-
-
-  
 }

@@ -22,12 +22,14 @@
 //     );
 //   }
 // }
+import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
+import 'package:easypack/pages/signup_login/signup_form.dart';
+
 import 'package:easypack/providers/auto_complete_provider.dart';
-import 'package:easypack/providers/create_trip_provider.dart';
+import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/providers/create_user_provider.dart';
-import 'package:easypack/pages/create_user_screen.dart';
 
 void main() {
   runApp(
@@ -35,6 +37,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => CreateUserProvider()),
         ChangeNotifierProvider(create: (context) => AutoCompleteProvider()),
+        ChangeNotifierProvider(create: (context) => AuthUserProvider()),
       ],
       child: const MyApp(),
     ),
@@ -47,7 +50,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: CreateUserScreen(),
+      home: SignUpLoginScreen(),
     );
   }
 }

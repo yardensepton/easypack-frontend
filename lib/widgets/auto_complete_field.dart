@@ -14,22 +14,25 @@ class AutoCompleteField extends StatelessWidget {
       builder: (context, autoCompleteProvider, child) {
         return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            SizedBox(
               child: TextFormField(
                 controller: autoCompleteProvider.searchController,
                 onChanged: autoCompleteProvider.onSearchChanged,
                 keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   labelText: 'Residence',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(LineIcons.city),
+                  filled: true,
+                        fillColor: Colors.grey[100],
+                   border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide.none,
+                        ),
+                  prefixIcon: const Icon(LineIcons.city),
                 ),
                 validator: (value) =>
                     Validators.validateNotEmpty(value, 'Residence'),
               ),
             ),
-            const SizedBox(height: 16.0),
             Container(
               constraints:
                   const BoxConstraints(maxHeight: 200.0), // Limit the height
@@ -37,8 +40,7 @@ class AutoCompleteField extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: autoCompleteProvider.autocompleteResults.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  return SizedBox(
                     child: CityListItem(
                       cityName: autoCompleteProvider.autocompleteResults[index].text,
                       placeId: autoCompleteProvider.autocompleteResults[index].placeId,

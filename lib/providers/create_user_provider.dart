@@ -1,9 +1,10 @@
 import 'dart:async';
-import 'package:easypack/navigation_menu.dart';
-import 'package:flutter/material.dart';
 import 'package:easypack/models/city.dart';
 import 'package:easypack/models/user.dart';
+import 'package:easypack/navigation_menu.dart';
+import 'package:flutter/material.dart';
 import 'package:easypack/services/user_api_service.dart';
+import 'package:flutter_login/flutter_login.dart';
 
 class CreateUserProvider with ChangeNotifier {
   final UserAPIService _userAPIService = UserAPIService();
@@ -13,9 +14,11 @@ class CreateUserProvider with ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController genderController = TextEditingController();
   bool isLoading = false;
+  User? createdUser;
 
   @override
   void dispose() {
+    searchController.dispose();
     nameController.dispose();
     emailController.dispose();
     genderController.dispose();
@@ -23,18 +26,22 @@ class CreateUserProvider with ChangeNotifier {
   }
 
   Future<void> createUser(BuildContext context, GlobalKey<FormState> formKey,
-      City? selectedCity) async {
+      City? selectedCity,  SignupData data) async {
     if (selectedCity != null) {
       final String name = nameController.text;
-      final String email = emailController.text;
       final String gender = genderController.text;
+      final String password = data.password!;
+      final String email = data.name!;
+      const String role = 'member';
 
       try {
         isLoading = true;
         notifyListeners(); // Notify listeners to update UI for loading state
         User? createdUser = await _userAPIService.createUser(
           name: name,
+          password: password,
           email: email,
+          role: role,
           gender: gender,
           city: selectedCity,
         );
@@ -58,7 +65,7 @@ class CreateUserProvider with ChangeNotifier {
         }
       } finally {
         isLoading = false;
-        notifyListeners(); // Notify listeners to update UI for loading state
+        notifyListeners();
       }
     } else {
       if (context.mounted) {

@@ -35,6 +35,8 @@ class _GenderToggleButtonState extends State<GenderToggleButton> {
             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
           ),
           ToggleButtons(
+            fillColor: Colors.grey[100],
+            selectedColor: Colors.black,
             borderRadius: BorderRadius.circular(10),
             isSelected: [_selectedGender == 'male', _selectedGender == 'female'],
             onPressed: (int index) {
@@ -47,6 +49,7 @@ class _GenderToggleButtonState extends State<GenderToggleButton> {
             },
             children:  [
                Container(
+                
           margin: const EdgeInsets.symmetric(horizontal: 30.0),
           child: const Column(
             children: [ Icon(LineIcons.male), Text('Male')],
