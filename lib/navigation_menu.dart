@@ -1,8 +1,6 @@
-import 'package:easypack/font_style.dart';
 import 'package:easypack/pages/create_packing_list_page.dart';
 import 'package:easypack/pages/home_user.dart';
 import 'package:easypack/pages/packing_list_page.dart';
-import 'package:easypack/pages/trip_details_page.dart';
 import 'package:easypack/pages/trip_list_page.dart';
 import 'package:easypack/pages/trip_planner_page.dart';
 import 'package:flutter/material.dart';

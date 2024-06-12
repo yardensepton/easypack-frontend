@@ -183,7 +183,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
-    final String destination = 'Paris';
+    const String destination = 'Paris';
     final DateTime departureDate = DateTime.now();
     final DateTime returnDate = DateTime.now().add(const Duration(days: 7));
 
@@ -192,9 +192,9 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Trip to $destination',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -220,7 +220,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
         ),
         child: Column(
           children: <Widget>[
-            Container(
+            SizedBox(
               height: 150,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,

@@ -47,7 +47,7 @@ class TripsListPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TripDetailsPage(),
+                    builder: (context) => const TripDetailsPage(),
                   ),
                 );
               },

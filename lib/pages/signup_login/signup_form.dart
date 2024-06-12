@@ -1,8 +1,6 @@
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
 import 'package:easypack/utils/validators.dart';
 import 'package:easypack/widgets/auto_complete_field.dart';
-import 'package:easypack/widgets/snack_bars/error_snack_bar.dart';
-import 'package:easypack/widgets/snack_bars/success_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:provider/provider.dart';

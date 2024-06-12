@@ -49,7 +49,7 @@ class SignUpLoginScreen extends StatelessWidget {
         accentColor:const Color.fromARGB(255, 239, 226, 226),
         buttonTheme: const LoginButtonTheme(backgroundColor: Colors.grey),
       ),
-      logo: const AssetImage('lib/assets/logo/easypacksuitcase.png'),
+      logo: const AssetImage('lib/assets/logo/suitcase_airplane.png'),
       onLogin: (LoginData data) => _authUser(context, data),
       onSignup: (SignupData data) => _moreInfo(context, data),
       onRecoverPassword: (String name) => _forgotPassword(context, name),
