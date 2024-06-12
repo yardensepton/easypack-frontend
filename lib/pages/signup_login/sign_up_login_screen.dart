@@ -11,15 +11,13 @@ const users = {
 
 class SignUpLoginScreen extends StatelessWidget {
   const SignUpLoginScreen({super.key});
-
+  // final loginProvider = Provider.of<AuthUserProvider>;
   Duration get loginTime => const Duration(milliseconds: 2250);
 
   Future<String?> _authUser(BuildContext context, LoginData data) async {
-    final loginProvider =
-        Provider.of<AuthUserProvider>(context, listen: false);
+    final loginProvider = Provider.of<AuthUserProvider>(context, listen: false);
     final errorMessage =
         await loginProvider.authUser(context, data.name, data.password);
-        print(errorMessage);
     return errorMessage;
   }
 
@@ -33,29 +31,28 @@ class SignUpLoginScreen extends StatelessWidget {
     return result;
   }
 
-  Future<String> _recoverPassword(String name) {
-    debugPrint('Name: $name');
-    return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(name)) {
-        return 'User not exists';
-      }
-      return "";
-    });
+  Future<String?> _forgotPassword(BuildContext context, String email) async {
+    final loginProvider = Provider.of<AuthUserProvider>(context, listen: false);
+    final errorMessage =
+        await loginProvider.forgotPassword(context, email);
+    return errorMessage;
   }
+
 
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
       title: 'Easy Pack',
       theme: LoginTheme(
-        primaryColor: const Color.fromARGB(225, 182, 189, 205),
+        primaryColor:const Color.fromARGB(255, 50, 50, 50),
+        pageColorDark: const Color.fromARGB(255, 0, 0, 0),
+        accentColor:const Color.fromARGB(255, 239, 226, 226),
         buttonTheme: const LoginButtonTheme(backgroundColor: Colors.grey),
       ),
       logo: const AssetImage('lib/assets/logo/easypacksuitcase.png'),
       onLogin: (LoginData data) => _authUser(context, data),
       onSignup: (SignupData data) => _moreInfo(context, data),
-      disableCustomPageTransformer: false,
-      onRecoverPassword: _recoverPassword,
+      onRecoverPassword: (String name) => _forgotPassword(context, name),
     );
   }
 }

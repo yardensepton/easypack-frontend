@@ -1,17 +1,20 @@
 import 'dart:convert';
+import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/city.dart';
 import 'package:http/http.dart' as http;
 import 'package:easypack/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class UserAPIService {
-  static const String baseUrl = 'http://localhost:8000/users';
-  // static const String apiUrl = 'http://192.168.1.197:8000/users';
-  static const String createUserUrl = '/sign-up';
-  static const String loginUserUrl = '/login';
+class UserService {
+  static const String baseUrl = 'http://localhost:8000';
+  // static const String baseUrl = 'http://192.168.1.197:8000';
+  static const String createUserUrl = '/users/sign-up';
+  static const String loginUserUrl = '/users/login';
+  static const String forgotPasswordUrl = '/users/forgot-password';
   static const storage = FlutterSecureStorage();
+  ServerError serverError = ServerError();
 
-  Future<User?> createUser(
+  Future<String?> createUser(
       {required String name,
       required String email,
       required String gender,
@@ -33,10 +36,9 @@ class UserAPIService {
     final response = await http.post(url, headers: headers, body: body);
 
     if (response.statusCode == 200) {
-      return User.fromJson(json.decode(response.body));
+      return null;
     } else {
-      final Map<String, dynamic> errorResponse = json.decode(response.body);
-      throw Exception(errorResponse);
+      return serverError.getErrorMsg(jsonDecode(response.body));
     }
   }
 
@@ -62,41 +64,20 @@ class UserAPIService {
       return "authenticated";
     }
 
-    Map<String, dynamic> errorData = jsonDecode(response.body);
-    // final errorMessage = json.decode(
-    //     response.body); // Assuming the error message is in a 'message' field
-    print(errorData['detail'] ?? '');
-    return errorData['detail'] ?? '';
-    // throw Exception("Failed to authenticate: $errorMessage");
+    return serverError.getErrorMsg(jsonDecode(response.body));
   }
 
-  // Future<String> authUser(String username, String password) async {
-  //   try {
-  //     final response = await http.post(
-  //       Uri.parse('$baseUrl$loginUserUrl'),
-  //       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-  //       body: {
-  //         'username': username,
-  //         'password': password,
-  //       },
-  //     );
+  Future<String?> forgotPassword(String email) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl$forgotPasswordUrl?user_email=$email'),
+      headers: {'Content-Type': 'application/json'},
+    );
+    if (response.statusCode == 200) {
+      return null;
+    }
 
-  //     if (response.statusCode == 200) {
-  //       final data = json.decode(response.body);
-  //       String accessToken = data['access_token'];
-  //       String refreshToken = data['refresh_token'];
-  //       if (accessToken.isEmpty || refreshToken.isEmpty) {
-  //         throw Exception("Something is wrong...");
-  //       }
-  //       await storage.write(key: 'access_token', value: accessToken);
-  //       await storage.write(key: 'refresh_token', value: refreshToken);
-  //       return "user created";
-  //     }
-  //   } catch (e) {
-  //     return e.toString();
-  //   }
-  //    throw Exception("Something is wrong...");
-  // }
+    return serverError.getErrorMsg(jsonDecode(response.body));
+  }
 
   Future<String?> getAccessToken() async {
     return await storage.read(key: 'access_token');

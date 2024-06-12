@@ -1,7 +1,6 @@
 import 'package:easypack/models/city.dart';
 
 class User {
-  String? id;
   String name;
   String email;
   String gender;
@@ -10,7 +9,6 @@ class User {
   City? city;
 
   User({
-    this.id,
     required this.name,
     required this.password,
     required this.email,
@@ -21,7 +19,6 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        id: json['_id'],
         name: json['name'],
         email: json['email'],
         gender: json['gender'],

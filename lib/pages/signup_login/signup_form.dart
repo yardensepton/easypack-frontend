@@ -1,6 +1,8 @@
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
 import 'package:easypack/utils/validators.dart';
 import 'package:easypack/widgets/auto_complete_field.dart';
+import 'package:easypack/widgets/snack_bars/error_snack_bar.dart';
+import 'package:easypack/widgets/snack_bars/success_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:provider/provider.dart';
@@ -20,13 +22,21 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  Future<void> _callCreateUser() async {
+    await Provider.of<CreateUserProvider>(context, listen: false).createUser(
+        context,
+        _formKey,
+        Provider.of<AutoCompleteProvider>(context, listen: false).selectedCity,
+        widget.data);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: const Color.fromARGB(255, 50, 50, 50),
       body: Center(
         child: SizedBox(
-          width: 350,
+          width: 400,
           height: 600,
           child: Card(
             elevation: 5,
@@ -87,7 +97,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                     const Spacer(),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,                     
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
                           onPressed: () {
@@ -109,15 +119,16 @@ class _SignUpFormState extends State<SignUpForm> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              Provider.of<CreateUserProvider>(context,
-                                      listen: false)
-                                  .createUser(
-                                      context,
-                                      _formKey,
-                                      Provider.of<AutoCompleteProvider>(context,
-                                              listen: false)
-                                          .selectedCity,
-                                      widget.data);
+                              _callCreateUser();
+                              //  Future<String?> res =  Provider.of<CreateUserProvider>(context,
+                              //           listen: false)
+                              //       .createUser(
+                              //           context,
+                              //           _formKey,
+                              //           Provider.of<AutoCompleteProvider>(context,
+                              //                   listen: false)
+                              //               .selectedCity,
+                              //           widget.data);
                             }
                           },
                           style: ElevatedButton.styleFrom(

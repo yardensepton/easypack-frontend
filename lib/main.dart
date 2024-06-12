@@ -23,7 +23,6 @@
 //   }
 // }
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
-import 'package:easypack/pages/signup_login/signup_form.dart';
 
 import 'package:easypack/providers/auto_complete_provider.dart';
 import 'package:easypack/providers/auth_user_provider.dart';

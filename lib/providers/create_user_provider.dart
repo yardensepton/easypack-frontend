@@ -1,18 +1,22 @@
 import 'dart:async';
+import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/city.dart';
 import 'package:easypack/models/user.dart';
 import 'package:easypack/navigation_menu.dart';
+import 'package:easypack/widgets/snack_bars/error_snack_bar.dart';
+import 'package:easypack/widgets/snack_bars/success_snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:easypack/services/user_api_service.dart';
+import 'package:easypack/services/user_service.dart';
 import 'package:flutter_login/flutter_login.dart';
 
 class CreateUserProvider with ChangeNotifier {
-  final UserAPIService _userAPIService = UserAPIService();
+  final UserService _userAPIService = UserService();
 
   TextEditingController searchController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController genderController = TextEditingController();
+  ServerError serverError = ServerError();
   bool isLoading = false;
   User? createdUser;
 
@@ -24,9 +28,10 @@ class CreateUserProvider with ChangeNotifier {
     genderController.dispose();
     super.dispose();
   }
+  
 
   Future<void> createUser(BuildContext context, GlobalKey<FormState> formKey,
-      City? selectedCity,  SignupData data) async {
+      City? selectedCity, SignupData data) async {
     if (selectedCity != null) {
       final String name = nameController.text;
       final String gender = genderController.text;
@@ -34,44 +39,37 @@ class CreateUserProvider with ChangeNotifier {
       final String email = data.name!;
       const String role = 'member';
 
-      try {
-        isLoading = true;
-        notifyListeners(); // Notify listeners to update UI for loading state
-        User? createdUser = await _userAPIService.createUser(
-          name: name,
-          password: password,
-          email: email,
-          role: role,
-          gender: gender,
-          city: selectedCity,
-        );
+      isLoading = true;
+      notifyListeners(); // Notify listeners to update UI for loading state
 
-        if (createdUser != null) {
-          if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('User created successfully!')),
-            );
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NavigationMenu()),
-            );
-          }
-        }
-      } catch (e) {
+      String? response = await _userAPIService.createUser(
+        name: name,
+        password: password,
+        email: email,
+        role: role,
+        gender: gender,
+        city: selectedCity,
+      );
+
+      if (response == null) {
+        //if the response is null the user was created
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("$e")),
+          SuccessSnackBar.showSuccessSnackBar(
+              context, "User created successfully!");
+          // await Future.delayed(const Duration(seconds: 4));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const NavigationMenu()),
           );
         }
-      } finally {
-        isLoading = false;
-        notifyListeners();
+      } else {
+        if (context.mounted) {
+          ErrorSnackBar.showErrorSnackBar(context, response);
+        }
       }
     } else {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Choose a city')),
-        );
+        ErrorSnackBar.showErrorSnackBar(context, "Choose a city");
       }
     }
   }
