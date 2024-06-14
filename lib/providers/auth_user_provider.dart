@@ -8,11 +8,8 @@ class AuthUserProvider with ChangeNotifier {
   Future<String?> authUser(
       BuildContext context, String username, String password) async {
     try {
-      String result = await _userAPIService.authUser(username, password);
-      if (result=='authenticated') {
-        notifyListeners();
-        return null;
-      }
+      String? result = await _userAPIService.authUser(username, password);
+      notifyListeners();
       return result;
     } catch (e) {
       return e.toString();

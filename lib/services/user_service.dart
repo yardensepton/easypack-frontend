@@ -6,8 +6,8 @@ import 'package:easypack/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserService {
-  static const String baseUrl = 'http://localhost:8000';
-  // static const String baseUrl = 'http://192.168.1.197:8000';
+  // static const String baseUrl = 'http://localhost:8000';
+  static const String baseUrl = 'http://192.168.1.197:8000';
   static const String createUserUrl = '/users/sign-up';
   static const String loginUserUrl = '/users/login';
   static const String forgotPasswordUrl = '/users/forgot-password';
@@ -42,7 +42,7 @@ class UserService {
     }
   }
 
-  Future<String> authUser(String username, String password) async {
+  Future<String?> authUser(String username, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl$loginUserUrl'),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -61,7 +61,7 @@ class UserService {
       }
       await storage.write(key: 'access_token', value: accessToken);
       await storage.write(key: 'refresh_token', value: refreshToken);
-      return "authenticated";
+      return null;
     }
 
     return serverError.getErrorMsg(jsonDecode(response.body));

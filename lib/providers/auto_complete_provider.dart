@@ -13,6 +13,7 @@ class AutoCompleteProvider with ChangeNotifier {
   TextEditingController searchController = TextEditingController();
   City? selectedCity;
   List<City> autocompleteResults = [];
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -47,10 +48,13 @@ class AutoCompleteProvider with ChangeNotifier {
 
   Future<void> fetchAndShowPhoto(BuildContext context, String placeId) async {
     try {
+      isLoading = true;
+      notifyListeners();
       String photoUrl = await _cityPhotoService.fetchPhotoResult(placeId);
       Uri uri = Uri.parse(photoUrl);
       final String formattedUrl = uri.toString();
       selectedCity?.cityUrl = formattedUrl;
+      isLoading = false;
       notifyListeners();
     } catch (e) {
       if (context.mounted) {

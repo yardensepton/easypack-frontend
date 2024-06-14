@@ -21,7 +21,7 @@ class SuccessSnackBar {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4), // Adjust as needed
+                  const SizedBox(height: 4),
                   Text(
                     message,
                     style: const TextStyle(color: Colors.white, fontSize: 16),

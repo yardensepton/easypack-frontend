@@ -19,14 +19,14 @@ class AutoCompleteField extends StatelessWidget {
                 controller: autoCompleteProvider.searchController,
                 onChanged: autoCompleteProvider.onSearchChanged,
                 keyboardType: TextInputType.text,
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Residence',
                   filled: true,
-                        fillColor: Colors.grey[100],
-                   border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide.none,
-                        ),
+                  fillColor: const Color.fromARGB(255, 240, 232, 245),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide.none,
+                  ),
                   prefixIcon: const Icon(LineIcons.city),
                 ),
                 validator: (value) =>
@@ -42,15 +42,20 @@ class AutoCompleteField extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return SizedBox(
                     child: CityListItem(
-                      cityName: autoCompleteProvider.autocompleteResults[index].text,
-                      placeId: autoCompleteProvider.autocompleteResults[index].placeId,
-                      onTap: (placeId) {
+                      cityName:
+                          autoCompleteProvider.autocompleteResults[index].text,
+                      placeId: autoCompleteProvider
+                          .autocompleteResults[index].placeId,
+                      onTap: (placeId) async {
                         autoCompleteProvider.searchController.text =
-                            autoCompleteProvider.autocompleteResults[index].text;
+                            autoCompleteProvider
+                                .autocompleteResults[index].text;
                         autoCompleteProvider.selectedCity =
                             autoCompleteProvider.autocompleteResults[index];
-                        autoCompleteProvider.fetchAndShowPhoto(context, placeId);
-                        autoCompleteProvider.clearResults();
+                             autoCompleteProvider.clearResults();
+                        await autoCompleteProvider.fetchAndShowPhoto(
+                            context, placeId);
+                       
                       },
                     ),
                   );

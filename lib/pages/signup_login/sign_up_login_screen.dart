@@ -1,18 +1,12 @@
 import 'package:easypack/pages/signup_login/signup_form.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
+import 'package:easypack/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:provider/provider.dart';
 
-const users = {
-  'dribbble@gmail.com': '12345',
-  'hunter@gmail.com': 'hunter',
-};
-
 class SignUpLoginScreen extends StatelessWidget {
   const SignUpLoginScreen({super.key});
-  // final loginProvider = Provider.of<AuthUserProvider>;
-  Duration get loginTime => const Duration(milliseconds: 2250);
 
   Future<String?> _authUser(BuildContext context, LoginData data) async {
     final loginProvider = Provider.of<AuthUserProvider>(context, listen: false);
@@ -33,26 +27,30 @@ class SignUpLoginScreen extends StatelessWidget {
 
   Future<String?> _forgotPassword(BuildContext context, String email) async {
     final loginProvider = Provider.of<AuthUserProvider>(context, listen: false);
-    final errorMessage =
-        await loginProvider.forgotPassword(context, email);
+    final errorMessage = await loginProvider.forgotPassword(context, email);
     return errorMessage;
   }
-
 
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
       title: 'Easy Pack',
       theme: LoginTheme(
-        primaryColor:const Color.fromARGB(255, 50, 50, 50),
-        pageColorDark: const Color.fromARGB(255, 0, 0, 0),
-        accentColor:const Color.fromARGB(255, 239, 226, 226),
+        primaryColor: const Color.fromARGB(255, 25, 68, 123),
+        // pageColorDark: const Color.fromARGB(255, 0, 0, 0),
+        accentColor: const Color.fromARGB(255, 239, 226, 226),
         buttonTheme: const LoginButtonTheme(backgroundColor: Colors.grey),
       ),
       logo: const AssetImage('lib/assets/logo/suitcase_airplane.png'),
       onLogin: (LoginData data) => _authUser(context, data),
+      passwordValidator: (String? password) =>
+          Validators.validatePasswordStrength(password),
       onSignup: (SignupData data) => _moreInfo(context, data),
       onRecoverPassword: (String name) => _forgotPassword(context, name),
+      messages: LoginMessages(
+        recoverPasswordDescription:
+            "Hang tight! We'll send you an email with a link to reset your password.",
+      ),
     );
   }
 }

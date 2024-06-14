@@ -31,7 +31,7 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 50, 50, 50),
+      backgroundColor: const Color.fromARGB(255, 25, 68, 123),
       body: Center(
         child: SizedBox(
           width: 400,
@@ -68,7 +68,8 @@ class _SignUpFormState extends State<SignUpForm> {
                                     color: Colors.grey),
                                 labelText: "Name",
                                 filled: true,
-                                fillColor: Colors.grey[100],
+                                fillColor:
+                                    const Color.fromARGB(255, 240, 232, 245),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20),
                                   borderSide: BorderSide.none,
@@ -99,12 +100,10 @@ class _SignUpFormState extends State<SignUpForm> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SignUpLoginScreen(),
-                              ),
-                            ); // Return null when 'BACK' is pressed
+                            // moveToLoginScreen(context);
+                            Provider.of<CreateUserProvider>(context,
+                                    listen: false)
+                                .moveToLoginScreen(context);
                           },
                           child: const Text(
                             'BACK',
@@ -118,15 +117,6 @@ class _SignUpFormState extends State<SignUpForm> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _callCreateUser();
-                              //  Future<String?> res =  Provider.of<CreateUserProvider>(context,
-                              //           listen: false)
-                              //       .createUser(
-                              //           context,
-                              //           _formKey,
-                              //           Provider.of<AutoCompleteProvider>(context,
-                              //                   listen: false)
-                              //               .selectedCity,
-                              //           widget.data);
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -151,6 +141,15 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void moveToLoginScreen(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignUpLoginScreen(),
       ),
     );
   }
