@@ -3,7 +3,7 @@ import 'package:easypack/models/trip.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class TripAPIService {
+class TripService {
   // String apiUrl = 'http://localhost:8000/trips/$userId';
   String apiUrl = 'http://192.168.1.197:8000/trips';
 

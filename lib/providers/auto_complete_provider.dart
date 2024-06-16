@@ -46,7 +46,7 @@ class AutoCompleteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchAndShowPhoto(BuildContext context, String placeId) async {
+  Future<void> fetchCityPhoto(BuildContext context, String placeId) async {
     try {
       isLoading = true;
       notifyListeners();

@@ -1,3 +1,4 @@
+import 'package:easypack/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:line_icons/line_icons.dart';
@@ -53,8 +54,8 @@ class AutoCompleteField extends StatelessWidget {
                         autoCompleteProvider.selectedCity =
                             autoCompleteProvider.autocompleteResults[index];
                              autoCompleteProvider.clearResults();
-                        await autoCompleteProvider.fetchAndShowPhoto(
-                            context, placeId);
+                        // await autoCompleteProvider.fetchCityPhoto(
+                        //     context, placeId);
                        
                       },
                     ),

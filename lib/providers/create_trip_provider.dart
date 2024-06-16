@@ -1,8 +1,8 @@
-import 'package:easypack/services/trip_api_service.dart';
+import 'package:easypack/services/trip_service.dart';
 import 'package:flutter/material.dart';
 
 class CreateTripProvider with ChangeNotifier{
-  final TripAPIService tripAPIService = TripAPIService();
+  final TripService tripAPIService = TripService();
   final TextEditingController destinationController = TextEditingController();
 
 
