@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-
 class CustomDatePickerDialog extends StatelessWidget {
-  final void Function() onSubmit;
-  final void Function() onCancel;
+  // final void Function() onSubmit;
+  // final void Function() onCancel;
 
   const CustomDatePickerDialog({
-    required this.onSubmit,
-    required this.onCancel,
+    // required this.onSubmit,
+    // required this.onCancel,
     super.key,
   });
 
@@ -22,7 +21,7 @@ class CustomDatePickerDialog extends StatelessWidget {
         width: 400,
         height: 350,
         child: Consumer<ChooseDateRangeProvider>(
-          builder: (context, dateRangeProvider, _) => SfDateRangePicker(
+          builder: (context, dateRangeProvider, child) => SfDateRangePicker(
             onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
               dateRangeProvider.onSelectionChanged(args);
             },
@@ -43,10 +42,13 @@ class CustomDatePickerDialog extends StatelessWidget {
             selectionTextStyle: const TextStyle(color: Colors.white),
             rangeTextStyle: const TextStyle(color: Colors.black),
             onSubmit: (Object? value) {
-              onSubmit();
+              dateRangeProvider.onSubmit();
+              print(dateRangeProvider.startDate);
+              print(dateRangeProvider.endDate);
+              Navigator.of(context).pop();
             },
             onCancel: () {
-              onCancel();
+              Navigator.of(context).pop();
             },
             headerStyle: const DateRangePickerHeaderStyle(
               textAlign: TextAlign.center,
@@ -65,3 +67,12 @@ class CustomDatePickerDialog extends StatelessWidget {
     );
   }
 }
+
+// void _onSubmit(BuildContext context) {
+//   final dateRangeProvider =
+//       Provider.of<ChooseDateRangeProvider>(context, listen: false);
+//   dateRangeProvider.onSubmit();
+//   print(dateRangeProvider.startDate);
+//   print(dateRangeProvider.endDate);
+//   Navigator.of(context).pop();
+// }

@@ -1,6 +1,7 @@
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
 import 'package:easypack/utils/validators.dart';
 import 'package:easypack/widgets/auto_complete_field.dart';
+import 'package:easypack/widgets/cities_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:provider/provider.dart';
@@ -91,9 +92,19 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                     const SizedBox(height: 30),
                     const SizedBox(
-                      width: 350.0,
-                      child: AutoCompleteField(),
+                      height: 56, // Match the height of TextFormField
+                      child: CitiesBottomSheet(),
                     ),
+
+                    // const Expanded(
+                    //   child: CupertinoPage(), // Adjusted placement here
+                    // ),
+
+                    // const SizedBox(
+                    //   width: 350.0,
+                    //   child: CupertinoPage(),
+                    //   // child: AutoCompleteField(),
+                    // ),
                     const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

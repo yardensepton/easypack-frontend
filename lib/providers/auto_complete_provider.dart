@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easypack/models/city.dart';
 import 'package:easypack/services/city_photo_service.dart';
 import 'package:easypack/services/city_search_service.dart';
+import 'package:easypack/utils/validators.dart';
 import 'package:flutter/material.dart';
 
 class AutoCompleteProvider with ChangeNotifier {
@@ -23,16 +24,25 @@ class AutoCompleteProvider with ChangeNotifier {
   }
 
   void onSearchChanged(String input) {
-    if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      fetchAutocompleteResults(input);
-    });
+    if (!Validators.isEmptyBool(input)) {
+      if (_debounce?.isActive ?? false) _debounce?.cancel();
+      _debounce = Timer(const Duration(milliseconds: 500), () {
+        fetchAutocompleteResults(input);
+      });
+    } else {
+      clearResultsBeforeNewSearch();
+      // autocompleteResults.clear();
+      // selectedCity = null;
+      // notifyListeners();
+    }
   }
 
   Future<void> fetchAutocompleteResults(String input) async {
     try {
-      clearResults();
-      selectedCity=null;
+      // autocompleteResults.clear();
+      // selectedCity = null;
+      // notifyListeners();
+      clearResultsBeforeNewSearch();
       List<City> results = await _cityService.fetchAutocompleteResults(input);
       autocompleteResults = results;
       notifyListeners();
@@ -43,10 +53,16 @@ class AutoCompleteProvider with ChangeNotifier {
 
   void clearResults() {
     autocompleteResults.clear();
+    searchController.clear();
+    notifyListeners();
+  }
+    void clearResultsBeforeNewSearch() {
+    autocompleteResults.clear();
+    selectedCity = null;
     notifyListeners();
   }
 
-  Future<void> fetchCityPhoto(BuildContext context, String placeId) async {
+  Future<void> fetchAndShowPhoto(BuildContext context, String placeId) async {
     try {
       isLoading = true;
       notifyListeners();

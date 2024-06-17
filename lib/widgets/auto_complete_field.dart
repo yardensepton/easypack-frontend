@@ -1,4 +1,3 @@
-import 'package:easypack/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:line_icons/line_icons.dart';
@@ -7,7 +6,10 @@ import 'package:easypack/utils/validators.dart';
 import 'package:easypack/widgets/city_list_item.dart';
 
 class AutoCompleteField extends StatelessWidget {
-  const AutoCompleteField({super.key});
+  final ValueChanged<String> onCitySelected;
+
+  const AutoCompleteField(
+      {super.key, required this.onCitySelected}); // Modify constructor
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class AutoCompleteField extends StatelessWidget {
             ),
             Container(
               constraints:
-                  const BoxConstraints(maxHeight: 200.0), // Limit the height
+                  const BoxConstraints(maxHeight: 400.0), // Limit the height
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: autoCompleteProvider.autocompleteResults.length,
@@ -53,10 +55,9 @@ class AutoCompleteField extends StatelessWidget {
                                 .autocompleteResults[index].text;
                         autoCompleteProvider.selectedCity =
                             autoCompleteProvider.autocompleteResults[index];
-                             autoCompleteProvider.clearResults();
-                        // await autoCompleteProvider.fetchCityPhoto(
-                        //     context, placeId);
-                       
+                        onCitySelected(
+                            autoCompleteProvider.searchController.text);
+                        autoCompleteProvider.clearResults();
                       },
                     ),
                   );

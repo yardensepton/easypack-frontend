@@ -37,7 +37,6 @@ class SignUpLoginScreen extends StatelessWidget {
       title: 'Easy Pack',
       theme: LoginTheme(
         primaryColor: const Color.fromARGB(255, 25, 68, 123),
-        // pageColorDark: const Color.fromARGB(255, 0, 0, 0),
         accentColor: const Color.fromARGB(255, 239, 226, 226),
         buttonTheme: const LoginButtonTheme(backgroundColor: Colors.grey),
       ),

@@ -23,7 +23,6 @@
 //   }
 // }
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
-import 'package:easypack/pages/trip_planner_page.dart';
 
 import 'package:easypack/providers/auto_complete_provider.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
@@ -52,7 +51,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: TripPlannerPage(),
+      home: SignUpLoginScreen(),
     );
   }
 }

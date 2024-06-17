@@ -27,7 +27,7 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
           children: <Widget>[
             const SizedBox(
               width: 350.0,
-              child: AutoCompleteField(),
+              // child: AutoCompleteField(),
             ),
             const SizedBox(height: 20),
             Center(
@@ -67,24 +67,24 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CustomDatePickerDialog(
-          onSubmit: () {
-            _onSubmit(context);
-          },
-          onCancel: () {
-            Navigator.of(context).pop();
-          },
+        return const CustomDatePickerDialog(
+          // onSubmit: () {
+          //   _onSubmit(context);
+          // },
+          // onCancel: () {
+          //   Navigator.of(context).pop();
+          // },
         );
       },
     );
   }
 
-  void _onSubmit(BuildContext context) {
-    final dateRangeProvider =
-        Provider.of<ChooseDateRangeProvider>(context, listen: false);
-    dateRangeProvider.onSubmit();
-    print(dateRangeProvider.startDate);
-    print(dateRangeProvider.endDate);
-    Navigator.of(context).pop();
-  }
+  // void _onSubmit(BuildContext context) {
+  //   final dateRangeProvider =
+  //       Provider.of<ChooseDateRangeProvider>(context, listen: false);
+  //   dateRangeProvider.onSubmit();
+  //   print(dateRangeProvider.startDate);
+  //   print(dateRangeProvider.endDate);
+  //   Navigator.of(context).pop();
+  // }
 }

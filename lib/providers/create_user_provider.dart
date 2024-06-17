@@ -14,7 +14,6 @@ class CreateUserProvider with ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
 
-
   ServerError serverError = ServerError();
   bool isLoading = false;
   User? createdUser;
@@ -51,6 +50,8 @@ class CreateUserProvider with ChangeNotifier {
         if (response == null) {
           SuccessSnackBar.showSuccessSnackBar(
               context, "User created successfuly!\nplease login");
+          nameController.clear();
+          selectedCity = null;
           moveToLoginScreen(context);
         } else {
           ErrorSnackBar.showErrorSnackBar(context, response);

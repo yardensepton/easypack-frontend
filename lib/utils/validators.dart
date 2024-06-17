@@ -1,4 +1,11 @@
 class Validators {
+  static bool isEmptyBool(String? value) {
+    if (value == null || value.isEmpty || value.trim().isEmpty) {
+      return true;
+    }
+    return false;
+  }
+
   static String? validateNotEmpty(String? value, String fieldName) {
     if (value == null || value.isEmpty || value.trim().isEmpty) {
       return "$fieldName can't be empty";
