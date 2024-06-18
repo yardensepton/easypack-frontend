@@ -4,6 +4,8 @@ import 'package:easypack/providers/create_trip_provider.dart';
 import 'package:easypack/utils/validators.dart';
 import 'package:easypack/widgets/cities_bottom_sheet.dart';
 import 'package:easypack/widgets/custom_date_picker_dialog.dart';
+import 'package:easypack/widgets/date_field.dart';
+import 'package:easypack/widgets/loading_button.dart';
 import 'package:easypack/widgets/snack_bars/error_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -52,39 +54,43 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
           children: <Widget>[
             const SizedBox(
               width: 350.0,
-              height: 56, // Match the height of TextFormField
+              height: 56,
               child: CitiesBottomSheet(),
             ),
             const SizedBox(height: 20),
-            Center(
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  _showDatePickerDialog(context);
-                },
-                icon: const Icon(Icons.date_range),
-                label: const Text('Select Dates'),
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                  textStyle: const TextStyle(fontSize: 18),
-                ),
+            SizedBox(
+              width: 350.0,
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: DateField(
+                        labelText: "Departure",
+                        onTap: _showDatePickerDialog,
+                        controller: Provider.of<ChooseDateRangeProvider>(
+                                context,
+                                listen: false)
+                            .startDateController),
+                  ),
+                  const SizedBox(width: 16.0),
+                  Flexible(
+                    flex: 1,
+                    child: DateField(
+                        labelText: "Return",
+                        onTap: _showDatePickerDialog,
+                        controller: Provider.of<ChooseDateRangeProvider>(
+                                context,
+                                listen: false)
+                            .endDateController),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 20),
-            Center(
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  _callCreateTrip();
-                },
-                icon: const Icon(Icons.save),
-                label: const Text('Save Trip'),
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                  textStyle: const TextStyle(fontSize: 18),
-                ),
+              LoadingButton<CreateTripProvider>(
+                onPressed: _callCreateTrip,
+                buttonText: 'Create new trip',
               ),
-            ),
           ],
         ),
       ),
