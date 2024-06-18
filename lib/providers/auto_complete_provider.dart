@@ -29,19 +29,12 @@ class AutoCompleteProvider with ChangeNotifier {
       _debounce = Timer(const Duration(milliseconds: 500), () {
         fetchAutocompleteResults(input);
       });
-    } else {
-      clearResultsBeforeNewSearch();
-      // autocompleteResults.clear();
-      // selectedCity = null;
-      // notifyListeners();
-    }
+    } 
+    clearResultsBeforeNewSearch();
   }
 
   Future<void> fetchAutocompleteResults(String input) async {
     try {
-      // autocompleteResults.clear();
-      // selectedCity = null;
-      // notifyListeners();
       clearResultsBeforeNewSearch();
       List<City> results = await _cityService.fetchAutocompleteResults(input);
       autocompleteResults = results;

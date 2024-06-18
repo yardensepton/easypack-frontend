@@ -1,3 +1,4 @@
+import 'package:easypack/navigation_menu.dart';
 import 'package:easypack/pages/signup_login/signup_form.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/utils/validators.dart';
@@ -10,9 +11,17 @@ class SignUpLoginScreen extends StatelessWidget {
 
   Future<String?> _authUser(BuildContext context, LoginData data) async {
     final loginProvider = Provider.of<AuthUserProvider>(context, listen: false);
-    final errorMessage =
+    final result =
         await loginProvider.authUser(context, data.name, data.password);
-    return errorMessage;
+    if (result == null && context.mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const NavigationMenu(),
+        ),
+      );
+    }
+    return result;
   }
 
   Future<String?> _moreInfo(BuildContext context, SignupData data) async {
@@ -27,8 +36,8 @@ class SignUpLoginScreen extends StatelessWidget {
 
   Future<String?> _forgotPassword(BuildContext context, String email) async {
     final loginProvider = Provider.of<AuthUserProvider>(context, listen: false);
-    final errorMessage = await loginProvider.forgotPassword(context, email);
-    return errorMessage;
+    final result = await loginProvider.forgotPassword(context, email);
+    return result;
   }
 
   @override

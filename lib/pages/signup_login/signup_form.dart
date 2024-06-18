@@ -1,6 +1,6 @@
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
+import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/utils/validators.dart';
-import 'package:easypack/widgets/auto_complete_field.dart';
 import 'package:easypack/widgets/cities_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
@@ -96,22 +96,12 @@ class _SignUpFormState extends State<SignUpForm> {
                       child: CitiesBottomSheet(),
                     ),
 
-                    // const Expanded(
-                    //   child: CupertinoPage(), // Adjusted placement here
-                    // ),
-
-                    // const SizedBox(
-                    //   width: 350.0,
-                    //   child: CupertinoPage(),
-                    //   // child: AutoCompleteField(),
-                    // ),
                     const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
                           onPressed: () {
-                            // moveToLoginScreen(context);
                             Provider.of<CreateUserProvider>(context,
                                     listen: false)
                                 .moveToLoginScreen(context);

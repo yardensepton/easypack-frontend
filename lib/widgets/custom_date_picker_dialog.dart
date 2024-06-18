@@ -4,12 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CustomDatePickerDialog extends StatelessWidget {
-  // final void Function() onSubmit;
-  // final void Function() onCancel;
+
 
   const CustomDatePickerDialog({
-    // required this.onSubmit,
-    // required this.onCancel,
+
     super.key,
   });
 
@@ -68,11 +66,3 @@ class CustomDatePickerDialog extends StatelessWidget {
   }
 }
 
-// void _onSubmit(BuildContext context) {
-//   final dateRangeProvider =
-//       Provider.of<ChooseDateRangeProvider>(context, listen: false);
-//   dateRangeProvider.onSubmit();
-//   print(dateRangeProvider.startDate);
-//   print(dateRangeProvider.endDate);
-//   Navigator.of(context).pop();
-// }

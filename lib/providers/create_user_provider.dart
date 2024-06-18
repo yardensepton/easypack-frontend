@@ -14,7 +14,6 @@ class CreateUserProvider with ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
 
-  ServerError serverError = ServerError();
   bool isLoading = false;
   User? createdUser;
 

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/city.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,6 @@ class UserService {
   static const String loginUserUrl = '/users/login';
   static const String forgotPasswordUrl = '/users/forgot-password';
   static const storage = FlutterSecureStorage();
-  ServerError serverError = ServerError();
 
   Future<String?> createUser(
       {required String name,
@@ -38,7 +38,7 @@ class UserService {
     if (response.statusCode == 200) {
       return null;
     } else {
-      return serverError.getErrorMsg(jsonDecode(response.body));
+      return ServerError.getErrorMsg(jsonDecode(response.body));
     }
   }
 
@@ -64,7 +64,7 @@ class UserService {
       return null;
     }
 
-    return serverError.getErrorMsg(jsonDecode(response.body));
+    return ServerError.getErrorMsg(jsonDecode(response.body));
   }
 
   Future<String?> forgotPassword(String email) async {
@@ -76,7 +76,7 @@ class UserService {
       return null;
     }
 
-    return serverError.getErrorMsg(jsonDecode(response.body));
+    return ServerError.getErrorMsg(jsonDecode(response.body));
   }
 
   Future<String?> getAccessToken() async {
@@ -87,22 +87,31 @@ class UserService {
     return await storage.read(key: 'refresh_token');
   }
 
+  Future<void> logOutUser() async {
+    await storage.delete(key: 'access_token');
+    await storage.delete(key: 'refresh_token');
+  }
+
   Future<void> refreshAccessToken() async {
     final refreshToken = await getRefreshToken();
+    print("refresh token is: $refreshToken");
     if (refreshToken == null) {
       throw Exception('No refresh token available');
     }
 
-    final response = await http.post(
-      Uri.parse('$baseUrl/refresh'),
-      body: {'refresh_token': refreshToken},
-    );
+    final url = Uri.parse('$baseUrl/users/refresh?refresh_token=$refreshToken');
+    final headers = {'Content-Type': 'application/json'};
+
+    final response = await http.post(url, headers: headers);
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
       await storage.write(
           key: 'access_token', value: responseData['access_token']);
     } else {
+      final responseBody = response.body;
+      print(
+          'Failed to refresh access token. Status code: ${response.statusCode}. Response: $responseBody');
       throw Exception('Failed to refresh access token');
     }
   }

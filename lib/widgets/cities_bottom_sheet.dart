@@ -17,9 +17,8 @@ class _CitiesBottomSheetState extends State<CitiesBottomSheet>{
     
     showCupertinoModalBottomSheet(
       context: context,
-      builder: (context) => SizedBox(
-        height: 500,
-        child: Scaffold(
+      builder: (context) => Scaffold(
+        
           backgroundColor: Colors.white,
           body: Column(
             children: <Widget>[
@@ -41,41 +40,8 @@ class _CitiesBottomSheetState extends State<CitiesBottomSheet>{
             ],
           ),
         ),
-      ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Container(
-  //     width: 350,
-  //     padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-  //     decoration: BoxDecoration(
-  //       color: const Color.fromARGB(255, 240, 232, 245),
-  //       borderRadius: BorderRadius.circular(20),
-  //     ),
-  //     child: GestureDetector(
-  //       onTap: () => _showModalBottomSheet(context),
-  //       child: Row(
-  //         children: [
-  //           Icon(
-  //             LineIcons.city,
-  //             color: Colors.grey[700],
-  //           ),
-  //           const SizedBox(width: 10),
-  //            Text(
-  //             _selectedCity,
-  //             style: const TextStyle(
-  //               fontWeight: FontWeight.normal,
-  //               fontSize: 16,
-  //               color: Color.fromARGB(255, 100, 99, 99),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
 Widget build(BuildContext context) {

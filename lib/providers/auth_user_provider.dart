@@ -16,8 +16,7 @@ class AuthUserProvider with ChangeNotifier {
     }
   }
 
-  Future<String?> forgotPassword(
-      BuildContext context, String email) async {
+  Future<String?> forgotPassword(BuildContext context, String email) async {
     try {
       String? result = await _userAPIService.forgotPassword(email);
       notifyListeners();
@@ -25,5 +24,20 @@ class AuthUserProvider with ChangeNotifier {
     } catch (e) {
       return e.toString();
     }
+  }
+
+  Future<String?> getAccessToken(BuildContext context) async {
+    try {
+      String? result = await _userAPIService.getAccessToken();
+      notifyListeners();
+      return result;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  Future<void> logOutUser(BuildContext context) async {
+      await _userAPIService.logOutUser();
+      notifyListeners();
   }
 }

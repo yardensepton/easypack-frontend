@@ -3,11 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class ChooseDateRangeProvider with ChangeNotifier {
-  late String startDate;
-  late String endDate;
+  String startDate='';
+  String endDate='';
   PickerDateRange? selectedRange;
   DateTime? oneDaySelected;
-  late bool isRange=true;
+  bool isRange=true;
   final String format = 'yyyy-MM-dd';
 
   void onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
