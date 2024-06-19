@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 
 class DateField extends StatelessWidget {
   final String labelText;
   final TextEditingController controller;
+  final Icon icon;
   final void Function(BuildContext context) onTap;
 
   const DateField({
@@ -11,6 +11,8 @@ class DateField extends StatelessWidget {
     required this.labelText,
     required this.controller,
     required this.onTap,
+    required this.icon
+
   });
 
   @override
@@ -20,7 +22,7 @@ class DateField extends StatelessWidget {
       readOnly: true,
       onTap: () => onTap(context),
       decoration: InputDecoration(
-        prefixIcon: const Icon(LineIcons.calendar, color: Color.fromARGB(255, 97, 97, 97)),
+        prefixIcon: icon,
         labelText: labelText,
         filled: true,
         fillColor: const Color.fromARGB(255, 240, 232, 245),

@@ -65,6 +65,8 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
                   Flexible(
                     flex: 1,
                     child: DateField(
+                        icon: const Icon(LineIcons.planeDeparture,
+                            color: Color.fromARGB(255, 97, 97, 97)),
                         labelText: "Departure",
                         onTap: _showDatePickerDialog,
                         controller: Provider.of<ChooseDateRangeProvider>(
@@ -76,6 +78,8 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
                   Flexible(
                     flex: 1,
                     child: DateField(
+                        icon: const Icon(LineIcons.planeArrival,
+                            color: Color.fromARGB(255, 97, 97, 97)),
                         labelText: "Return",
                         onTap: _showDatePickerDialog,
                         controller: Provider.of<ChooseDateRangeProvider>(
@@ -87,10 +91,10 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
               ),
             ),
             const SizedBox(height: 20),
-              LoadingButton<CreateTripProvider>(
-                onPressed: _callCreateTrip,
-                buttonText: 'Create new trip',
-              ),
+            LoadingButton<CreateTripProvider>(
+              onPressed: _callCreateTrip,
+              buttonText: 'Create new trip',
+            ),
           ],
         ),
       ),

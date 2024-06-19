@@ -62,6 +62,7 @@ import 'package:easypack/navigation_menu.dart';
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
 import 'package:easypack/pages/trip_planner_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/providers/auto_complete_provider.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
@@ -90,6 +91,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+       theme: ThemeData(
+        textTheme: GoogleFonts.redHatDisplayTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
       home: Scaffold(
         body: FutureBuilder(
           future: Provider.of<AuthUserProvider>(context, listen: false)

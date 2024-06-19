@@ -2,6 +2,7 @@ import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/utils/validators.dart';
 import 'package:easypack/widgets/cities_bottom_sheet.dart';
+import 'package:easypack/widgets/loading_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:provider/provider.dart';
@@ -95,7 +96,6 @@ class _SignUpFormState extends State<SignUpForm> {
                       height: 56, // Match the height of TextFormField
                       child: CitiesBottomSheet(),
                     ),
-
                     const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,25 +114,13 @@ class _SignUpFormState extends State<SignUpForm> {
                             ),
                           ),
                         ),
-                        ElevatedButton(
+                        LoadingButton<CreateUserProvider>(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _callCreateUser();
                             }
                           },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.grey, // Text color
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          child: const Text(
-                            'SUBMIT',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
+                          buttonText: 'SUBMIT',
                         ),
                       ],
                     ),

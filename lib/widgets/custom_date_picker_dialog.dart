@@ -26,11 +26,6 @@ class CustomDatePickerDialog extends StatelessWidget {
             showActionButtons: true,
             minDate: DateTime.now(),
             selectionMode: DateRangePickerSelectionMode.range,
-            initialSelectedRange: dateRangeProvider.selectedRange ??
-                PickerDateRange(
-                  DateTime.now(),
-                  DateTime.now().add(const Duration(days: 3)),
-                ),
             backgroundColor: Colors.white,
             startRangeSelectionColor: const Color.fromARGB(255, 11, 56, 94),
             endRangeSelectionColor: const Color.fromARGB(255, 11, 56, 94),
@@ -41,9 +36,8 @@ class CustomDatePickerDialog extends StatelessWidget {
             rangeTextStyle: const TextStyle(color: Colors.black),
             onSubmit: (Object? value) {
               dateRangeProvider.onSubmit();
-              print(dateRangeProvider.startDate);
-              print(dateRangeProvider.endDate);
               Navigator.of(context).pop();
+              
             },
             onCancel: () {
               Navigator.of(context).pop();

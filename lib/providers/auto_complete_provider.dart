@@ -24,13 +24,15 @@ class AutoCompleteProvider with ChangeNotifier {
   }
 
   void onSearchChanged(String input) {
-    if (!Validators.isEmptyBool(input)) {
-      if (_debounce?.isActive ?? false) _debounce?.cancel();
-      _debounce = Timer(const Duration(milliseconds: 500), () {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      if (input.isEmpty) {
+        autocompleteResults.clear();
+      } else {
         fetchAutocompleteResults(input);
-      });
-    } 
-    clearResultsBeforeNewSearch();
+      }
+      clearResultsBeforeNewSearch();
+    });
   }
 
   Future<void> fetchAutocompleteResults(String input) async {
@@ -49,7 +51,8 @@ class AutoCompleteProvider with ChangeNotifier {
     searchController.clear();
     notifyListeners();
   }
-    void clearResultsBeforeNewSearch() {
+
+  void clearResultsBeforeNewSearch() {
     autocompleteResults.clear();
     selectedCity = null;
     notifyListeners();

@@ -6,7 +6,6 @@ class ChooseDateRangeProvider with ChangeNotifier {
   String startDate = '';
   String endDate = '';
   PickerDateRange? selectedRange;
-  DateTime? oneDaySelected;
   bool isRange = true;
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
@@ -17,10 +16,7 @@ class ChooseDateRangeProvider with ChangeNotifier {
     if (args.value is PickerDateRange) {
       selectedRange = args.value;
       isRange = true;
-    } else if (args.value is DateTime) {
-      oneDaySelected = args.value;
-      isRange = false;
-    }
+    } 
     notifyListeners();
   }
 
@@ -29,21 +25,26 @@ class ChooseDateRangeProvider with ChangeNotifier {
     endDate = DateFormat(format).format(valueEnd ?? valueStart);
   }
 
-  void setDateRange() {
-    selectedRange ??= PickerDateRange(
-        DateTime.now(), DateTime.now().add(const Duration(days: 3)));
+  void clearControllers() {
+    startDateController.text = 'Departure';
+    endDateController.text = 'Return';
+    startDate = '';
+    endDate = '';
+    selectedRange = null;
+    notifyListeners();
   }
 
   void onSubmit() {
-    if (isRange) {
-      setDateRange();
-      setDates(selectedRange!.startDate, selectedRange!.endDate);
-      startDateController.text = startDate;
-      endDateController.text = endDate;
+    if (selectedRange != null) {
+      if (isRange) {
+        setDates(selectedRange!.startDate, selectedRange!.endDate);
+        startDateController.text = startDate;
+        endDateController.text = endDate;
+      } 
+      notifyListeners();
+      selectedRange=null;
     } else {
-      startDate = DateFormat(format).format(oneDaySelected!);
-      endDate = DateFormat(format).format(oneDaySelected!);
+      clearControllers();
     }
-    notifyListeners();
   }
 }

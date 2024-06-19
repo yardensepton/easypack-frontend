@@ -6,10 +6,10 @@ import 'package:easypack/utils/validators.dart';
 import 'package:easypack/widgets/city_list_item.dart';
 
 class AutoCompleteField extends StatelessWidget {
-  final ValueChanged<String> onCitySelected;
+  // final ValueChanged<String> onCitySelected;
 
   const AutoCompleteField(
-      {super.key, required this.onCitySelected}); // Modify constructor
+      {super.key}); // Modify constructor
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +55,6 @@ class AutoCompleteField extends StatelessWidget {
                                 .autocompleteResults[index].text;
                         autoCompleteProvider.selectedCity =
                             autoCompleteProvider.autocompleteResults[index];
-                        onCitySelected(
-                            autoCompleteProvider.searchController.text);
                         autoCompleteProvider.clearResults();
                       },
                     ),

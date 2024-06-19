@@ -3,9 +3,13 @@ import 'package:easypack/pages/home_user.dart';
 import 'package:easypack/pages/packing_list_page.dart';
 import 'package:easypack/pages/trip_list_page.dart';
 import 'package:easypack/pages/trip_planner_page.dart';
+import 'package:easypack/providers/auto_complete_provider.dart';
+import 'package:easypack/providers/choose_date_range_provider.dart';
+import 'package:easypack/providers/create_trip_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class NavigationMenu extends StatefulWidget {
   const NavigationMenu({super.key});
@@ -15,10 +19,21 @@ class NavigationMenu extends StatefulWidget {
 }
 
 class _NavigationMenuState extends State<NavigationMenu> {
+  void _clearData(int index) {
+    switch (index) {
+      case 4:
+        Provider.of<AutoCompleteProvider>(context, listen: false)
+            .clearResultsBeforeNewSearch();
+        Provider.of<ChooseDateRangeProvider>(context, listen: false)
+            .clearControllers();
+        break;
+    }
+  }
+
   int _selectedIndex = 0;
-  static  final List<Widget> _widgetOptions = <Widget>[
-   CreatePackingListPage(),
- const PackingListPage(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    CreatePackingListPage(),
+    const PackingListPage(),
     const HomeUser(),
     TripsListPage(),
     const TripPlannerPage()
@@ -28,10 +43,6 @@ class _NavigationMenuState extends State<NavigationMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 20,
-        title: const Text('Main Menu'),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -71,17 +82,18 @@ class _NavigationMenuState extends State<NavigationMenu> {
                   icon: LineIcons.user,
                   text: 'Profile',
                 ),
-                             GButton(
+                GButton(
                   icon: LineIcons.home,
                   text: 'Home',
                 ),
-                  GButton(
+                GButton(
                   icon: LineIcons.plus,
                   text: 'New Trip',
                 ),
               ],
               selectedIndex: _selectedIndex,
               onTabChange: (index) {
+                _clearData(index);
                 setState(() {
                   _selectedIndex = index;
                 });

@@ -14,20 +14,20 @@ class CityListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.center,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 400.0,maxHeight: 100.0),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: Card(
-            child: ListTile(
-              title: Text(cityName),
-              onTap: () => onTap(placeId),
-            ),
-          ),
+    return Column(
+      children: [
+        ListTile(
+          title: Text(cityName),
+          onTap: () {
+            onTap(placeId);
+            Navigator.of(context).pop();
+          } 
         ),
-      ),
+        const Divider(
+          height: 1,
+          color: Colors.grey,
+        ),
+      ],
     );
   }
 }
