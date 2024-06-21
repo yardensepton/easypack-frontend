@@ -1,6 +1,7 @@
 import 'package:easypack/pages/create_packing_list_page.dart';
 import 'package:easypack/pages/home_user.dart';
 import 'package:easypack/pages/packing_list_page.dart';
+import 'package:easypack/pages/trip_details_page.dart';
 import 'package:easypack/pages/trip_list_page.dart';
 import 'package:easypack/pages/trip_planner_page.dart';
 import 'package:easypack/providers/auto_complete_provider.dart';
@@ -35,7 +36,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
     CreatePackingListPage(),
     const PackingListPage(),
     const HomeUser(),
-    TripsListPage(),
+    const TripDetailsPage(),
     const TripPlannerPage()
   ];
 
@@ -83,8 +84,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
                   text: 'Profile',
                 ),
                 GButton(
-                  icon: LineIcons.home,
-                  text: 'Home',
+                  icon: LineIcons.clock,
+                  text: 'Upcoming Trip',
                 ),
                 GButton(
                   icon: LineIcons.plus,

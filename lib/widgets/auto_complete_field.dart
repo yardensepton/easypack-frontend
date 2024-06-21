@@ -23,7 +23,7 @@ class AutoCompleteField extends StatelessWidget {
                 onChanged: autoCompleteProvider.onSearchChanged,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  labelText: 'Residence',
+                  labelText: 'City',
                   filled: true,
                   fillColor: const Color.fromARGB(255, 240, 232, 245),
                   border: OutlineInputBorder(

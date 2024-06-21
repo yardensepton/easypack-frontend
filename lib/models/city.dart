@@ -1,23 +1,26 @@
+
 class City {
   final String text;
   final String placeId;
   final String cityName;
   final String countryName;
   String currencyCode = '';
-  String cityUrl = '';
+  String? cityUrl;
 
-  City(
-      {required this.text,
-      required this.placeId,
-      required this.cityName,
-      required this.countryName,
-       });
+  City({
+    required this.text,
+    required this.placeId,
+    required this.cityName,
+    required this.countryName,
+    this.cityUrl
+  });
 
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
         text: json['text'],
         placeId: json['place_id'],
         cityName: json['city_name'],
+        cityUrl: json['city_url'],
         countryName: json['country_name']);
   }
 

@@ -168,7 +168,8 @@ class _CitiesBottomSheetState extends State<CitiesBottomSheet> {
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 16,
-                      color: Color.fromARGB(255, 100, 99, 99),
+                      color: Colors.black,
+                      // Color.fromARGB(255, 100, 99, 99)
                     ),
                   );
                 },
