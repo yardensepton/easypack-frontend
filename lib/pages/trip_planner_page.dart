@@ -3,6 +3,7 @@ import 'package:easypack/providers/auto_complete_provider.dart';
 import 'package:easypack/providers/choose_date_range_provider.dart';
 import 'package:easypack/providers/create_trip_provider.dart';
 import 'package:easypack/providers/create_user_provider.dart';
+import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/utils/validators.dart';
 import 'package:easypack/widgets/cities_bottom_sheet.dart';
 import 'package:easypack/widgets/custom_date_picker_dialog.dart';
@@ -47,16 +48,11 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Your Trip'),
-      ),
+          // title: Text("Hi ${context.watch<CreateUserProvider>().} add a new trip!"),
+          ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.logout_rounded),
-        onPressed: () => {
-          Provider.of<AuthUserProvider>(context, listen: false)
-              .logOutUser(context),
-          Provider.of<CreateUserProvider>(context, listen: false)
-              .moveToLoginScreen(context)
-        },
+        onPressed: () => logOutButton(context),
       ),
       body: Center(
         child: Column(
@@ -133,4 +129,12 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
       },
     );
   }
+}
+
+void logOutButton(BuildContext context) {
+  Provider.of<TripDetailsProvider>(context, listen: false).reset();
+  Provider.of<AuthUserProvider>(context, listen: false).logOutUser(context);
+  Provider.of<TripDetailsProvider>(context, listen: false).reset();
+  Provider.of<CreateUserProvider>(context, listen: false)
+      .moveToLoginScreen(context);
 }

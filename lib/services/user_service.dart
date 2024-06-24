@@ -6,8 +6,8 @@ import 'package:easypack/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserService {
-  // static const String baseUrl = 'http://localhost:8000';
-  static const String baseUrl = 'http://192.168.1.197:8000';
+  static const String baseUrl = 'http://localhost:8000';
+  // static const String baseUrl = 'http://192.168.1.197:8000';
   static const String createUserUrl = '/users/sign-up';
   static const String loginUserUrl = '/users/login';
   static const String forgotPasswordUrl = '/users/forgot-password';
@@ -58,6 +58,7 @@ class UserService {
       if (accessToken.isEmpty || refreshToken.isEmpty) {
         throw Exception("Access token or refresh token is empty");
       }
+      print("in auth user service $data");
       await storage.write(key: 'access_token', value: accessToken);
       await storage.write(key: 'refresh_token', value: refreshToken);
       return null;
@@ -105,8 +106,10 @@ class UserService {
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      await storage.write(
-          key: 'access_token', value: responseData['access_token']);
+      print(responseData);
+      String accessToken = responseData['access_token'];
+      await storage.write(key: 'access_token', value: accessToken);
+      print("access token after change in is: $accessToken");
     } else {
       final responseBody = response.body;
       print(

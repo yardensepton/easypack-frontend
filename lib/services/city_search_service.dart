@@ -6,8 +6,8 @@ import 'dart:convert';
 class CitySearchService {
   Future<List<City>> fetchAutocompleteResults(String input,
       {int page = 1, int size = 10}) async {
-    // String apiUrl = 'http://localhost:8000/cities/city-autocomplete/$input?page=$page&size=$size';
-    String apiUrl = 'http://192.168.1.197:8000/cities/city-autocomplete/$input?page=$page&size=$size';
+    String apiUrl = 'http://localhost:8000/cities/city-autocomplete/$input?page=$page&size=$size';
+    // String apiUrl = 'http://192.168.1.197:8000/cities/city-autocomplete/$input?page=$page&size=$size';
 
     try {
       http.Response response = await http.get(Uri.parse(apiUrl));
@@ -22,9 +22,6 @@ class CitySearchService {
         } else {
           throw ServerException('Invalid response format');
         }
-        //   List<City> results =
-        //       jsonResponse.map((json) => City.fromJson(json)).toList();
-        //   return results;
       } else {
         throw ServerException(
             'Failed to fetch autocomplete results. Status code: ${response.statusCode}');

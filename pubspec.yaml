@@ -47,6 +47,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_secure_storage: ^9.2.2
   syncfusion_flutter_datepicker: ^26.1.35
+  web_socket_channel: ^2.2.0
+  rxdart: ^0.28.0
 
 dev_dependencies:
   flutter_test:

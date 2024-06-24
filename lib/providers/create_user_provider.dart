@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/city.dart';
 import 'package:easypack/models/user.dart';
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';

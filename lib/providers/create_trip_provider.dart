@@ -12,25 +12,27 @@ class CreateTripProvider with ChangeNotifier {
 
   Future<void> createTrip(BuildContext context, City? selectedCity,
       String startDate, String endDate) async {
+        
     if (selectedCity != null) {
       isLoading = true;
       notifyListeners();
+      String? cityUrl = await fetchAndShowPhoto(context, selectedCity);
+      selectedCity.cityUrl = cityUrl;
       String? response = await _tripAPIService.creatTrip(
         destination: selectedCity,
         departureDate: startDate,
         returnDate: endDate,
       );
+      
 
       if (context.mounted) {
-        fetchAndShowPhoto(context, selectedCity);
-        isLoading = false;
-        notifyListeners();
         if (response == null) {
           SuccessSnackBar.showSuccessSnackBar(
               context, "Trip created successfuly!");
           // nameController.clear();
           selectedCity = null;
-          notifyListeners();
+          // isLoading = false;
+          // notifyListeners();
         } else {
           ErrorSnackBar.showErrorSnackBar(context, response);
         }
@@ -40,22 +42,15 @@ class CreateTripProvider with ChangeNotifier {
         ErrorSnackBar.showErrorSnackBar(context, "Choose a city");
       }
     }
+    isLoading = false;
+    notifyListeners();
   }
 
-  Future<void> fetchAndShowPhoto(
+  Future<String?> fetchAndShowPhoto(
       BuildContext context, City selectedCity) async {
-    try {
-      String photoUrl =
-          await _cityPhotoService.fetchPhotoResult(selectedCity.placeId);
-      Uri uri = Uri.parse(photoUrl);
-      final String formattedUrl = uri.toString();
-      selectedCity.cityUrl = formattedUrl;
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("$e")),
-        );
-      }
-    }
+    String photoUrl =
+        await _cityPhotoService.fetchPhotoResult(selectedCity.placeId);
+    Uri uri = Uri.parse(photoUrl);
+    return uri.toString();
   }
 }

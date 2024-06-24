@@ -2,8 +2,8 @@ import 'package:http/http.dart' as http;
 
 class CityPhotoService {
   Future<String> fetchPhotoResult(String input) async {
-    // String apiUrl = 'http://localhost:8000/cities/picture/$input';
-    String apiUrl = 'http://192.168.1.197:8000/cities/picture/$input';
+    String apiUrl = 'http://localhost:8000/cities/picture/$input';
+    // String apiUrl = 'http://192.168.1.197:8000/cities/picture/$input';
 
     String stringResponse;
 

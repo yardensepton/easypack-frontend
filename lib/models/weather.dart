@@ -1,13 +1,10 @@
-import 'dart:ffi';
-
-
 class Weather{
 String dateTime;
-Float tempMax;
-Float tempMin;
-Float feelsLike;
-Float precipProb;
-Float windSpeed;
+double tempMax;
+double tempMin;
+double feelsLike;
+double precipProb;
+double windSpeed;
 String conditions;
 String icon;
 
@@ -25,7 +22,7 @@ String icon;
   
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
-        dateTime: json['date_time'],
+        dateTime: json['datetime'],
         tempMax: json['temp_max'],
         tempMin: json['temp_min'],
         feelsLike: json['feels_like'],
@@ -38,7 +35,7 @@ String icon;
 
   Map<String, dynamic> toJson() {
     return {
-      'date_time': dateTime,
+      'datetime': dateTime,
       'temp_max': tempMax,
       'temp_min': tempMin,
       'feels_like': feelsLike,

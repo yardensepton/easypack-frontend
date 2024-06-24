@@ -22,7 +22,7 @@ class NavigationMenu extends StatefulWidget {
 class _NavigationMenuState extends State<NavigationMenu> {
   void _clearData(int index) {
     switch (index) {
-      case 4:
+      case 1:
         Provider.of<AutoCompleteProvider>(context, listen: false)
             .clearResultsBeforeNewSearch();
         Provider.of<ChooseDateRangeProvider>(context, listen: false)
@@ -33,9 +33,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
-    CreatePackingListPage(),
-    const PackingListPage(),
-    const HomeUser(),
+    // CreatePackingListPage(),
+    // const PackingListPage(),
+    // const HomeUser(),
     const TripDetailsPage(),
     const TripPlannerPage()
   ];
@@ -71,18 +71,18 @@ class _NavigationMenuState extends State<NavigationMenu> {
               tabBackgroundColor: Colors.grey[100]!,
               color: Colors.black,
               tabs: const [
-                GButton(
-                  icon: LineIcons.globe,
-                  text: 'New Trip',
-                ),
-                GButton(
-                  icon: LineIcons.list,
-                  text: 'Packing Lists',
-                ),
-                GButton(
-                  icon: LineIcons.user,
-                  text: 'Profile',
-                ),
+                // GButton(
+                //   icon: LineIcons.globe,
+                //   text: 'New Trip',
+                // ),
+                // GButton(
+                //   icon: LineIcons.list,
+                //   text: 'Packing Lists',
+                // ),
+                // GButton(
+                //   icon: LineIcons.user,
+                //   text: 'Profile',
+                // ),
                 GButton(
                   icon: LineIcons.clock,
                   text: 'Upcoming Trip',
