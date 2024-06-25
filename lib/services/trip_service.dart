@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/city.dart';
 import 'package:easypack/models/trip.dart';
+import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/services/user_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -8,15 +11,14 @@ import 'dart:convert';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class TripService {
-  String apiUrl = 'http://localhost:8000/trips';
-  // String apiUrl = 'http://192.168.1.197:8000/trips';
+  // String apiUrl = 'http://localhost:8000/trips';
+  String apiUrl = 'http://192.168.1.197:8000/trips';
   String upcomingTrip = '/upcoming-trip';
   UserService userService = UserService();
   WebSocketChannel? _channel;
-
-  // Replace with your WebSocket endpoint
-
+  Timer? timer;
   String? token;
+
   Future<String?> creatTrip({
     required City destination,
     required String departureDate,
@@ -37,10 +39,9 @@ class TripService {
     final body = json.encode(newTrip.toJson());
 
     final response = await http.post(url, headers: headers, body: body);
-      if(response.statusCode==403){
-         await userService.logOutUser();
-
-      }
+    if (response.statusCode == 403) {
+      await userService.logOutUser();
+    }
     if (response.statusCode == 200) {
       return null;
     } else if (response.statusCode == 401) {
@@ -62,40 +63,10 @@ class TripService {
     }
   }
 
-  // Future<void> listenToChanges() async {
-  //   const wsUrl = 'ws://localhost:8000/trips/ws/trip_updates';
-
-  //   try {
-  //     final channel = WebSocketChannel.connect(
-  //       Uri.parse(wsUrl),
-  //     );
-
-  //     // IOWebSocketChannel channel = IOWebSocketChannel.connect(wsUrl);
-
-  //     channel.stream.listen(
-  //       (message) {
-  //         print('Received message: $message');
-  //         // Handle incoming message (change) from WebSocket
-  //       },
-  //       onError: (error) {
-  //         print('WebSocket error: $error');
-  //         // Handle error (e.g., reconnect or show error message)
-  //       },
-  //       onDone: () {
-  //         print('WebSocket connection closed');
-  //         // Handle closed connection (e.g., reconnect or cleanup)
-  //       },
-  //     );
-  //   } catch (e) {
-  //     print('Error connecting to WebSocket: $e');
-  //     // Handle error connecting to WebSocket
-  //   }
-  // }
-
   void listenToChanges(Function(String) onMessage, Function(dynamic) onError,
       Function() onDone) {
-    // const wsUrl = 'ws://localhost:8000/trips/ws/trip_updates';
-    const wsUrl = 'ws://192.168.1.197:8000/trips/ws/trip_updates';
+    const wsUrl = 'ws://localhost:8000/trips/ws/trip_updates';
+    // const wsUrl = 'ws://192.168.1.197:8000/trips/ws/trip_updates';
 
     try {
       _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
@@ -162,15 +133,15 @@ class TripService {
   Future<Trip?> getClosestUpcomingTrip() async {
     final url = Uri.parse('$apiUrl$upcomingTrip');
     String? token = await userService.getAccessToken();
-    
+
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
     try {
       http.Response response = await http.get(url, headers: headers);
-      if(response.statusCode==403){
-         await userService.logOutUser();
+      if (response.statusCode == 403) {
+        await userService.logOutUser();
       }
       if (response.statusCode == 200) {
         return fromJsonToTrip(response);
@@ -185,6 +156,50 @@ class TripService {
 
         if (response.statusCode == 200) {
           return fromJsonToTrip(response);
+        } else if (response.statusCode == 404) {
+          return null;
+        }
+      } else {
+        throw Exception(ServerError.getErrorMsg(jsonDecode(response.body)));
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+    return null;
+  }
+
+  // void updateTripWeatherEvery48Hours(){
+
+  // }
+
+  Future<List<TripInfo>?> getPlannedTripsInfo(String operand) async {
+    final url = Uri.parse('$apiUrl/sorted?operand=$operand');
+    String? token = await userService.getAccessToken();
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    try {
+      http.Response response = await http.get(url, headers: headers);
+      if (response.statusCode == 403) {
+        await userService.logOutUser();
+      }
+      if (response.statusCode == 200) {
+        List<dynamic> jsonData = json.decode(response.body);
+        return jsonData.map((json) => TripInfo.fromJson(json)).toList();
+      } else if (response.statusCode == 401) {
+        await userService.refreshAccessToken();
+        token = await userService.getAccessToken();
+        final refreshedHeaders = {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        };
+        response = await http.get(url, headers: refreshedHeaders);
+
+        if (response.statusCode == 200) {
+          List<dynamic> jsonData = json.decode(response.body);
+          return jsonData.map((json) => TripInfo.fromJson(json)).toList();
         } else if (response.statusCode == 404) {
           return null;
         }

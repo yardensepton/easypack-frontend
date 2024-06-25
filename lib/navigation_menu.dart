@@ -1,8 +1,8 @@
 import 'package:easypack/pages/create_packing_list_page.dart';
 import 'package:easypack/pages/home_user.dart';
+import 'package:easypack/pages/my_trips_page.dart';
 import 'package:easypack/pages/packing_list_page.dart';
 import 'package:easypack/pages/trip_details_page.dart';
-import 'package:easypack/pages/trip_list_page.dart';
 import 'package:easypack/pages/trip_planner_page.dart';
 import 'package:easypack/providers/auto_complete_provider.dart';
 import 'package:easypack/providers/choose_date_range_provider.dart';
@@ -37,7 +37,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
     // const PackingListPage(),
     // const HomeUser(),
     const TripDetailsPage(),
-    const TripPlannerPage()
+    const TripPlannerPage(),
+    const MyTripsPage(),
   ];
 
   @override
@@ -90,6 +91,10 @@ class _NavigationMenuState extends State<NavigationMenu> {
                 GButton(
                   icon: LineIcons.plus,
                   text: 'New Trip',
+                ),
+                GButton(
+                  icon: LineIcons.globe,
+                  text: 'My Trips',
                 ),
               ],
               selectedIndex: _selectedIndex,

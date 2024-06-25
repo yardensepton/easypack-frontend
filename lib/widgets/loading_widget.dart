@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class LoadingWidget extends StatelessWidget {
   final String? message;
@@ -7,20 +8,7 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const CircularProgressIndicator(),
-          if (message != null) ...[
-            const SizedBox(height: 16.0),
-            Text(
-              message!,
-              style: const TextStyle(fontSize: 16.0),
-            ),
-          ],
-        ],
-      ),
-    );
+    return Lottie.asset("assets/lottie/flight_loading.json",width: 100);
   }
 }
+

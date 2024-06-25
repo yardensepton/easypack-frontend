@@ -1,5 +1,7 @@
 import 'package:easypack/models/trip.dart';
+import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/services/trip_service.dart';
+import 'package:easypack/utils/format_date.dart';
 import 'package:flutter/material.dart';
 
 class TripDetailsProvider extends ChangeNotifier {
@@ -10,7 +12,9 @@ class TripDetailsProvider extends ChangeNotifier {
   bool isLoading = false;
   Trip? cachedTrip;
   String? cachedDestinationUrl;
+  List<TripInfo>? plannedTrips;
   bool hasUpcomingTrip = false;
+  bool hasPlannedTrips = false;
 
 
   void reset() {
@@ -66,13 +70,45 @@ class TripDetailsProvider extends ChangeNotifier {
     }
   }
 
+
+    Future<void> fetchPlannedTrips(String operand,{bool forceRefresh = true}) async {
+
+    if ( forceRefresh == true) {
+      try {
+        isLoading = true;
+        plannedTrips = await _tripService.getPlannedTripsInfo(operand);
+        if (plannedTrips != null) {
+          hasPlannedTrips = true;
+          _updateControllers(cachedTrip);
+        } else {
+          hasUpcomingTrip = false;
+          destinationName.text = '';
+          startDateController.text = '';
+          endDateController.text = '';
+        }
+        isLoading = false;
+      } catch (e) {
+        isLoading = false;
+        throw Exception('$e');
+      }
+    }
+  }
+
   void _updateControllers(Trip? trip) {
     if (trip != null) {
       destinationName.text = trip.destination.text;
-      startDateController.text = trip.departureDate;
-      endDateController.text = trip.returnDate;
+      startDateController.text = FormatDate.getformatDate(trip.departureDate);
+      endDateController.text = FormatDate.getformatDate(trip.returnDate);
     }
   }
+
+  //   void _updateTripCard(Trip? trip) {
+  //   if (trip != null) {
+  //     destinationName.text = trip.destination.text;
+  //     startDateController.text = trip.departureDate;
+  //     endDateController.text = trip.returnDate;
+  //   }
+  // }
 
   void clearCache() {
     cachedTrip = null;

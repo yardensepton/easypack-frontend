@@ -134,7 +134,6 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
 void logOutButton(BuildContext context) {
   Provider.of<TripDetailsProvider>(context, listen: false).reset();
   Provider.of<AuthUserProvider>(context, listen: false).logOutUser(context);
-  Provider.of<TripDetailsProvider>(context, listen: false).reset();
   Provider.of<CreateUserProvider>(context, listen: false)
       .moveToLoginScreen(context);
 }
