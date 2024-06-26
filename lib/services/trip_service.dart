@@ -78,6 +78,7 @@ class TripService {
           onError(error);
         },
         onDone: () {
+          _channel?.sink.close();
           onDone();
         },
       );
@@ -172,8 +173,8 @@ class TripService {
 
   // }
 
-  Future<List<TripInfo>?> getPlannedTripsInfo(String operand) async {
-    final url = Uri.parse('$apiUrl/sorted?operand=$operand');
+  Future<List<TripInfo>?> getPlannedTripsInfo(String timeline) async {
+    final url = Uri.parse('$apiUrl/sorted?timeline=$timeline');
     String? token = await userService.getAccessToken();
 
     final headers = {
@@ -182,9 +183,6 @@ class TripService {
     };
     try {
       http.Response response = await http.get(url, headers: headers);
-      if (response.statusCode == 403) {
-        await userService.logOutUser();
-      }
       if (response.statusCode == 200) {
         List<dynamic> jsonData = json.decode(response.body);
         return jsonData.map((json) => TripInfo.fromJson(json)).toList();

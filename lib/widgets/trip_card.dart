@@ -10,7 +10,7 @@ class TripCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160,
+      width: 150,
       margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -32,12 +32,12 @@ class TripCard extends StatelessWidget {
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
-                //  bottomLeft: Radius.circular(12),
-                //   bottomRight: Radius.circular(12),
+                 bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
               ),
               child: Image.network(
                 trip.cityUrl,
-                height: 90,
+                height: 70,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -50,8 +50,10 @@ class TripCard extends StatelessWidget {
               children: [
                 Text(
                   trip.destination,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
+                    fontSize: 13
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -59,6 +61,7 @@ class TripCard extends StatelessWidget {
                   '${FormatDate.getformatDate(trip.departureDate)} - ${FormatDate.getformatDate(trip.returnDate)}',
                   style: const TextStyle(
                     color: Colors.grey,
+                    fontSize: 12
                   ),
                 ),
               ],

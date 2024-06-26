@@ -1,5 +1,9 @@
+import 'dart:developer';
+
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/widgets/see_all_button.dart';
-import 'package:easypack/widgets/trip_list.dart';
+import 'package:easypack/widgets/trip_list_future.dart';
+import 'package:easypack/widgets/trip_list_past.dart';
 import 'package:flutter/material.dart';
 
 class MyTripsPage extends StatelessWidget {
@@ -20,11 +24,11 @@ class MyTripsPage extends StatelessWidget {
             children: [
               SeeAllButton(title: 'Planned trips'),
               SizedBox(height: 10),
-              TripList(operand: 'future'),
+              TripListFuture(timeline: Timeline.future),
               SizedBox(height: 30),
               SeeAllButton(title: 'Past trips'),
               SizedBox(height: 10),
-              TripList(operand: 'past'),
+              TripListPast(timeline: Timeline.past),
             ],
           ),
         ),

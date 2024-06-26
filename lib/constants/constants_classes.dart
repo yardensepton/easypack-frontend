@@ -4,3 +4,8 @@ class BaseConstants {
 
   static const int itemsPerPage = 20;
 }
+
+class Timeline {
+  static const String future = "future";
+    static const String past = "past";
+}

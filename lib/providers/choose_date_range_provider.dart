@@ -1,3 +1,4 @@
+import 'package:easypack/utils/format_date.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -38,8 +39,8 @@ class ChooseDateRangeProvider with ChangeNotifier {
     if (selectedRange != null) {
       if (isRange) {
         setDates(selectedRange!.startDate, selectedRange!.endDate);
-        startDateController.text = startDate;
-        endDateController.text = endDate;
+        startDateController.text = FormatDate.getformatDate(startDate);
+        endDateController.text = FormatDate.getformatDate(endDate);
       } 
       notifyListeners();
       selectedRange=null;

@@ -22,4 +22,10 @@ class TripInfo {
       cityUrl: json['city_url'],
     );
   }
+
+
+  @override
+  String toString() {
+    return "trip tp $destination,  $departureDate - $returnDate ";
+  }
 }

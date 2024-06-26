@@ -1,3 +1,4 @@
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/models/trip.dart';
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/services/trip_service.dart';
@@ -13,9 +14,10 @@ class TripDetailsProvider extends ChangeNotifier {
   Trip? cachedTrip;
   String? cachedDestinationUrl;
   List<TripInfo>? plannedTrips;
+  List<TripInfo>? pastTrips;
   bool hasUpcomingTrip = false;
   bool hasPlannedTrips = false;
-
+  bool hasPastTrips = false;
 
   void reset() {
     cachedTrip = null;
@@ -36,6 +38,7 @@ class TripDetailsProvider extends ChangeNotifier {
       },
       () {
         print('WebSocket connection closed');
+
         // Optionally handle closed connection (e.g., reconnect or cleanup)
       },
     );
@@ -47,7 +50,6 @@ class TripDetailsProvider extends ChangeNotifier {
   }
 
   Future<void> fetchUpcomingTrip({bool forceRefresh = false}) async {
-
     if (cachedTrip == null || forceRefresh == true) {
       try {
         isLoading = true;
@@ -70,27 +72,49 @@ class TripDetailsProvider extends ChangeNotifier {
     }
   }
 
-
-    Future<void> fetchPlannedTrips(String operand,{bool forceRefresh = true}) async {
-
-    if ( forceRefresh == true) {
+  Future<List<TripInfo>?> fetchPlannedTrips(String timeline,
+      {bool forceRefresh = true}) async {
+    if (forceRefresh == true) {
       try {
         isLoading = true;
-        plannedTrips = await _tripService.getPlannedTripsInfo(operand);
-        if (plannedTrips != null) {
-          hasPlannedTrips = true;
-          _updateControllers(cachedTrip);
-        } else {
-          hasUpcomingTrip = false;
-          destinationName.text = '';
-          startDateController.text = '';
-          endDateController.text = '';
+        if (timeline == Timeline.future) {
+          plannedTrips = await _tripService.getPlannedTripsInfo(timeline);
+          if (plannedTrips != null) {
+            hasPlannedTrips = true;
+            return plannedTrips;
+          } else {
+            hasPlannedTrips = false;
+             return [];
+          }
+        } else if (timeline == Timeline.past) {
+           pastTrips = await _tripService.getPlannedTripsInfo(timeline);
+          if (pastTrips != null) {
+            hasPastTrips = true;
+             return pastTrips;
+          } else {
+            hasPastTrips = false;
+             return [];
+          }
         }
+        // for (TripInfo trip in plannedTrips!) {
+        //   print(trip);
+
         isLoading = false;
       } catch (e) {
         isLoading = false;
         throw Exception('$e');
       }
+    }
+    return null;
+  }
+
+  void pastOrFutureTrips(
+      String timeline, List<TripInfo>? trips, bool hasTrips) async {
+    trips = await _tripService.getPlannedTripsInfo(timeline);
+    if (trips != null) {
+      hasTrips = true;
+    } else {
+      hasTrips = false;
     }
   }
 
