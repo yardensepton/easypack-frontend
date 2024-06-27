@@ -65,8 +65,8 @@ class TripService {
 
   void listenToChanges(Function(String) onMessage, Function(dynamic) onError,
       Function() onDone) {
-    const wsUrl = 'ws://localhost:8000/trips/ws/trip_updates';
-    // const wsUrl = 'ws://192.168.1.197:8000/trips/ws/trip_updates';
+    // const wsUrl = 'ws://localhost:8000/trips/ws/trip_updates';
+    const wsUrl = 'ws://192.168.1.197:8000/trips/ws/trip_updates';
 
     try {
       _channel = WebSocketChannel.connect(Uri.parse(wsUrl));

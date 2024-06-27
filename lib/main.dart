@@ -1,3 +1,5 @@
+import 'package:easypack/trips_box.dart';
+import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/navigation_menu.dart';
 import 'package:easypack/pages/my_trips_page.dart';
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
@@ -6,6 +8,7 @@ import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/providers/auto_complete_provider.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
@@ -14,7 +17,15 @@ import 'package:easypack/providers/create_trip_provider.dart';
 import 'package:easypack/providers/create_user_provider.dart';
 // import 'package:web_socket_channel/status.dart' as status;
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Hive.registerAdapter(TripInfoAdapter());
+  await Hive.openBox<Map>('tripsBox');
+  // final appDocumentDir = await getApplicationDocumentsDirectory();
+  // Hive.init(appDocumentDir.path);
+
   runApp(
     MultiProvider(
       providers: [

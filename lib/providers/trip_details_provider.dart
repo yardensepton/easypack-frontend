@@ -1,15 +1,18 @@
+import 'package:easypack/trips_box.dart';
 import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/models/trip.dart';
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/services/trip_service.dart';
 import 'package:easypack/utils/format_date.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class TripDetailsProvider extends ChangeNotifier {
   final TripService _tripService = TripService();
   TextEditingController destinationName = TextEditingController();
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
+  Box<Map> tripsBox = Hive.box('tripsBox');
   bool isLoading = false;
   Trip? cachedTrip;
   String? cachedDestinationUrl;
@@ -20,6 +23,7 @@ class TripDetailsProvider extends ChangeNotifier {
   bool hasPastTrips = false;
 
   void reset() {
+    tripsBox.clear();
     cachedTrip = null;
     isLoading = false;
     cachedDestinationUrl = null;
@@ -72,38 +76,52 @@ class TripDetailsProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<TripInfo>?> fetchPlannedTrips(String timeline,
-      {bool forceRefresh = true}) async {
-    if (forceRefresh == true) {
-      try {
-        isLoading = true;
-        if (timeline == Timeline.future) {
-          plannedTrips = await _tripService.getPlannedTripsInfo(timeline);
-          if (plannedTrips != null) {
-            hasPlannedTrips = true;
-            return plannedTrips;
-          } else {
-            hasPlannedTrips = false;
-             return [];
-          }
-        } else if (timeline == Timeline.past) {
-           pastTrips = await _tripService.getPlannedTripsInfo(timeline);
-          if (pastTrips != null) {
-            hasPastTrips = true;
-             return pastTrips;
-          } else {
-            hasPastTrips = false;
-             return [];
-          }
-        }
-        // for (TripInfo trip in plannedTrips!) {
-        //   print(trip);
+  Future<List<TripInfo>?> fetchPlannedTrips(
+    String timeline,
+  ) async {
+    final cacheKey = 'plannedTrips_$timeline';
 
-        isLoading = false;
-      } catch (e) {
-        isLoading = false;
-        throw Exception('$e');
+    if (tripsBox.containsKey(cacheKey)) {
+      print("Using cached data for $cacheKey");
+      Map tripsMap = tripsBox.get(cacheKey) as Map;
+      List<TripInfo> trips = List<TripInfo>.from(tripsMap[cacheKey]);
+      if (timeline == Timeline.future) {
+        hasPlannedTrips = true;
+        plannedTrips = trips;
+      } else if (timeline == Timeline.past) {
+        hasPastTrips = true;
+        pastTrips = trips;
       }
+      return trips;
+    }
+    try {
+      isLoading = true;
+      if (timeline == Timeline.future) {
+        plannedTrips = await _tripService.getPlannedTripsInfo(timeline);
+        if (plannedTrips != null) {
+          hasPlannedTrips = true;
+          await tripsBox.put(cacheKey, {cacheKey: plannedTrips});
+          return plannedTrips;
+        } else {
+          hasPlannedTrips = false;
+          return [];
+        }
+      } else if (timeline == Timeline.past) {
+        pastTrips = await _tripService.getPlannedTripsInfo(timeline);
+        if (pastTrips != null) {
+          hasPastTrips = true;
+          await tripsBox.put(cacheKey, {cacheKey: pastTrips});
+          return pastTrips;
+        } else {
+          hasPastTrips = false;
+          return [];
+        }
+      }
+
+      isLoading = false;
+    } catch (e) {
+      isLoading = false;
+      throw Exception('$e');
     }
     return null;
   }
@@ -134,8 +152,8 @@ class TripDetailsProvider extends ChangeNotifier {
   //   }
   // }
 
-  void clearCache() {
-    cachedTrip = null;
-    notifyListeners();
-  }
+  // void clearCache() {
+  //   cachedTrip = null;
+  //   tripsBox.clear();
+  // }
 }

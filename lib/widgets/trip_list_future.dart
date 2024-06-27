@@ -35,6 +35,8 @@ class _TripListFutureState extends State<TripListFuture> {
         } else if (snapshot.hasError) {
           return const Text("");
         } else {
+
+
           return Consumer<TripDetailsProvider>(
             builder: (context, tripDetailsProvider, child) {
               return SizedBox(
