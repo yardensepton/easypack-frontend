@@ -1,4 +1,4 @@
-import 'package:easypack/trips_box.dart';
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/navigation_menu.dart';
 import 'package:easypack/pages/my_trips_page.dart';
@@ -15,16 +15,13 @@ import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/providers/choose_date_range_provider.dart';
 import 'package:easypack/providers/create_trip_provider.dart';
 import 'package:easypack/providers/create_user_provider.dart';
-// import 'package:web_socket_channel/status.dart' as status;
 
 Future<void> main() async {
   await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
-
   Hive.registerAdapter(TripInfoAdapter());
-  await Hive.openBox<Map>('tripsBox');
-  // final appDocumentDir = await getApplicationDocumentsDirectory();
-  // Hive.init(appDocumentDir.path);
+  await Hive.openBox<Map>(Boxes.tripsBox);
+
 
   runApp(
     MultiProvider(

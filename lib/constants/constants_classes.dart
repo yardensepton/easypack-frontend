@@ -9,3 +9,8 @@ class Timeline {
   static const String future = "future";
     static const String past = "past";
 }
+class Boxes {
+  static const String tripsBox = "tripsBox";
+  static const String currentUserBox = "currentUserBox";
+
+}

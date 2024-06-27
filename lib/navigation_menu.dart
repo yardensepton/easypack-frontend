@@ -36,9 +36,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
     // CreatePackingListPage(),
     // const PackingListPage(),
     // const HomeUser(),
-    const TripDetailsPage(),
-    const TripPlannerPage(),
     const MyTripsPage(),
+    const TripPlannerPage(),
+    const TripDetailsPage()
   ];
 
   @override
@@ -85,16 +85,16 @@ class _NavigationMenuState extends State<NavigationMenu> {
                 //   text: 'Profile',
                 // ),
                 GButton(
-                  icon: LineIcons.clock,
-                  text: 'Upcoming Trip',
+                  icon: LineIcons.globe,
+                  text: 'My Trips',
                 ),
                 GButton(
                   icon: LineIcons.plus,
                   text: 'New Trip',
                 ),
                 GButton(
-                  icon: LineIcons.globe,
-                  text: 'My Trips',
+                  icon: LineIcons.clock,
+                  text: 'Upcoming Trip',
                 ),
               ],
               selectedIndex: _selectedIndex,

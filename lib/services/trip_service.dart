@@ -127,13 +127,13 @@ class TripService {
 
   Trip fromJsonToTrip(http.Response response) {
     Map<String, dynamic> result = jsonDecode(response.body);
-    Trip upcomingTrip = Trip.fromJson(result);
-    return upcomingTrip;
+    Trip trip = Trip.fromJson(result);
+    return trip;
   }
 
-  Future<Trip?> getClosestUpcomingTrip() async {
-    final url = Uri.parse('$apiUrl$upcomingTrip');
+  Future<Trip?> getTripById(String tripId) async {
     String? token = await userService.getAccessToken();
+    final url = Uri.parse('$apiUrl?trip_id=$tripId');
 
     final headers = {
       'Content-Type': 'application/json',
@@ -141,9 +141,6 @@ class TripService {
     };
     try {
       http.Response response = await http.get(url, headers: headers);
-      if (response.statusCode == 403) {
-        await userService.logOutUser();
-      }
       if (response.statusCode == 200) {
         return fromJsonToTrip(response);
       } else if (response.statusCode == 401) {
@@ -159,15 +156,51 @@ class TripService {
           return fromJsonToTrip(response);
         } else if (response.statusCode == 404) {
           return null;
+        } else {
+          throw Exception(ServerError.getErrorMsg(jsonDecode(response.body)));
         }
-      } else {
-        throw Exception(ServerError.getErrorMsg(jsonDecode(response.body)));
       }
     } catch (e) {
       throw Exception('Error: $e');
     }
     return null;
   }
+
+  // Future<Trip?> getClosestUpcomingTrip() async {
+  //   final url = Uri.parse('$apiUrl$upcomingTrip');
+  //   String? token = await userService.getAccessToken();
+
+  //   final headers = {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer $token',
+  //   };
+  //   try {
+  //     http.Response response = await http.get(url, headers: headers);
+
+  //     if (response.statusCode == 200) {
+  //       return fromJsonToTrip(response);
+  //     } else if (response.statusCode == 401) {
+  //       await userService.refreshAccessToken();
+  //       token = await userService.getAccessToken();
+  //       final refreshedHeaders = {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $token',
+  //       };
+  //       response = await http.get(url, headers: refreshedHeaders);
+
+  //       if (response.statusCode == 200) {
+  //         return fromJsonToTrip(response);
+  //       } else if (response.statusCode == 404) {
+  //         return null;
+  //       }
+  //     } else {
+  //       throw Exception(ServerError.getErrorMsg(jsonDecode(response.body)));
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Error: $e');
+  //   }
+  //   return null;
+  // }
 
   // void updateTripWeatherEvery48Hours(){
 

@@ -14,16 +14,16 @@ class ListWeatherDays extends StatelessWidget {
     return Consumer<TripDetailsProvider>(
       builder: (context, tripDetailsProvider, child) {
         return SizedBox(
-          height: screenSize.height * 0.23,
+          height: screenSize.height * 0.2, // Adjusted height
           width: screenSize.width,
           child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(), // Ensure scrolling is always enabled
             scrollDirection: Axis.horizontal,
             itemCount: tripDetailsProvider.cachedTrip?.weatherData?.length ?? 0,
             itemBuilder: (context, index) {
-              final weatherDay =
-                  tripDetailsProvider.cachedTrip?.weatherData?[index];
+              final weatherDay = tripDetailsProvider.cachedTrip?.weatherData?[index];
               return Container(
-                width: screenSize.width * 0.35, // Adjust width as needed
+                width: screenSize.width * 0.3, // Adjusted width
                 margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 padding: const EdgeInsets.all(8.0), // Reduced padding
                 decoration: BoxDecoration(
@@ -49,13 +49,13 @@ class ListWeatherDays extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    const SizedBox(height: 4), // Reduced spacing
+                    const SizedBox(height: 4),
                     SvgPicture.asset(
                       "assets/icons/${weatherDay.icon}.svg",
-                      width: screenSize.width * 0.1, // Reduced icon size
-                      height: screenSize.width * 0.1,
+                      width: screenSize.width * 0.08, // Reduced icon size
+                      height: screenSize.width * 0.08,
                     ),
-                    const SizedBox(height: 4), // Reduced spacing
+                    const SizedBox(height: 4),
                     Text(
                       weatherDay.conditions,
                       style: const TextStyle(

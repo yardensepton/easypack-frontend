@@ -1,16 +1,15 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/widgets/list_weather_days.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:easypack/widgets/no_upcoming_trip.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TripDetailsPage extends StatefulWidget {
   const TripDetailsPage({super.key});
 
   @override
-  State<TripDetailsPage> createState() => _TripDetailsPageState();
+  _TripDetailsPageState createState() => _TripDetailsPageState();
 }
 
 class _TripDetailsPageState extends State<TripDetailsPage> {
@@ -26,7 +25,6 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: LoadingWidget());
           } else if (snapshot.hasError) {
-            print("Error fetching upcoming trip: ${snapshot.error}");
             return const NoUpcomingTrip();
           } else {
             final tripDetailsProvider = Provider.of<TripDetailsProvider>(context);
@@ -34,83 +32,66 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
             if (!tripDetailsProvider.hasUpcomingTrip) {
               return const NoUpcomingTrip();
             } else {
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        Container(
-                          height: isMobile ? screenSize.height * 0.3 : screenSize.height * 0.3,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                tripDetailsProvider.cachedDestinationUrl ?? 'assets/background/gradient.jpg',
-                              ),
-                              fit: BoxFit.cover,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        height: isMobile ? screenSize.height * 0.3 : screenSize.height * 0.3,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              tripDetailsProvider.cachedDestinationUrl ?? 'assets/background/gradient.jpg',
                             ),
+                            fit: BoxFit.cover,
                           ),
-                        ),
-                        Positioned(
-                          top: 50,
-                          left: 16,
-                          right: 16,
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-                            child: Container(
-                              padding: const EdgeInsets.all(8.0),
-                              color: Colors.black.withOpacity(0.3),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Trip to ${tripDetailsProvider.destinationName.text}',
-                                    style: TextStyle(
-                                      fontSize: isMobile ? 20 : 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    'From: ${tripDetailsProvider.startDateController.text} - To: ${tripDetailsProvider.endDateController.text}',
-                                    style: TextStyle(
-                                      fontSize: isMobile ? 12 : 10,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      // height: screenSize.height*0.7,
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
                         ),
                       ),
+                      Positioned.fill(
+                        child: Container(
+                          color: Colors.black.withOpacity(0.3), // Adjust opacity as needed
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end, // Align text at the baseline
+                            children: [
+                              Text(
+                                'Trip to ${tripDetailsProvider.destinationName.text}',
+                                style: TextStyle(
+                                  fontSize: isMobile ? 20 : 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '${tripDetailsProvider.startDateController.text} - ${tripDetailsProvider.endDateController.text}',
+                                style: TextStyle(
+                                  fontSize: isMobile ? 12 : 10,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  // Bottom section with text and buttons
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(16.0),
+                      color: Colors.white,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const ListWeatherDays(),
                           const SizedBox(height: 10),
-                          Text(
-                            'Enjoy your trip to ${tripDetailsProvider.destinationName.text}!',
-                            style: TextStyle(
-                              fontSize: isMobile ? 16 : 14,
-                              color: const Color.fromARGB(255, 39, 37, 37),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
                           ElevatedButton.icon(
                             onPressed: () {
+                              // Add functionality here
                             },
                             icon: const Icon(Icons.add),
                             label: const Text('Create Equipment List'),
@@ -150,8 +131,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             }
           }

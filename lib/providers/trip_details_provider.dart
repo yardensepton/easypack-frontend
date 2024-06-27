@@ -1,4 +1,3 @@
-import 'package:easypack/trips_box.dart';
 import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/models/trip.dart';
 import 'package:easypack/models/trip_info.dart';
@@ -12,7 +11,7 @@ class TripDetailsProvider extends ChangeNotifier {
   TextEditingController destinationName = TextEditingController();
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
-  Box<Map> tripsBox = Hive.box('tripsBox');
+  Box<Map> tripsBox = Hive.box(Boxes.tripsBox);
   bool isLoading = false;
   Trip? cachedTrip;
   String? cachedDestinationUrl;
@@ -50,14 +49,15 @@ class TripDetailsProvider extends ChangeNotifier {
 
   void _handleWebSocketMessage(String message) {
     print('Received message: $message');
-    fetchUpcomingTrip(forceRefresh: true);
+    fetchPlannedTrips(forceRefresh: true,Timeline.future);
+    fetchPlannedTrips(forceRefresh: true,Timeline.past);
   }
 
   Future<void> fetchUpcomingTrip({bool forceRefresh = false}) async {
     if (cachedTrip == null || forceRefresh == true) {
       try {
         isLoading = true;
-        cachedTrip = await _tripService.getClosestUpcomingTrip();
+        cachedTrip = await _tripService.getTripById(plannedTrips!.first.tripId);
         if (cachedTrip != null) {
           hasUpcomingTrip = true;
           _updateControllers(cachedTrip);
@@ -78,10 +78,10 @@ class TripDetailsProvider extends ChangeNotifier {
 
   Future<List<TripInfo>?> fetchPlannedTrips(
     String timeline,
-  ) async {
+  {bool forceRefresh = false}) async {
     final cacheKey = 'plannedTrips_$timeline';
 
-    if (tripsBox.containsKey(cacheKey)) {
+    if (!forceRefresh & tripsBox.containsKey(cacheKey)) {
       print("Using cached data for $cacheKey");
       Map tripsMap = tripsBox.get(cacheKey) as Map;
       List<TripInfo> trips = List<TripInfo>.from(tripsMap[cacheKey]);
@@ -144,16 +144,5 @@ class TripDetailsProvider extends ChangeNotifier {
     }
   }
 
-  //   void _updateTripCard(Trip? trip) {
-  //   if (trip != null) {
-  //     destinationName.text = trip.destination.text;
-  //     startDateController.text = trip.departureDate;
-  //     endDateController.text = trip.returnDate;
-  //   }
-  // }
 
-  // void clearCache() {
-  //   cachedTrip = null;
-  //   tripsBox.clear();
-  // }
 }
