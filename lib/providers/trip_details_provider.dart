@@ -47,10 +47,14 @@ class TripDetailsProvider extends ChangeNotifier {
     );
   }
 
-  void _handleWebSocketMessage(String message) {
+
+//todo - because of the await the loading takes a lot time maybe add a loading widget
+  void _handleWebSocketMessage(String message) async {
     print('Received message: $message');
-    fetchPlannedTrips(forceRefresh: true,Timeline.future);
-    fetchPlannedTrips(forceRefresh: true,Timeline.past);
+    await fetchPlannedTrips(forceRefresh: true, Timeline.future);
+    await fetchPlannedTrips(forceRefresh: true, Timeline.past);
+    await fetchUpcomingTrip(forceRefresh: true);
+    notifyListeners();
   }
 
   Future<void> fetchUpcomingTrip({bool forceRefresh = false}) async {
@@ -76,9 +80,22 @@ class TripDetailsProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<TripInfo>?> fetchPlannedTrips(
-    String timeline,
-  {bool forceRefresh = false}) async {
+  Future<void> deleteTripById(String tripId) async {
+    try {
+      isLoading = true;
+      await _tripService.deleteTripById(tripId);
+      isLoading = false;
+      // notifyListeners();
+    } catch (e) {
+      isLoading = false;
+      throw Exception('$e');
+    }
+  }
+
+
+
+  Future<List<TripInfo>?> fetchPlannedTrips(String timeline,
+      {bool forceRefresh = false}) async {
     final cacheKey = 'plannedTrips_$timeline';
 
     if (!forceRefresh & tripsBox.containsKey(cacheKey)) {
@@ -143,6 +160,4 @@ class TripDetailsProvider extends ChangeNotifier {
       endDateController.text = FormatDate.getformatDate(trip.returnDate);
     }
   }
-
-
 }

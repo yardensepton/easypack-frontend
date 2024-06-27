@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/city.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:easypack/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +14,7 @@ class UserService {
   static const String loginUserUrl = '/users/login';
   static const String forgotPasswordUrl = '/users/forgot-password';
   static const storage = FlutterSecureStorage();
+  Box<String> currentUserBox = Hive.box(Boxes.currentUserBox);
 
   Future<String?> createUser(
       {required String name,
@@ -55,12 +58,14 @@ class UserService {
       final data = json.decode(response.body);
       String accessToken = data['access_token'];
       String refreshToken = data['refresh_token'];
+      String userName = data['user_name'];
       if (accessToken.isEmpty || refreshToken.isEmpty) {
         throw Exception("Access token or refresh token is empty");
       }
       print("in auth user service $data");
       await storage.write(key: 'access_token', value: accessToken);
       await storage.write(key: 'refresh_token', value: refreshToken);
+      currentUserBox.put("name", userName);
       return null;
     }
 

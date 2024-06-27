@@ -19,6 +19,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
     bool isMobile = screenSize.width < 600;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: FutureBuilder(
         future: Provider.of<TripDetailsProvider>(context, listen: false).fetchUpcomingTrip(),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {

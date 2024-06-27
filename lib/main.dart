@@ -21,7 +21,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.registerAdapter(TripInfoAdapter());
   await Hive.openBox<Map>(Boxes.tripsBox);
-
+  await Hive.openBox<String>(Boxes.currentUserBox);
 
   runApp(
     MultiProvider(

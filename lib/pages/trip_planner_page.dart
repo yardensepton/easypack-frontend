@@ -47,12 +47,11 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-          // title: Text("Hi ${context.watch<CreateUserProvider>().} add a new trip!"),
-          ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.logout_rounded),
-        onPressed: () => logOutButton(context),
+        backgroundColor: Colors.white,
+        title: const Text('New Trip'),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
@@ -131,9 +130,4 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
   }
 }
 
-void logOutButton(BuildContext context) {
-  Provider.of<TripDetailsProvider>(context, listen: false).reset();
-  Provider.of<AuthUserProvider>(context, listen: false).logOutUser(context);
-  Provider.of<CreateUserProvider>(context, listen: false)
-      .moveToLoginScreen(context);
-}
+

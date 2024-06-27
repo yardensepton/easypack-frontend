@@ -87,43 +87,6 @@ class TripService {
     }
   }
 
-  // Future<List<Trip>> getAllUsersTripsIn() async {
-  //   // final userService = UserService();
-  //   token = await userService.getAccessToken();
-  //   final url = Uri.parse('$apiUrl/$currentUser');
-  //   final headers = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer $token',
-  //   };
-
-  //   try {
-  //     http.Response response = await http.get(url, headers: headers);
-
-  //     if (response.statusCode == 200) {
-  //       List<Trip> trips = fromJsonToTrips(response);
-  //       return trips;
-  //     } else if (response.statusCode == 401) {
-  //       await userService.refreshAccessToken();
-  //       token = await userService.getAccessToken();
-  //       final refreshedHeaders = {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer $token',
-  //       };
-  //       response = await http.get(url, headers: refreshedHeaders);
-
-  //       if (response.statusCode == 200) {
-  //         List<Trip> trips = fromJsonToTrip(response);
-  //         return trips;
-  //       } else {
-  //         throw Exception(ServerError.getErrorMsg(jsonDecode(response.body)));
-  //       }
-  //     } else {
-  //       throw Exception(ServerError.getErrorMsg(jsonDecode(response.body)));
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Error: $e');
-  //   }
-  // }
 
   Trip fromJsonToTrip(http.Response response) {
     Map<String, dynamic> result = jsonDecode(response.body);
@@ -166,45 +129,38 @@ class TripService {
     return null;
   }
 
-  // Future<Trip?> getClosestUpcomingTrip() async {
-  //   final url = Uri.parse('$apiUrl$upcomingTrip');
-  //   String? token = await userService.getAccessToken();
+  Future<String?> deleteTripById(String tripId) async {
+    String? token = await userService.getAccessToken();
+    final url = Uri.parse('$apiUrl/$tripId');
 
-  //   final headers = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer $token',
-  //   };
-  //   try {
-  //     http.Response response = await http.get(url, headers: headers);
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    try {
+      http.Response response = await http.delete(url, headers: headers);
+      if (response.statusCode == 200) {
+        return null;
+      } else if (response.statusCode == 401) {
+        await userService.refreshAccessToken();
+        token = await userService.getAccessToken();
+        final refreshedHeaders = {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        };
+        response = await http.delete(url, headers: refreshedHeaders);
 
-  //     if (response.statusCode == 200) {
-  //       return fromJsonToTrip(response);
-  //     } else if (response.statusCode == 401) {
-  //       await userService.refreshAccessToken();
-  //       token = await userService.getAccessToken();
-  //       final refreshedHeaders = {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer $token',
-  //       };
-  //       response = await http.get(url, headers: refreshedHeaders);
-
-  //       if (response.statusCode == 200) {
-  //         return fromJsonToTrip(response);
-  //       } else if (response.statusCode == 404) {
-  //         return null;
-  //       }
-  //     } else {
-  //       throw Exception(ServerError.getErrorMsg(jsonDecode(response.body)));
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Error: $e');
-  //   }
-  //   return null;
-  // }
-
-  // void updateTripWeatherEvery48Hours(){
-
-  // }
+        if (response.statusCode == 200) {
+          return null;
+        } else {
+          throw Exception(ServerError.getErrorMsg(jsonDecode(response.body)));
+        }
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+    return null;
+  }
 
   Future<List<TripInfo>?> getPlannedTripsInfo(String timeline) async {
     final url = Uri.parse('$apiUrl/sorted?timeline=$timeline');

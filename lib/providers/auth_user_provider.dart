@@ -1,85 +1,25 @@
-// import 'dart:async';
-// import 'dart:ffi';
-// import 'package:flutter/material.dart';
-// import 'package:easypack/services/user_service.dart';
-
-// class AuthUserProvider with ChangeNotifier {
-//   final UserService _userAPIService = UserService();
-//   bool isAuthenticated = false;
-//   String? accessToken;
-//   String? refreshToken;
-
-//   AuthUserProvider(){
-//     getAccessToken();
-//   }
-
-//   Future<String?> authUser(
-//       BuildContext context, String username, String password) async {
-//     try {
-//       String? result = await _userAPIService.authUser(username, password);
-//       notifyListeners();
-//       if (result == null) {
-//         isAuthenticated = true;
-//       }
-//       return result;
-//     } catch (e) {
-//       return e.toString();
-//     }
-//   }
-
-//   Future<String?> forgotPassword(BuildContext context, String email) async {
-//     try {
-//       String? result = await _userAPIService.forgotPassword(email);
-//       notifyListeners();
-//       return result;
-//     } catch (e) {
-//       return e.toString();
-//     }
-//   }
-
-//   Future<void> getAccessToken() async {
-//     // try {
-//     accessToken = await _userAPIService.getAccessToken();
-//     notifyListeners();
-//     // return result;
-//     // } catch (e) {
-//     //   return e.toString();
-//     // }
-//   }
-
-//   Future<void> getRefreshToken(BuildContext context) async {
-//     // try {
-//     refreshToken = await _userAPIService.getRefreshToken();
-//     notifyListeners();
-//     // return result;
-//     // } catch (e) {
-//     //   return e.toString();
-//     // }
-//   }
-
-//   Future<void> logOutUser(BuildContext context) async {
-//     isAuthenticated = false;
-//     await _userAPIService.logOutUser();
-//     notifyListeners();
-//   }
-// }
 import 'dart:async';
+import 'package:easypack/constants/constants_classes.dart';
+import 'package:easypack/utils/string_extentsion.dart';
 import 'package:flutter/material.dart';
 import 'package:easypack/services/user_service.dart';
+import 'package:hive/hive.dart';
+
 
 class AuthUserProvider with ChangeNotifier {
   final UserService _userAPIService = UserService();
   bool isAuthenticated = false;
   String? accessToken;
   String? refreshToken;
-  String? userName;
+  TextEditingController userName = TextEditingController();
+  Box<String> currentUserBox = Hive.box(Boxes.currentUserBox);
 
-  AuthUserProvider(){
+  AuthUserProvider() {
     _initializeAuth();
   }
 
   Future<void> _initializeAuth() async {
-    await getAccessToken();
+     userName.text = currentUserBox.get("name")!.capitalize();
     notifyListeners();
   }
 
@@ -89,7 +29,8 @@ class AuthUserProvider with ChangeNotifier {
       String? result = await _userAPIService.authUser(username, password);
       if (result == null) {
         isAuthenticated = true;
-        userName=username;
+         userName.text = currentUserBox.get("name")!.capitalize();
+         print(currentUserBox.get("name")!.capitalize());
         notifyListeners();
       }
       return result;
@@ -108,14 +49,7 @@ class AuthUserProvider with ChangeNotifier {
     }
   }
 
-  // Future<void> getAccessToken() async {
-  //   accessToken = await _userAPIService.getAccessToken();
-  //   print("access token in provider is${accessToken!}");
-  //   isAuthenticated = accessToken != null;
-  //   notifyListeners();
-  // }
-
-    Future<void> getAccessToken() async {
+  Future<void> getAccessToken() async {
     try {
       accessToken = await _userAPIService.getAccessToken();
       if (accessToken != null) {
@@ -124,7 +58,7 @@ class AuthUserProvider with ChangeNotifier {
         isAuthenticated = false;
       }
     } catch (e) {
-      accessToken = null; 
+      accessToken = null;
       isAuthenticated = false;
     } finally {
       notifyListeners();
@@ -135,7 +69,7 @@ class AuthUserProvider with ChangeNotifier {
     try {
       refreshToken = await _userAPIService.getRefreshToken();
     } catch (e) {
-      refreshToken = null; 
+      refreshToken = null;
     } finally {
       notifyListeners();
     }
@@ -145,19 +79,19 @@ class AuthUserProvider with ChangeNotifier {
     isAuthenticated = false;
     accessToken = null;
     refreshToken = null;
-    userName=null;
+    userName.clear();
+    currentUserBox.clear();
     await _userAPIService.logOutUser();
     notifyListeners();
   }
 
-  
   Future<void> checklogOutUser() async {
-  accessToken = await _userAPIService.getAccessToken();
-  refreshToken = await _userAPIService.getRefreshToken();
-  if (accessToken == null || refreshToken==null){
-    isAuthenticated = false;
-    userName=null;
-    notifyListeners();
-  }
+    accessToken = await _userAPIService.getAccessToken();
+    refreshToken = await _userAPIService.getRefreshToken();
+    if (accessToken == null || refreshToken == null) {
+      isAuthenticated = false;
+      userName.clear();
+      notifyListeners();
+    }
   }
 }
