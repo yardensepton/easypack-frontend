@@ -180,7 +180,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 class TripCard extends StatelessWidget {
   final TripInfo trip;
 
-  const TripCard({Key? key, required this.trip}) : super(key: key);
+  const TripCard({super.key, required this.trip});
 
   @override
   Widget build(BuildContext context) {

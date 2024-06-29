@@ -1,3 +1,4 @@
+import 'package:easypack/widgets/weather_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
@@ -29,6 +30,9 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
             return const NoUpcomingTrip();
           } else {
             final tripDetailsProvider = Provider.of<TripDetailsProvider>(context);
+            if (tripDetailsProvider.isLoading) {
+              return const LoadingWidget();
+            }
 
             if (!tripDetailsProvider.hasUpcomingTrip) {
               return const NoUpcomingTrip();
@@ -88,7 +92,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const ListWeatherDays(),
+                          const WeatherInfo(),
                           const SizedBox(height: 10),
                           ElevatedButton.icon(
                             onPressed: () {

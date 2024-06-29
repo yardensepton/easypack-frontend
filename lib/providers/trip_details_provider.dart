@@ -13,6 +13,8 @@ class TripDetailsProvider extends ChangeNotifier {
   TextEditingController endDateController = TextEditingController();
   Box<Map> tripsBox = Hive.box(Boxes.tripsBox);
   bool isLoading = false;
+  bool isLoadingPastTrips = false;
+  bool isLoadingFutureTrips = false;
   Trip? cachedTrip;
   String? cachedDestinationUrl;
   List<TripInfo>? plannedTrips;
@@ -30,6 +32,12 @@ class TripDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+   @override
+  void dispose() {
+    _tripService.closeWebSocket();
+    super.dispose();
+  }
+
   void connectToWebSocket() {
     _tripService.listenToChanges(
       (message) {
@@ -40,6 +48,7 @@ class TripDetailsProvider extends ChangeNotifier {
         // Optionally handle error (e.g., reconnect or show error message)
       },
       () {
+        
         print('WebSocket connection closed');
 
         // Optionally handle closed connection (e.g., reconnect or cleanup)
@@ -47,13 +56,20 @@ class TripDetailsProvider extends ChangeNotifier {
     );
   }
 
-
 //todo - because of the await the loading takes a lot time maybe add a loading widget
   void _handleWebSocketMessage(String message) async {
     print('Received message: $message');
+    isLoadingFutureTrips = true;
+    notifyListeners();
     await fetchPlannedTrips(forceRefresh: true, Timeline.future);
+    isLoadingFutureTrips = false;
+    isLoadingPastTrips = true;
+    notifyListeners();
     await fetchPlannedTrips(forceRefresh: true, Timeline.past);
-    await fetchUpcomingTrip(forceRefresh: true);
+    isLoadingPastTrips = false;
+    notifyListeners();
+    cachedTrip = null;
+    fetchUpcomingTrip();
     notifyListeners();
   }
 
@@ -82,17 +98,11 @@ class TripDetailsProvider extends ChangeNotifier {
 
   Future<void> deleteTripById(String tripId) async {
     try {
-      isLoading = true;
       await _tripService.deleteTripById(tripId);
-      isLoading = false;
-      // notifyListeners();
     } catch (e) {
-      isLoading = false;
       throw Exception('$e');
     }
   }
-
-
 
   Future<List<TripInfo>?> fetchPlannedTrips(String timeline,
       {bool forceRefresh = false}) async {
@@ -112,7 +122,6 @@ class TripDetailsProvider extends ChangeNotifier {
       return trips;
     }
     try {
-      isLoading = true;
       if (timeline == Timeline.future) {
         plannedTrips = await _tripService.getPlannedTripsInfo(timeline);
         if (plannedTrips != null) {
@@ -134,23 +143,10 @@ class TripDetailsProvider extends ChangeNotifier {
           return [];
         }
       }
-
-      isLoading = false;
     } catch (e) {
-      isLoading = false;
       throw Exception('$e');
     }
     return null;
-  }
-
-  void pastOrFutureTrips(
-      String timeline, List<TripInfo>? trips, bool hasTrips) async {
-    trips = await _tripService.getPlannedTripsInfo(timeline);
-    if (trips != null) {
-      hasTrips = true;
-    } else {
-      hasTrips = false;
-    }
   }
 
   void _updateControllers(Trip? trip) {

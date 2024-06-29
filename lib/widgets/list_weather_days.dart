@@ -23,7 +23,7 @@ class ListWeatherDays extends StatelessWidget {
             itemBuilder: (context, index) {
               final weatherDay = tripDetailsProvider.cachedTrip?.weatherData?[index];
               return Container(
-                width: screenSize.width * 0.3, // Adjusted width
+                width: screenSize.width * 0.4, // Adjusted width
                 margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 padding: const EdgeInsets.all(8.0), // Reduced padding
                 decoration: BoxDecoration(
@@ -56,14 +56,14 @@ class ListWeatherDays extends StatelessWidget {
                       height: screenSize.width * 0.08,
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      weatherDay.conditions,
-                      style: const TextStyle(
-                        fontSize: 12, // Reduced font size
-                        color: Color.fromARGB(255, 55, 63, 67),
-                      ),
-                    ),
-                    const SizedBox(height: 4), // Reduced spacing
+                    // Text(
+                    //   weatherDay.conditions,
+                    //   style: const TextStyle(
+                    //     fontSize: 12, // Reduced font size
+                    //     color: Color.fromARGB(255, 55, 63, 67),
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 4), // Reduced spacing
                     Text(
                       '${weatherDay.tempMin}°C - ${weatherDay.tempMax}°C',
                       style: const TextStyle(

@@ -17,8 +17,8 @@ import 'package:easypack/providers/create_trip_provider.dart';
 import 'package:easypack/providers/create_user_provider.dart';
 
 Future<void> main() async {
-  await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   Hive.registerAdapter(TripInfoAdapter());
   await Hive.openBox<Map>(Boxes.tripsBox);
   await Hive.openBox<String>(Boxes.currentUserBox);

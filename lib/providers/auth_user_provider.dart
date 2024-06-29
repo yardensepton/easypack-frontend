@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:easypack/services/user_service.dart';
 import 'package:hive/hive.dart';
 
-
 class AuthUserProvider with ChangeNotifier {
   final UserService _userAPIService = UserService();
   bool isAuthenticated = false;
@@ -19,7 +18,12 @@ class AuthUserProvider with ChangeNotifier {
   }
 
   Future<void> _initializeAuth() async {
-     userName.text = currentUserBox.get("name")!.capitalize();
+    String? name = currentUserBox.get("name");
+    if (name != null) {
+      userName.text = name.capitalize();
+    } else {
+      userName.text = '';
+    }
     notifyListeners();
   }
 
@@ -29,8 +33,8 @@ class AuthUserProvider with ChangeNotifier {
       String? result = await _userAPIService.authUser(username, password);
       if (result == null) {
         isAuthenticated = true;
-         userName.text = currentUserBox.get("name")!.capitalize();
-         print(currentUserBox.get("name")!.capitalize());
+        userName.text = currentUserBox.get("name")!.capitalize();
+        print(currentUserBox.get("name")!.capitalize());
         notifyListeners();
       }
       return result;

@@ -12,7 +12,8 @@ class TripListPast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tripDetailsProvider = Provider.of<TripDetailsProvider>(context, listen: false);
+    final tripDetailsProvider =
+        Provider.of<TripDetailsProvider>(context, listen: false);
 
     return FutureBuilder<void>(
       future: tripDetailsProvider.fetchPlannedTrips(timeline),
@@ -22,12 +23,17 @@ class TripListPast extends StatelessWidget {
         } else if (snapshot.hasError) {
           return const Text("");
         } else {
-          if (tripDetailsProvider.pastTrips == null || tripDetailsProvider.pastTrips!.isEmpty) {
+          if (tripDetailsProvider.pastTrips == null ||
+              tripDetailsProvider.pastTrips!.isEmpty) {
             return const Text("");
           }
 
           return Consumer<TripDetailsProvider>(
             builder: (context, tripDetailsProvider, child) {
+              print(tripDetailsProvider.isLoadingPastTrips);
+              if (tripDetailsProvider.isLoadingPastTrips) {
+                return const LoadingWidget();
+              }
               return SizedBox(
                 height: 150,
                 child: ListView.builder(
