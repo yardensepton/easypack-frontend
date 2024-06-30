@@ -123,6 +123,7 @@ class WeatherInfo extends StatelessWidget {
                           height: 70,
                           child: SvgPicture.asset(
                             "assets/icons/${weatherDay.icon}.svg",
+                            // colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
                           ),
                         ),
                         Text(

@@ -32,7 +32,7 @@ class TripDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-   @override
+  @override
   void dispose() {
     _tripService.closeWebSocket();
     super.dispose();
@@ -48,7 +48,6 @@ class TripDetailsProvider extends ChangeNotifier {
         // Optionally handle error (e.g., reconnect or show error message)
       },
       () {
-        
         print('WebSocket connection closed');
 
         // Optionally handle closed connection (e.g., reconnect or cleanup)
@@ -56,10 +55,10 @@ class TripDetailsProvider extends ChangeNotifier {
     );
   }
 
-//todo - because of the await the loading takes a lot time maybe add a loading widget
   void _handleWebSocketMessage(String message) async {
     print('Received message: $message');
     isLoadingFutureTrips = true;
+    cachedTrip = null;
     notifyListeners();
     await fetchPlannedTrips(forceRefresh: true, Timeline.future);
     isLoadingFutureTrips = false;
@@ -68,7 +67,6 @@ class TripDetailsProvider extends ChangeNotifier {
     await fetchPlannedTrips(forceRefresh: true, Timeline.past);
     isLoadingPastTrips = false;
     notifyListeners();
-    cachedTrip = null;
     fetchUpcomingTrip();
     notifyListeners();
   }
@@ -96,9 +94,19 @@ class TripDetailsProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteTripById(String tripId) async {
+  Future<void> deleteTripById(String tripId, String boxKey) async {
     try {
-      await _tripService.deleteTripById(tripId);
+      await _tripService.deleteTripById(
+          tripId);
+
+      if (tripsBox.containsKey(boxKey)) {
+        Map tripsMap = tripsBox.get(boxKey)!;
+        if (tripsMap.containsKey(tripId)) {
+          tripsMap.remove(tripId); 
+          await tripsBox.put(
+              boxKey, tripsMap); 
+        }
+      }
     } catch (e) {
       throw Exception('$e');
     }

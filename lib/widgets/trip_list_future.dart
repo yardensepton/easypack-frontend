@@ -1,3 +1,4 @@
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:easypack/widgets/trip_card.dart';
@@ -41,7 +42,7 @@ class _TripListFutureState extends State<TripListFuture> {
                   itemBuilder: (context, index) {
                     if (index < tripDetailsProvider.plannedTrips!.length) {
                       TripInfo? trip = tripDetailsProvider.plannedTrips![index];
-                      return TripCard(trip: trip);
+                      return TripCard(trip: trip,boxKey: Boxes.cacheFutureTripKey,);
                     } else {
                       return const SizedBox(); // Placeholder, handle out-of-bounds index gracefully
                     }

@@ -1,69 +1,49 @@
-import 'dart:async';
 import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
-class WebSocketManager {
-  late WebSocketChannel _channel;
-  late String _wsUrl;
-  late Function(String) _onMessage;
-  late Function(dynamic) _onError;
-  late Function() _onDone;
-  late bool _shouldReconnect;
+class WebsocketManager {
+  static final WebsocketManager _webSocketService =
+      WebsocketManager._internal();
+  factory WebsocketManager() {
+    return _webSocketService;
+  }
+  WebsocketManager._internal();
 
-  WebSocketManager({
-    required String wsUrl,
-    required Function(String) onMessage,
-    required Function(dynamic) onError,
-    required Function() onDone,
-  }) {
-    _wsUrl = wsUrl;
-    _onMessage = onMessage;
-    _onError = onError;
-    _onDone = onDone;
-    _shouldReconnect = true;
+  IOWebSocketChannel? channel;
+  // DUMMY URL; DO NOT TRY TO IMPLEMENT
+  String websocketUrl = 'ws://test.example.com?token=eySjks7sadjklwaskfjtAw8sS';
 
-    _connect();
+  void init() {
+    // INITIATE A CONNECTION THROUGH AN IOWebsocketChannel channel
+    channel = IOWebSocketChannel.connect(websocketUrl);
+    if (channel != null) {
+      // IF CHANNEL IS INITIALIZED AND WEBSOCKET IS CONNECTED
+      // LISTEN TO WEBSOCKET EVENTS
+      channel!.stream.listen(_eventListener).onDone(_reconnect);
+    }
   }
 
-  void _connect() {
-    try {
-      _channel = IOWebSocketChannel.connect(Uri.parse(_wsUrl));
-      _channel.stream.listen(
-        (message) {
-          _onMessage(message);
-        },
-        onError: (error) {
-          _onError(error);
-          if (_shouldReconnect) {
-            _reconnect();
-          }
-        },
-        onDone: () {
-          _onDone();
-          if (_shouldReconnect) {
-            _reconnect();
-          }
-        },
-      );
-    } catch (e) {
-      _onError(e);
-      if (_shouldReconnect) {
-        _reconnect();
-      }
+  void transmit(dynamic data) {
+    // THIS METHOD CAN BE CALLED ANYWHERE THROUGHOUT THE APP
+    // AND CAN BE USED TO SEND DATA FROM THE CLIENT TO THE SERVER
+    // VIA THE WEBSOCKET
+    if (channel != null) {
+      channel!.sink.add(data);
+    }
+  }
+
+  void _eventListener(dynamic event) {
+    if (event == 'message') {
+      // PERFORM OPERATIONS ON THE EVENT PAYLOAD
     }
   }
 
   void _reconnect() {
-    const int reconnectDelaySeconds = 5; // Adjust as needed
-    Timer(const Duration(seconds: reconnectDelaySeconds), () {
-      if (_shouldReconnect) {
-        _connect();
-      }
-    });
-  }
-
-  void close() {
-    _shouldReconnect = false;
-    _channel.sink.close();
+    // IF CONTROL HAS TRANSFERRED TO THIS FUNCTION, IT MEANS
+    // THAT THE WEBSOCKET HAS DISCONNECTED.
+    if (channel != null) {
+      // CLOSE THE PREVIOUS WEBSOCKET CHANNEL AND ATTEMPT A RECONNECTION
+      channel!.sink.close();
+      init();
+    }
   }
 }
