@@ -58,7 +58,7 @@ class TripDetailsProvider extends ChangeNotifier {
   void _handleWebSocketMessage(String message) async {
     print('Received message: $message');
     isLoadingFutureTrips = true;
-    cachedTrip = null;
+    // cachedTrip = null;
     notifyListeners();
     await fetchPlannedTrips(forceRefresh: true, Timeline.future);
     isLoadingFutureTrips = false;
@@ -67,44 +67,88 @@ class TripDetailsProvider extends ChangeNotifier {
     await fetchPlannedTrips(forceRefresh: true, Timeline.past);
     isLoadingPastTrips = false;
     notifyListeners();
-    fetchUpcomingTrip();
+    await fetchUpcomingTrip(forceRefresh: true);
     notifyListeners();
   }
 
+  // Future<void> fetchUpcomingTrip({bool forceRefresh = false}) async {
+  //   if (cachedTrip == null || forceRefresh == true) {
+  //     try {
+  //       isLoading = true;
+  //       if (plannedTrips == null) {
+  //         print("i dont have trips");
+  //         hasUpcomingTrip = false;
+  //         destinationName.text = '';
+  //         startDateController.text = '';
+  //         endDateController.text = '';
+  //         cachedTrip=null;
+  //       } else {
+  //         if (plannedTrips != null && plannedTrips!.isNotEmpty) {
+  //           cachedTrip =
+  //               await _tripService.getTripById(plannedTrips!.first.tripId);
+  //           if (cachedTrip != null) {
+  //             hasUpcomingTrip = true;
+  //             _updateControllers(cachedTrip);
+  //             cachedDestinationUrl = cachedTrip?.destination.cityUrl;
+  //           }
+  //         }
+  //       }
+  //       isLoading = false;
+  //     } catch (e) {
+  //       isLoading = false;
+  //       throw Exception('$e');
+  //     }
+  //   }
+  // }
+
   Future<void> fetchUpcomingTrip({bool forceRefresh = false}) async {
-    if (cachedTrip == null || forceRefresh == true) {
-      try {
-        isLoading = true;
-        cachedTrip = await _tripService.getTripById(plannedTrips!.first.tripId);
-        if (cachedTrip != null) {
-          hasUpcomingTrip = true;
-          _updateControllers(cachedTrip);
-          cachedDestinationUrl = cachedTrip?.destination.cityUrl;
-        } else {
-          hasUpcomingTrip = false;
-          destinationName.text = '';
-          startDateController.text = '';
-          endDateController.text = '';
-        }
-        isLoading = false;
-      } catch (e) {
-        isLoading = false;
-        throw Exception('$e');
-      }
+  try {
+    isLoading = true;
+    
+    if (plannedTrips == null || forceRefresh) {
+      await fetchPlannedTrips(Timeline.future, forceRefresh: true);
     }
+
+    if (plannedTrips == null || plannedTrips!.isEmpty) {
+      hasUpcomingTrip = false;
+      cachedTrip = null;
+      destinationName.text = '';
+      startDateController.text = '';
+      endDateController.text = '';
+      isLoading = false;
+      return;
+    }
+    cachedTrip = await _tripService.getTripById(plannedTrips!.first.tripId);
+    
+    if (cachedTrip != null) {
+      hasUpcomingTrip = true;
+      _updateControllers(cachedTrip!);
+      cachedDestinationUrl = cachedTrip!.destination.cityUrl;
+    } else {
+      hasUpcomingTrip = false;
+      destinationName.text = '';
+      startDateController.text = '';
+      endDateController.text = '';
+    }
+
+    isLoading = false;
+
+  } catch (e) {
+    isLoading = false;
+    throw Exception('$e');
   }
+}
+
 
   Future<void> deleteTripById(String tripId, String boxKey) async {
     try {
-      await _tripService.deleteTripById(
-          tripId);
+      await _tripService.deleteTripById(tripId);
 
       if (tripsBox.containsKey(boxKey)) {
         Map tripsMap = tripsBox.get(boxKey)!;
         if (tripsMap.containsKey(tripId)) {
-          tripsMap.remove(tripId); 
-          await tripsBox.put(
-              boxKey, tripsMap); 
+          tripsMap.remove(tripId);
+          await tripsBox.put(boxKey, tripsMap);
         }
       }
     } catch (e) {

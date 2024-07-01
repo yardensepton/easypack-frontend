@@ -2,6 +2,7 @@ import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/providers/create_user_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
+import 'package:easypack/widgets/custom_drawer.dart';
 import 'package:easypack/widgets/see_all_button.dart';
 import 'package:easypack/widgets/trip_list_future.dart';
 import 'package:easypack/widgets/trip_list_past.dart';
@@ -21,6 +22,7 @@ void logOutButton(BuildContext context) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -56,11 +58,11 @@ void logOutButton(BuildContext context) {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.logout_rounded,color: Colors.white,),
-        onPressed: () => logOutButton(context),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.grey,
+      //   child: const Icon(Icons.logout_rounded,color: Colors.white,),
+      //   onPressed: () => logOutButton(context),
+      // ),
     );
   }
 }

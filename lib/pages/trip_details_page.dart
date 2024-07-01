@@ -2,7 +2,6 @@ import 'package:easypack/widgets/weather_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
-import 'package:easypack/widgets/list_weather_days.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:easypack/widgets/no_upcoming_trip.dart';
 
