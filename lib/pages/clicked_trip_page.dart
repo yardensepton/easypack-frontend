@@ -24,7 +24,7 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: Colors.white, 
+        foregroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder(
@@ -61,13 +61,11 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
                       ),
                       Positioned.fill(
                         child: Container(
-                          color: Colors.black
-                              .withOpacity(0.3), // Adjust opacity as needed
+                          color: Colors.black.withOpacity(0.3),
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment
-                                .end, // Align text at the baseline
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
                                 'Trip to ${clickTripProvider.destinationName.text}',
@@ -92,41 +90,30 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
                       ),
                     ],
                   ),
-                  // Bottom section with text and buttons
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(16.0),
-                      color: Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const WeatherInfo(),
-                          const SizedBox(height: 10),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              // Add functionality here
-                            },
-                            icon: const Icon(Icons.add),
-                            label: const Text('Create Equipment List'),
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.green,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: isMobile ? 20 : 25,
-                                vertical: isMobile ? 10 : 12,
-                              ),
-                              textStyle:
-                                  TextStyle(fontSize: isMobile ? 16 : 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                        ],
+                  WeatherInfo(
+                    weatherData: clickTripProvider.clickedTrip?.weatherData ?? [],
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Add functionality here
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text('Create Equipment List'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.green,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isMobile ? 20 : 25,
+                        vertical: isMobile ? 10 : 12,
+                      ),
+                      textStyle: TextStyle(fontSize: isMobile ? 16 : 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
+                  const SizedBox(height: 10),
                 ],
               );
             }

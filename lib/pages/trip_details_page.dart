@@ -6,7 +6,6 @@ import 'package:easypack/widgets/loading_widget.dart';
 import 'package:easypack/widgets/no_upcoming_trip.dart';
 
 class TripDetailsPage extends StatefulWidget {
-  
   const TripDetailsPage({super.key});
 
   @override
@@ -22,14 +21,16 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder(
-        future: Provider.of<TripDetailsProvider>(context, listen: false).fetchUpcomingTrip(),
+        future: Provider.of<TripDetailsProvider>(context, listen: false)
+            .fetchUpcomingTrip(),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: LoadingWidget());
           } else if (snapshot.hasError) {
             return const NoUpcomingTrip();
           } else {
-            final tripDetailsProvider = Provider.of<TripDetailsProvider>(context);
+            final tripDetailsProvider =
+                Provider.of<TripDetailsProvider>(context);
             if (tripDetailsProvider.isLoading) {
               return const LoadingWidget();
             }
@@ -43,11 +44,14 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                   Stack(
                     children: [
                       Container(
-                        height: isMobile ? screenSize.height * 0.3 : screenSize.height * 0.3,
+                        height: isMobile
+                            ? screenSize.height * 0.3
+                            : screenSize.height * 0.3,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(
-                              tripDetailsProvider.cachedDestinationUrl ?? 'assets/background/gradient.jpg',
+                              tripDetailsProvider.cachedDestinationUrl ??
+                                  'assets/background/gradient.jpg',
                             ),
                             fit: BoxFit.cover,
                           ),
@@ -55,11 +59,13 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                       ),
                       Positioned.fill(
                         child: Container(
-                          color: Colors.black.withOpacity(0.3), // Adjust opacity as needed
+                          color: Colors.black
+                              .withOpacity(0.3), // Adjust opacity as needed
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.end, // Align text at the baseline
+                            mainAxisAlignment: MainAxisAlignment
+                                .end, // Align text at the baseline
                             children: [
                               Text(
                                 'Trip to ${tripDetailsProvider.destinationName.text}',
@@ -73,10 +79,9 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                               Text(
                                 '${tripDetailsProvider.startDateController.text} - ${tripDetailsProvider.endDateController.text}',
                                 style: TextStyle(
-                                  fontSize: isMobile ? 12 : 10,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                                ),
+                                    fontSize: isMobile ? 12 : 10,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
@@ -92,7 +97,11 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const WeatherInfo(),
+                          WeatherInfo(
+                            weatherData:
+                                tripDetailsProvider.cachedTrip?.weatherData ??
+                                    [],
+                          ),
                           const SizedBox(height: 10),
                           ElevatedButton.icon(
                             onPressed: () {
@@ -107,7 +116,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                                 horizontal: isMobile ? 20 : 25,
                                 vertical: isMobile ? 10 : 12,
                               ),
-                              textStyle: TextStyle(fontSize: isMobile ? 16 : 14),
+                              textStyle:
+                                  TextStyle(fontSize: isMobile ? 16 : 14),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -116,7 +126,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                           const SizedBox(height: 10),
                           ElevatedButton.icon(
                             onPressed: () {
-                              tripDetailsProvider.fetchUpcomingTrip(forceRefresh: true);
+                              tripDetailsProvider.fetchUpcomingTrip(
+                                  forceRefresh: true);
                             },
                             icon: const Icon(Icons.refresh),
                             label: const Text('Refresh'),
@@ -127,7 +138,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                                 horizontal: isMobile ? 20 : 25,
                                 vertical: isMobile ? 10 : 12,
                               ),
-                              textStyle: TextStyle(fontSize: isMobile ? 16 : 14),
+                              textStyle:
+                                  TextStyle(fontSize: isMobile ? 16 : 14),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),

@@ -1,9 +1,6 @@
-import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/providers/auto_complete_provider.dart';
 import 'package:easypack/providers/choose_date_range_provider.dart';
 import 'package:easypack/providers/create_trip_provider.dart';
-import 'package:easypack/providers/create_user_provider.dart';
-import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/utils/validators.dart';
 import 'package:easypack/widgets/cities_bottom_sheet.dart';
 import 'package:easypack/widgets/custom_date_picker_dialog.dart';
