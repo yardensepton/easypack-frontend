@@ -1,4 +1,5 @@
 import 'package:easypack/models/trip_info.dart';
+import 'package:easypack/pages/clicked_trip_page.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/utils/format_date.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +9,12 @@ class TripCard extends StatelessWidget {
   final TripInfo trip;
   final String boxKey;
 
-  const TripCard({super.key, required this.trip,required this.boxKey});
+  const TripCard({super.key, required this.trip, required this.boxKey});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () => _openClickTripPage(context, trip.tripId),
       onLongPress: () => _showDeleteConfirmationDialog(context, trip.tripId),
       child: Container(
         width: 150,
@@ -101,7 +103,7 @@ class TripCard extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Provider.of<TripDetailsProvider>(context, listen: false)
-                    .deleteTripById(tripId,boxKey);
+                    .deleteTripById(tripId, boxKey);
                 Navigator.of(context).pop();
               },
               child: const Text('Delete'),
@@ -109,6 +111,15 @@ class TripCard extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  void _openClickTripPage(BuildContext context, String tripId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ClickedTripPage(tripId: tripId),
+      ),
     );
   }
 }

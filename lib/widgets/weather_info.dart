@@ -76,6 +76,7 @@ import 'package:flutter_svg/flutter_svg.dart'; // Note the updated import
 import 'package:provider/provider.dart';
 
 class WeatherInfo extends StatelessWidget {
+  
   const WeatherInfo({super.key});
 
   @override

@@ -4,6 +4,7 @@ import 'package:easypack/navigation_menu.dart';
 import 'package:easypack/pages/my_trips_page.dart';
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
 import 'package:easypack/pages/trip_planner_page.dart';
+import 'package:easypack/providers/click_trip_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => ChooseDateRangeProvider()),
         ChangeNotifierProvider(create: (context) => CreateTripProvider()),
         ChangeNotifierProvider(create: (context) => TripDetailsProvider()),
+        ChangeNotifierProvider(create: (context) => ClickTripProvider()),
       ],
       child: const MyApp(),
     ),
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
     Provider.of<TripDetailsProvider>(context, listen: false)
         .connectToWebSocket();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.redHatDisplayTextTheme(
           Theme.of(context).textTheme,

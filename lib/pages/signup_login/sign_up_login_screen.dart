@@ -14,7 +14,7 @@ class SignUpLoginScreen extends StatelessWidget {
     final result =
         await loginProvider.authUser(context, data.name, data.password);
     if (result == null && context.mounted) {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => const NavigationMenu(),

@@ -46,6 +46,7 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -129,5 +130,3 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
     );
   }
 }
-
-

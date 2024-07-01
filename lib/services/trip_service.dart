@@ -64,6 +64,7 @@ class TripService {
   }
 
    void closeWebSocket() {
+    print("in close");
     if (_channel != null) {
       _channel!.sink.close();
       _channel = null;
