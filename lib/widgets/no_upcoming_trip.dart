@@ -18,7 +18,7 @@ class NoUpcomingTrip extends StatelessWidget {
           ),
           ElevatedButton.icon(
             onPressed: () {
-              Navigator.pushNamed(context, '/addTrip'); // Navigate to add trip screen
+              Navigator.pushNamed(context, '/tripPlanner'); // Navigate to add trip screen
             },
             icon: const Icon(Icons.add),
             label: const Text('Add a Trip'),

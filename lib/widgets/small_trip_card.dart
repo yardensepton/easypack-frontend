@@ -5,11 +5,11 @@ import 'package:easypack/utils/format_date.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TripCard extends StatelessWidget {
+class SmallTripCard extends StatelessWidget {
   final TripInfo trip;
   final String boxKey;
 
-  const TripCard({super.key, required this.trip, required this.boxKey});
+  const SmallTripCard({super.key, required this.trip, required this.boxKey});
 
   @override
   Widget build(BuildContext context) {

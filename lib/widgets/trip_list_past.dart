@@ -1,7 +1,7 @@
 import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/widgets/loading_widget.dart';
-import 'package:easypack/widgets/trip_card.dart';
+import 'package:easypack/widgets/small_trip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
@@ -43,7 +43,7 @@ class TripListPast extends StatelessWidget {
                   itemBuilder: (context, index) {
                     if (index < tripDetailsProvider.pastTrips!.length) {
                       TripInfo? trip = tripDetailsProvider.pastTrips![index];
-                      return TripCard(trip: trip,boxKey: Boxes.cachePastTripKey,);
+                      return SmallTripCard(trip: trip,boxKey: Boxes.cachePastTripKey,);
                     } else {
                       return const SizedBox(); // Placeholder, handle out-of-bounds index gracefully
                     }

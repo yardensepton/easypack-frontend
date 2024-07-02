@@ -23,9 +23,9 @@ void logOutButton(BuildContext context) {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const CustomDrawer(),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white10,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white10,
         title: const Text('My Trips'),
         centerTitle: true,
       ),

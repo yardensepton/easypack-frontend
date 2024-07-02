@@ -1,12 +1,8 @@
-import 'package:easypack/pages/create_packing_list_page.dart';
-import 'package:easypack/pages/home_user.dart';
 import 'package:easypack/pages/my_trips_page.dart';
-import 'package:easypack/pages/packing_list_page.dart';
-import 'package:easypack/pages/trip_details_page.dart';
 import 'package:easypack/pages/trip_planner_page.dart';
+import 'package:easypack/pages/upcoming_trip_page.dart';
 import 'package:easypack/providers/auto_complete_provider.dart';
 import 'package:easypack/providers/choose_date_range_provider.dart';
-import 'package:easypack/providers/create_trip_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
@@ -38,7 +34,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
     // const HomeUser(),
     const MyTripsPage(),
     const TripPlannerPage(),
-    const TripDetailsPage()
+    const UpcomingTripPage()
   ];
 
   @override

@@ -1,10 +1,12 @@
 import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/navigation_menu.dart';
+import 'package:easypack/pages/intro_pages/introduction_manager.dart';
 import 'package:easypack/pages/my_trips_page.dart';
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
 import 'package:easypack/pages/trip_planner_page.dart';
 import 'package:easypack/providers/click_trip_provider.dart';
+import 'package:easypack/providers/first_launch_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TripInfoAdapter());
   await Hive.openBox<Map>(Boxes.tripsBox);
+  await Hive.openBox<bool>(Boxes.settingsBox);
   await Hive.openBox<String>(Boxes.currentUserBox);
 
   runApp(
@@ -34,6 +37,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => CreateTripProvider()),
         ChangeNotifierProvider(create: (context) => TripDetailsProvider()),
         ChangeNotifierProvider(create: (context) => ClickTripProvider()),
+        ChangeNotifierProvider(create: (context) => FirstLaunchProvider()),
       ],
       child: const MyApp(),
     ),
@@ -47,6 +51,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<TripDetailsProvider>(context, listen: false)
         .connectToWebSocket();
+
+    bool firstLaunch = Provider.of<FirstLaunchProvider>(context, listen: false)
+        .isFirstLaunch();
+    print(" is it first launch? $firstLaunch");
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -54,13 +63,14 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      initialRoute: '/',
+      initialRoute:firstLaunch? '/introduction' : '/',
       routes: {
         '/': (context) => const AuthChecker(),
         '/login': (context) => const SignUpLoginScreen(),
         '/navigation': (context) => const NavigationMenu(),
         '/tripPlanner': (context) => const TripPlannerPage(),
         '/myTrips': (context) => const MyTripsPage(),
+        '/introduction': (context) => const IntroductionManager(),
       },
     );
   }
@@ -71,7 +81,6 @@ class AuthChecker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("AuthChecker build called");
     return FutureBuilder(
       future: Provider.of<AuthUserProvider>(context, listen: false)
           .getAccessToken(),
@@ -101,3 +110,5 @@ class AuthChecker extends StatelessWidget {
     );
   }
 }
+
+

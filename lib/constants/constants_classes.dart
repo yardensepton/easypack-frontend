@@ -12,6 +12,7 @@ class Timeline {
 class Boxes {
   static const String tripsBox = "tripsBox";
   static const String currentUserBox = "currentUserBox";
+  static const String settingsBox = 'settingsBox';
   static const String cacheFutureTripKey = 'plannedTrips_future';
   static const String cachePastTripKey = 'plannedTrips_past';
 
