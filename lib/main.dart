@@ -8,6 +8,7 @@ import 'package:easypack/pages/trip_planner_page.dart';
 import 'package:easypack/providers/click_trip_provider.dart';
 import 'package:easypack/providers/first_launch_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
+import 'package:easypack/websocket_init.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,29 +50,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<TripDetailsProvider>(context, listen: false)
-        .connectToWebSocket();
 
     bool firstLaunch = Provider.of<FirstLaunchProvider>(context, listen: false)
         .isFirstLaunch();
-    print(" is it first launch? $firstLaunch");
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: GoogleFonts.redHatDisplayTextTheme(
-          Theme.of(context).textTheme,
+    return WebSocketInitializer(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          textTheme: GoogleFonts.redHatDisplayTextTheme(
+            Theme.of(context).textTheme,
+          ),
         ),
+        initialRoute:firstLaunch? '/introduction' : '/',
+        routes: {
+          '/': (context) => const AuthChecker(),
+          '/login': (context) => const SignUpLoginScreen(),
+          '/navigation': (context) => const NavigationMenu(),
+          '/tripPlanner': (context) => const TripPlannerPage(),
+          '/myTrips': (context) => const MyTripsPage(),
+          '/introduction': (context) => const IntroductionManager(),
+        },
       ),
-      initialRoute:firstLaunch? '/introduction' : '/',
-      routes: {
-        '/': (context) => const AuthChecker(),
-        '/login': (context) => const SignUpLoginScreen(),
-        '/navigation': (context) => const NavigationMenu(),
-        '/tripPlanner': (context) => const TripPlannerPage(),
-        '/myTrips': (context) => const MyTripsPage(),
-        '/introduction': (context) => const IntroductionManager(),
-      },
     );
   }
 }
