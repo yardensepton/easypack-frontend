@@ -1,13 +1,16 @@
 import 'package:easypack/models/weather.dart';
+import 'package:easypack/pages/create_packing_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:easypack/widgets/weather_info.dart';
 
 class TripBottomSection extends StatelessWidget {
+  final String tripTitle; 
   final List<Weather> weatherData;
   final bool isMobile;
 
   const TripBottomSection({
     super.key,
+    required this.tripTitle,
     required this.weatherData,
     required this.isMobile,
   });
@@ -25,10 +28,13 @@ class TripBottomSection extends StatelessWidget {
             const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () {
-                // Add functionality here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  CreatePackingListPage(tripTitle:tripTitle)),
+                );
               },
               icon: const Icon(Icons.add),
-              label: const Text('Create Equipment List'),
+              label: const Text('Create Packing List'),
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.green,

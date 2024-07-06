@@ -1,12 +1,16 @@
+import 'package:easypack/providers/click_trip_provider.dart';
+import 'package:easypack/providers/trip_details_provider.dart';
+import 'package:easypack/widgets/create_packing_list_header.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class CreatePackingListPage extends StatefulWidget {
-  final String destination = 'Paris';
+  final String tripTitle;
   final DateTime departureDate = DateTime(2023, 5, 1);
   final DateTime returnDate = DateTime(2023, 5, 7);
 
-  CreatePackingListPage({super.key});
+  CreatePackingListPage({super.key,required this.tripTitle});
 
   @override
   _CreatePackingListPageState createState() => _CreatePackingListPageState();
@@ -22,34 +26,26 @@ class _CreatePackingListPageState extends State<CreatePackingListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+    Size screenSize = MediaQuery.of(context).size;
+    bool isMobile = screenSize.width < 600;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.white10,
       appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Trip to ${widget.destination}',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'From: ${dateFormat.format(widget.departureDate)} - To: ${dateFormat.format(widget.returnDate)}',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.white70,
-              ),
-            ),
-          ],
-        ),
+        elevation: 0,
+        backgroundColor: Colors.white10,
+        title: const Text('New Packing List'),
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SizedBox(
         child: Column(
           children: [
+            CreatePackingListHeader(
+              tripTitle:
+                  widget.tripTitle,
+              isMobile: isMobile,
+            ),
             Expanded(
               child: GridView.builder(
                 itemCount: categories.length,

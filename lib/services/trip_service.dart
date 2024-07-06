@@ -11,8 +11,8 @@ import 'dart:convert';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class TripService {
-  // String apiUrl = 'http://localhost:8000/trips';
-  String apiUrl = 'http://192.168.1.197:8000/trips';
+  String apiUrl = 'http://localhost:8000/trips';
+  // String apiUrl = 'http://192.168.1.197:8000/trips';
   String upcomingTrip = '/upcoming-trip';
   UserService userService = UserService();
   WebSocketChannel? _channel;

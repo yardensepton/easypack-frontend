@@ -50,6 +50,7 @@ class _UpcomingTripPageState extends State<UpcomingTripPage> {
                     isMobile: isMobile,
                   ),
                   TripBottomSection(
+                    tripTitle:tripDetailsProvider.destinationName.text ,
                     weatherData: tripDetailsProvider.cachedTrip?.weatherData ?? [],
                     isMobile: isMobile,
                   ),
