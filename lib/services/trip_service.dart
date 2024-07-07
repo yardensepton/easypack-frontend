@@ -1,21 +1,22 @@
 import 'dart:async';
 
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/city.dart';
 import 'package:easypack/models/trip.dart';
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/services/user_service.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 class TripService {
   String apiUrl = 'http://localhost:8000/trips';
   // String apiUrl = 'http://192.168.1.197:8000/trips';
   String upcomingTrip = '/upcoming-trip';
   UserService userService = UserService();
-  WebSocketChannel? _channel;
+  Box<TripInfo> tripsBox = Hive.box(Boxes.tripsBox);
   Timer? timer;
   String? token;
 
@@ -39,10 +40,11 @@ class TripService {
     final body = json.encode(newTrip.toJson());
 
     final response = await http.post(url, headers: headers, body: body);
-    if (response.statusCode == 403) {
-      await userService.logOutUser();
-    }
     if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      print("the response is$responseData");
+      Trip trip = Trip.fromJson(responseData);
+      saveInHive(trip);
       return null;
     } else if (response.statusCode == 401) {
       await userService.refreshAccessToken();
@@ -54,6 +56,9 @@ class TripService {
       };
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        Trip trip = Trip.fromJson(responseData);
+        saveInHive(trip);
         return null;
       } else {
         return ServerError.getErrorMsg(jsonDecode(response.body));
@@ -63,38 +68,17 @@ class TripService {
     }
   }
 
-   void closeWebSocket() {
-    print("in close");
-    if (_channel != null) {
-      _channel!.sink.close();
-      _channel = null;
-    }
+  void saveInHive(Trip trip) async {
+    print("${trip.id} trying to add trip to box");
+    TripInfo tripInfo = TripInfo(
+        tripId: trip.id!,
+        destination: trip.destination.text,
+        departureDate: trip.departureDate,
+        returnDate: trip.returnDate,
+        cityUrl: trip.destination.cityUrl!);
+    print(tripInfo);
+    await tripsBox.put(trip.id, tripInfo);
   }
-
-  void listenToChanges(Function(String) onMessage, Function(dynamic) onError,
-      Function() onDone) {
-    // const wsUrl = 'ws://localhost:8000/trips/ws/trip_updates';
-    const wsUrl = 'ws://192.168.1.197:8000/trips/ws/trip_updates';
-
-    try {
-      _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
-      _channel!.stream.listen(
-        (message) {
-          onMessage(message);
-        },
-        onError: (error) {
-          onError(error);
-        },
-        onDone: () {
-          _channel?.sink.close();
-          onDone();
-        },
-      );
-    } catch (e) {
-      onError(e);
-    }
-  }
-
 
   Trip fromJsonToTrip(http.Response response) {
     Map<String, dynamic> result = jsonDecode(response.body);
@@ -170,8 +154,8 @@ class TripService {
     return null;
   }
 
-  Future<List<TripInfo>?> getPlannedTripsInfo(String timeline) async {
-    final url = Uri.parse('$apiUrl/sorted?timeline=$timeline');
+  Future<List<TripInfo>?> getPlannedTripsInfo() async {
+    final url = Uri.parse('$apiUrl/sorted');
     String? token = await userService.getAccessToken();
 
     final headers = {

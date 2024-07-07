@@ -31,6 +31,7 @@ class CreateTripProvider with ChangeNotifier {
               context, "Trip created successfuly!");
           // nameController.clear();
           selectedCity = null;
+          notifyListeners();
           // isLoading = false;
           // notifyListeners();
         } else {

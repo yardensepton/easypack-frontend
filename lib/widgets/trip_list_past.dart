@@ -24,8 +24,7 @@ class TripListPast extends StatelessWidget {
         } else if (snapshot.hasError) {
           return const Text("");
         } else {
-          if (tripDetailsProvider.pastTrips == null ||
-              tripDetailsProvider.pastTrips!.isEmpty) {
+          if (tripDetailsProvider.pastTrips.isEmpty) {
             return const Text("");
           }
 
@@ -39,11 +38,11 @@ class TripListPast extends StatelessWidget {
                 height: 150,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: tripDetailsProvider.pastTrips!.length,
+                  itemCount: tripDetailsProvider.pastTrips.length,
                   itemBuilder: (context, index) {
-                    if (index < tripDetailsProvider.pastTrips!.length) {
-                      TripInfo? trip = tripDetailsProvider.pastTrips![index];
-                      return SmallTripCard(trip: trip,boxKey: Boxes.cachePastTripKey,);
+                    if (index < tripDetailsProvider.pastTrips.length) {
+                      TripInfo? trip = tripDetailsProvider.pastTrips[index];
+                      return SmallTripCard(trip: trip,boxKey: Timeline.past);
                     } else {
                       return const SizedBox(); // Placeholder, handle out-of-bounds index gracefully
                     }

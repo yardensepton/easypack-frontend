@@ -8,7 +8,6 @@ import 'package:easypack/pages/trip_planner_page.dart';
 import 'package:easypack/providers/click_trip_provider.dart';
 import 'package:easypack/providers/first_launch_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
-import 'package:easypack/websocket_init.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,7 +23,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(TripInfoAdapter());
-  await Hive.openBox<Map>(Boxes.tripsBox);
+  await Hive.openBox<TripInfo>(Boxes.tripsBox);
   await Hive.openBox<bool>(Boxes.settingsBox);
   await Hive.openBox<String>(Boxes.currentUserBox);
 
@@ -54,8 +53,7 @@ class MyApp extends StatelessWidget {
     bool firstLaunch = Provider.of<FirstLaunchProvider>(context, listen: false)
         .isFirstLaunch();
 
-    return WebSocketInitializer(
-      child: MaterialApp(
+      return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: GoogleFonts.redHatDisplayTextTheme(
@@ -71,8 +69,7 @@ class MyApp extends StatelessWidget {
           '/myTrips': (context) => const MyTripsPage(),
           '/introduction': (context) => const IntroductionManager(),
         },
-      ),
-    );
+      );
   }
 }
 

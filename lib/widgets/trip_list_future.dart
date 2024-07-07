@@ -13,9 +13,16 @@ class TripListFuture extends StatefulWidget {
 
   @override
   State<TripListFuture> createState() => _TripListFutureState();
+
+  
 }
 
 class _TripListFutureState extends State<TripListFuture> {
+   @override
+  void initState() {
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
@@ -38,11 +45,11 @@ class _TripListFutureState extends State<TripListFuture> {
                 height: 150,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: tripDetailsProvider.plannedTrips!.length,
+                  itemCount: tripDetailsProvider.plannedTrips.length,
                   itemBuilder: (context, index) {
-                    if (index < tripDetailsProvider.plannedTrips!.length) {
-                      TripInfo? trip = tripDetailsProvider.plannedTrips![index];
-                      return SmallTripCard(trip: trip,boxKey: Boxes.cacheFutureTripKey,);
+                    if (index < tripDetailsProvider.plannedTrips.length) {
+                      TripInfo? trip = tripDetailsProvider.plannedTrips[index];
+                      return SmallTripCard(trip: trip,boxKey:Timeline.future,);
                     } else {
                       return const SizedBox(); // Placeholder, handle out-of-bounds index gracefully
                     }
