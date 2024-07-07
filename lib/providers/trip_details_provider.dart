@@ -86,20 +86,17 @@ class TripDetailsProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<TripInfo>?> fetchPlannedTrips(String timeline,
+  Future<void> fetchPlannedTrips(String timeline,
       {bool forceRefresh = false}) async {
     if (!forceRefresh & tripsBox.isNotEmpty) {
-      return categorizeTrips(timeline);
+      categorizeTrips(timeline);
+      return;
     }
     try {
       List<TripInfo>? trips = await _tripService.getPlannedTripsInfo();
-      if (trips == null) {
-        return [];
-      } else {
-        for (TripInfo trip in trips) {
-          addTrip(trip);
-        }
-        return categorizeTrips(timeline);
+      if (trips != null) {
+        trips.forEach(addTrip);
+        categorizeTrips(timeline);
       }
     } catch (e) {
       throw Exception('$e');
