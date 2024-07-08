@@ -32,7 +32,7 @@ class CreatePackingListHeader extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
                   "Let's create\nthe perfect packing list\nfor your trip\nto $tripTitle!",

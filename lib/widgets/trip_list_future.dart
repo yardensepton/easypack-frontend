@@ -18,16 +18,11 @@ class TripListFuture extends StatefulWidget {
 }
 
 class _TripListFutureState extends State<TripListFuture> {
-   @override
-  void initState() {
-
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
       future: Provider.of<TripDetailsProvider>(context, listen: false)
-          .fetchPlannedTrips(widget.timeline),
+          .fetchPlannedTrips(),
       builder: (context, AsyncSnapshot<void> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingWidget();
@@ -36,13 +31,8 @@ class _TripListFutureState extends State<TripListFuture> {
         } else {
           return Consumer<TripDetailsProvider>(
             builder: (context, tripDetailsProvider, child) {
-              print(tripDetailsProvider.isLoadingFutureTrips);
-
-              if (tripDetailsProvider.isLoadingFutureTrips) {
-                return const LoadingWidget();
-              }
               return SizedBox(
-                height: 150,
+                height: 170,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: tripDetailsProvider.plannedTrips.length,

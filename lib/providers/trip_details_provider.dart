@@ -8,20 +8,43 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
-class TripDetailsProvider extends ChangeNotifier {
+class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
   final TripService _tripService = TripService();
   TextEditingController destinationName = TextEditingController();
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
   Box<TripInfo> tripsBox = Hive.box(Boxes.tripsBox);
   bool isLoading = false;
-  bool isLoadingPastTrips = false;
-  bool isLoadingFutureTrips = false;
   Trip? cachedTrip;
   String? cachedDestinationUrl;
   List<TripInfo> plannedTrips = [];
   List<TripInfo> pastTrips = [];
   bool hasUpcomingTrip = false;
+
+  TripDetailsProvider() {
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.detached) {
+      reset();
+    }
+   else if (state == AppLifecycleState.resumed && tripsBox.isEmpty) {
+      await fetchPlannedTrips();
+      notifyListeners();
+    }
+//     fetchPlannedTrips().then((_) {
+//   notifyListeners(); 
+// });
+    
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   void reset() {
     tripsBox.clear();
@@ -29,6 +52,9 @@ class TripDetailsProvider extends ChangeNotifier {
     isLoading = false;
     cachedDestinationUrl = null;
     hasUpcomingTrip = false;
+    pastTrips.clear();
+    plannedTrips.clear();
+    tripsBox.clear();
     notifyListeners();
   }
 
@@ -77,33 +103,29 @@ class TripDetailsProvider extends ChangeNotifier {
         } else {
           pastTrips.removeWhere((trip) => trip.tripId == tripId);
         }
-        print("Trip with id $tripId deleted from Hive box.");
-        print("Remaining trips in Hive box: ${tripsBox.values.length}");
         notifyListeners();
       }
     } catch (e) {
       throw Exception('$e');
     }
   }
-
-  Future<void> fetchPlannedTrips(String timeline,
-      {bool forceRefresh = false}) async {
-    if (!forceRefresh & tripsBox.isNotEmpty) {
-      categorizeTrips(timeline);
+  Future<void> fetchPlannedTrips({bool forceRefresh = false}) async {
+    if (tripsBox.isNotEmpty) {
+      categorizeTrips();
       return;
     }
     try {
       List<TripInfo>? trips = await _tripService.getPlannedTripsInfo();
       if (trips != null) {
         trips.forEach(addTrip);
-        categorizeTrips(timeline);
+        categorizeTrips();
       }
     } catch (e) {
       throw Exception('$e');
     }
   }
 
-  List<TripInfo> categorizeTrips(String timeline) {
+  void categorizeTrips() {
     DateTime now = DateTime.now();
     pastTrips.clear();
     plannedTrips.clear();
@@ -117,11 +139,6 @@ class TripDetailsProvider extends ChangeNotifier {
       } else {
         plannedTrips.add(trip);
       }
-    }
-    if (timeline == Timeline.future) {
-      return plannedTrips;
-    } else {
-      return pastTrips;
     }
   }
 
@@ -137,7 +154,6 @@ class TripDetailsProvider extends ChangeNotifier {
   }
 
   Future<void> addTrip(TripInfo trip) async {
-    print(trip.tripId);
     await tripsBox.put(trip.tripId, trip);
   }
 

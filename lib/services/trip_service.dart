@@ -12,8 +12,8 @@ import 'dart:convert';
 
 
 class TripService {
-  String apiUrl = 'http://localhost:8000/trips';
-  // String apiUrl = 'http://192.168.1.197:8000/trips';
+  // String apiUrl = 'http://localhost:8000/trips';
+  String apiUrl = 'http://192.168.1.199:8000/trips';
   String upcomingTrip = '/upcoming-trip';
   UserService userService = UserService();
   Box<TripInfo> tripsBox = Hive.box(Boxes.tripsBox);

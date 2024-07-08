@@ -58,11 +58,6 @@ void logOutButton(BuildContext context) {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.grey,
-      //   child: const Icon(Icons.logout_rounded,color: Colors.white,),
-      //   onPressed: () => logOutButton(context),
-      // ),
     );
   }
 }

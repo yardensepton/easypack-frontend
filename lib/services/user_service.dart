@@ -8,8 +8,8 @@ import 'package:easypack/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserService {
-  static const String baseUrl = 'http://localhost:8000';
-  // static const String baseUrl = 'http://192.168.1.197:8000';
+  // static const String baseUrl = 'http://localhost:8000';
+  static const String baseUrl = 'http://192.168.1.199:8000';
   static const String createUserUrl = '/users/sign-up';
   static const String loginUserUrl = '/users/login';
   static const String forgotPasswordUrl = '/users/forgot-password';
