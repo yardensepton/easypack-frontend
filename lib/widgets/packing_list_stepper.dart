@@ -53,6 +53,7 @@
 //         ),
 //       ];
 // }
+import 'package:easypack/widgets/custom_choice_chip.dart';
 import 'package:easypack/widgets/trip_type_toggle_button.dart';
 import 'package:flutter/material.dart';
 
@@ -101,7 +102,7 @@ class _PackingListStepperState extends State<PackingListStepper> {
           isActive: currentStep >= 1,
           state: currentStep > 1 ? StepState.complete : StepState.indexed,
           title: const Text('Special items'),
-          content: const SizedBox(), // Replace with actual content widget
+          content: const CustomChoiceChip(), // Replace with actual content widget
         ),
         Step(
           isActive: currentStep >= 2,

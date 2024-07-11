@@ -16,20 +16,6 @@ class NoUpcomingTrip extends StatelessWidget {
               color: Colors.grey[600],
             ),
           ),
-          ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pushNamed(context, '/tripPlanner'); // Navigate to add trip screen
-            },
-            icon: const Icon(Icons.add),
-            label: const Text('Add a Trip'),
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              textStyle: const TextStyle(fontSize: 18),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
         ],
       ),
     );

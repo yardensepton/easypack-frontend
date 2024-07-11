@@ -39,6 +39,7 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
 // });
     
   }
+  
 
   @override
   void dispose() {
@@ -56,6 +57,11 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
     plannedTrips.clear();
     tripsBox.clear();
     notifyListeners();
+  }
+
+  bool get hasNoTrips{
+    return tripsBox.isEmpty;
+
   }
 
   Future<void> fetchUpcomingTrip({bool forceRefresh = false}) async {
