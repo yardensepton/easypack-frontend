@@ -8,8 +8,6 @@ import 'package:easypack/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserService {
-  // static const String baseUrl = 'http://localhost:8000';
-  static const String baseUrl = 'http://192.168.1.199:8000';
   static const String createUserUrl = '/users/sign-up';
   static const String loginUserUrl = '/users/login';
   static const String forgotPasswordUrl = '/users/forgot-password';
@@ -31,7 +29,7 @@ class UserService {
         gender: gender,
         city: city);
 
-    final url = Uri.parse('$baseUrl$createUserUrl');
+    final url = Uri.parse('${Urls.baseUrl}$createUserUrl');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode(newUser.toJson());
 
@@ -46,7 +44,7 @@ class UserService {
 
   Future<String?> authUser(String username, String password) async {
     final response = await http.post(
-      Uri.parse('$baseUrl$loginUserUrl'),
+      Uri.parse('${Urls.baseUrl}$loginUserUrl'),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: {
         'username': username,
@@ -74,7 +72,7 @@ class UserService {
 
   Future<String?> forgotPassword(String email) async {
     final response = await http.post(
-      Uri.parse('$baseUrl$forgotPasswordUrl?user_email=$email'),
+      Uri.parse('${Urls.baseUrl}$forgotPasswordUrl?user_email=$email'),
       headers: {'Content-Type': 'application/json'},
     );
     if (response.statusCode == 200) {
@@ -104,7 +102,7 @@ class UserService {
       throw Exception('No refresh token available');
     }
 
-    final url = Uri.parse('$baseUrl/users/refresh?refresh_token=$refreshToken');
+    final url = Uri.parse('${Urls.baseUrl}/users/refresh?refresh_token=$refreshToken');
     final headers = {'Content-Type': 'application/json'};
 
     final response = await http.post(url, headers: headers);
@@ -123,3 +121,4 @@ class UserService {
     }
   }
 }
+  

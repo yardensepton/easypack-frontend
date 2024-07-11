@@ -1,10 +1,9 @@
 import 'dart:convert';
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/models/weather.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherService {
-  // static const String baseUrl = 'http://192.168.1.197:8000';
-    static const String baseUrl = 'http://localhost:8000';
   static const String getWeather = '/weather';
 
   Future<void> fetchWeather(String location,
@@ -15,7 +14,7 @@ class WeatherService {
       "departure": departure,
       "arrival": arrival,
     };
-    Uri uri = Uri.parse('$baseUrl$getWeather').replace(queryParameters: queryParams);
+    Uri uri = Uri.parse('${Urls.baseUrl}$getWeather').replace(queryParameters: queryParams);
     try {
       final response = await http.get(uri);
       if (response.statusCode == 200) {

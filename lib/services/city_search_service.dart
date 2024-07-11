@@ -1,3 +1,4 @@
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/exception/server_exception.dart';
 import 'package:easypack/models/city.dart';
 import 'package:http/http.dart' as http;
@@ -6,12 +7,11 @@ import 'dart:convert';
 class CitySearchService {
   Future<List<City>> fetchAutocompleteResults(String input,
       {int page = 1, int size = 10}) async {
-    // String apiUrl = 'http://localhost:8000/cities/city-autocomplete/$input?page=$page&size=$size';
     String apiUrl =
-        'http://192.168.1.199:8000/cities/city-autocomplete/$input?page=$page&size=$size';
+        '/cities/city-autocomplete/$input?page=$page&size=$size';
 
     try {
-      http.Response response = await http.get(Uri.parse(apiUrl));
+      http.Response response = await http.get(Uri.parse("${Urls.baseUrl}$apiUrl"));
 
       if (response.statusCode == 200) {
         final decodedData =

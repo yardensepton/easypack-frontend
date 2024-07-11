@@ -12,9 +12,6 @@ import 'dart:convert';
 
 
 class TripService {
-  // String apiUrl = 'http://localhost:8000/trips';
-  String apiUrl = 'http://192.168.1.199:8000/trips';
-  String upcomingTrip = '/upcoming-trip';
   UserService userService = UserService();
   Box<TripInfo> tripsBox = Hive.box(Boxes.tripsBox);
   Timer? timer;
@@ -32,7 +29,7 @@ class TripService {
     );
     token = await userService.getAccessToken();
     print("in create new trip token is $token");
-    final url = Uri.parse(apiUrl);
+    final url = Uri.parse("${Urls.baseUrl}/trips");
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
@@ -69,14 +66,12 @@ class TripService {
   }
 
   void saveInHive(Trip trip) async {
-    print("${trip.id} trying to add trip to box");
     TripInfo tripInfo = TripInfo(
         tripId: trip.id!,
         destination: trip.destination.text,
         departureDate: trip.departureDate,
         returnDate: trip.returnDate,
         cityUrl: trip.destination.cityUrl!);
-    print(tripInfo);
     await tripsBox.put(trip.id, tripInfo);
   }
 
@@ -88,7 +83,7 @@ class TripService {
 
   Future<Trip?> getTripById(String tripId) async {
     String? token = await userService.getAccessToken();
-    final url = Uri.parse('$apiUrl?trip_id=$tripId');
+    final url = Uri.parse('${Urls.baseUrl}/trips?trip_id=$tripId');
 
     final headers = {
       'Content-Type': 'application/json',
@@ -96,6 +91,8 @@ class TripService {
     };
     try {
       http.Response response = await http.get(url, headers: headers);
+      print(response.statusCode);
+
       if (response.statusCode == 200) {
         return fromJsonToTrip(response);
       } else if (response.statusCode == 401) {
@@ -123,7 +120,7 @@ class TripService {
 
   Future<String?> deleteTripById(String tripId) async {
     String? token = await userService.getAccessToken();
-    final url = Uri.parse('$apiUrl/$tripId');
+    final url = Uri.parse('${Urls.baseUrl}/trips/$tripId');
 
     final headers = {
       'Content-Type': 'application/json',
@@ -155,7 +152,7 @@ class TripService {
   }
 
   Future<List<TripInfo>?> getPlannedTripsInfo() async {
-    final url = Uri.parse('$apiUrl/sorted');
+    final url = Uri.parse('${Urls.baseUrl}/trips/sorted');
     String? token = await userService.getAccessToken();
 
     final headers = {

@@ -74,7 +74,6 @@ class CustomDrawer extends StatelessWidget {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              // color: Colors.blueGrey,
             ),
             child: Text('Settings', style: TextStyle(color: Colors.black)),
           ),

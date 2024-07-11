@@ -63,6 +63,7 @@
 // }
 
 import 'package:easypack/constants/constants_classes.dart';
+import 'package:easypack/pages/no_trips.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/providers/create_user_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
@@ -112,38 +113,39 @@ class MyTripsPage extends StatelessWidget {
                       );
                     },
                   ),
-                  const SizedBox(height: 100),
-                  const Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'No trips? No problem!',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Start planning your next adventure and let us handle your packing list.\n\nWe'll make sure you have everything you need, so you can travel worry-free.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            'Tap the + button to get started',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ), // Expands to fill remaining space
-                        ],
-                      ),
-                    ),
-                  ),
+                  const SizedBox(height: 20),
+                  const NoTrips(),
+                  // const Expanded(
+                  //   child: Center(
+                  //     child: Column(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: [
+                  //         Text(
+                  //           'No trips? No problem!',
+                  //           style: TextStyle(
+                  //             fontSize: 22,
+                  //             fontWeight: FontWeight.bold,
+                  //           ),
+                  //         ),
+                  //         SizedBox(height: 10),
+                  //         Text(
+                  //           "Start planning your next adventure and let us handle your packing list.\nWe'll make sure you have everything you need, so you can travel worry-free.",
+                  //           textAlign: TextAlign.center,
+                  //           style: TextStyle(
+                  //             fontSize: 18,
+                  //           ),
+                  //         ),
+                  //         Spacer(),
+                  //         Text(
+                  //           'Tap the + button to get started',
+                  //           style: TextStyle(
+                  //             fontSize: 18,
+                  //           ),
+                  //         ), // Expands to fill remaining space
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   // Add some space at the bottom
                 ],
               );

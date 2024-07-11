@@ -29,17 +29,14 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.detached) {
       reset();
-    }
-   else if (state == AppLifecycleState.resumed && tripsBox.isEmpty) {
+    } else if (state == AppLifecycleState.resumed && tripsBox.isEmpty) {
       await fetchPlannedTrips();
       notifyListeners();
     }
 //     fetchPlannedTrips().then((_) {
-//   notifyListeners(); 
+//   notifyListeners();
 // });
-    
   }
-  
 
   @override
   void dispose() {
@@ -59,9 +56,11 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
     notifyListeners();
   }
 
-  bool get hasNoTrips{
+  bool get hasNoTrips {
+    if (tripsBox.isEmpty) {
+      fetchPlannedTrips();
+    }
     return tripsBox.isEmpty;
-
   }
 
   Future<void> fetchUpcomingTrip({bool forceRefresh = false}) async {
@@ -115,7 +114,9 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
       throw Exception('$e');
     }
   }
+
   Future<void> fetchPlannedTrips({bool forceRefresh = false}) async {
+    print(tripsBox.length);
     if (tripsBox.isNotEmpty) {
       categorizeTrips();
       return;

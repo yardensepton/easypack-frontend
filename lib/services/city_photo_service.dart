@@ -1,14 +1,14 @@
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:http/http.dart' as http;
 
 class CityPhotoService {
   Future<String> fetchPhotoResult(String input) async {
-    // String apiUrl = 'http://localhost:8000/cities/picture/$input';
-    String apiUrl = 'http://192.168.1.199:8000/cities/picture/$input';
+    String apiUrl = '/cities/picture/$input';
 
     String stringResponse;
 
     try {
-      http.Response response = await http.get(Uri.parse(apiUrl));
+      http.Response response = await http.get(Uri.parse("${Urls.baseUrl}$apiUrl"));
 
       if (response.statusCode == 200) {
         stringResponse = response.body;
