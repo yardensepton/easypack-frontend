@@ -8,6 +8,7 @@ import 'package:easypack/pages/trip_planner_page.dart';
 import 'package:easypack/providers/click_trip_provider.dart';
 import 'package:easypack/providers/first_launch_provider.dart';
 import 'package:easypack/providers/items_provider.dart';
+import 'package:easypack/providers/packing_list_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => ClickTripProvider()),
         ChangeNotifierProvider(create: (context) => FirstLaunchProvider()),
         ChangeNotifierProvider(create: (context) => ItemsProvider()),
+        ChangeNotifierProvider(create: (context) => PackingListProvider()),
       ],
       child: const MyApp(),
     ),

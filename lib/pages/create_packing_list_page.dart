@@ -161,10 +161,8 @@ import 'package:flutter/material.dart';
 
 class CreatePackingListPage extends StatefulWidget {
   final String tripTitle;
-  final DateTime departureDate = DateTime(2023, 5, 1);
-  final DateTime returnDate = DateTime(2023, 5, 7);
 
-  CreatePackingListPage({super.key, required this.tripTitle});
+  const CreatePackingListPage({super.key, required this.tripTitle});
 
   @override
   _CreatePackingListPageState createState() => _CreatePackingListPageState();

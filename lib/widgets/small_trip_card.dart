@@ -135,7 +135,6 @@ class SmallTripCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => _openClickTripPage(context, trip.tripId),
-      onLongPress: () => _showDeleteConfirmationDialog(context, trip.tripId),
       child: Container(
         width: 150,
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -195,39 +194,6 @@ class SmallTripCard extends StatelessWidget {
     );
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context, String tripId) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Row(
-            children: [
-              Icon(Icons.help_outline, color: Colors.red),
-              SizedBox(width: 8),
-              Text('Delete Trip'),
-            ],
-          ),
-          content: const Text('Are you sure you want to delete this trip?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Provider.of<TripDetailsProvider>(context, listen: false)
-                    .deleteTripById(tripId, boxKey);
-                Navigator.of(context).pop();
-              },
-              child: const Text('Delete'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   void _openClickTripPage(BuildContext context, String tripId) {
     Navigator.push(

@@ -1,5 +1,10 @@
+import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/providers/click_trip_provider.dart';
+import 'package:easypack/providers/create_user_provider.dart';
+import 'package:easypack/providers/trip_details_provider.dart';
+import 'package:easypack/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:easypack/widgets/trip_header.dart';
@@ -26,6 +31,11 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: Colors.white,
+        actions: [
+           IconButton(onPressed: (){
+            _showDeleteConfirmationDialog(context,widget.tripId);
+           }, icon:const Icon(Icons.more_horiz))
+        ],
       ),
       backgroundColor: Colors.white,
       body: FutureBuilder(
@@ -65,3 +75,40 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
     );
   }
 }
+
+ void _showDeleteConfirmationDialog(BuildContext context, String tripId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Row(
+            children: [
+              Icon(Icons.help_outline, color: Colors.red),
+              SizedBox(width: 8),
+              Text('Delete Trip'),
+            ],
+          ),
+          content: const Text('Are you sure you want to delete this trip?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Provider.of<TripDetailsProvider>(context, listen: false)
+                    .deleteTripById(tripId);
+                Navigator.of(context).pop();
+                Navigator.popUntil(context, (route) => route.isFirst);
+
+
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
