@@ -14,7 +14,6 @@ class CreateUserProvider with ChangeNotifier {
   final TextEditingController genderController = TextEditingController();
 
   bool isLoading = false;
-  User? createdUser;
 
   @override
   void dispose() {

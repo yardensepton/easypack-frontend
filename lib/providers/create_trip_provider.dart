@@ -29,11 +29,8 @@ class CreateTripProvider with ChangeNotifier {
         if (response == null) {
           SuccessSnackBar.showSuccessSnackBar(
               context, "Trip created successfuly!");
-          // nameController.clear();
           selectedCity = null;
           notifyListeners();
-          // isLoading = false;
-          // notifyListeners();
         } else {
           ErrorSnackBar.showErrorSnackBar(context, response);
         }

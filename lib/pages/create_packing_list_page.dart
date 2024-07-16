@@ -161,8 +161,9 @@ import 'package:flutter/material.dart';
 
 class CreatePackingListPage extends StatefulWidget {
   final String tripTitle;
+  final String tripId;
 
-  const CreatePackingListPage({super.key, required this.tripTitle});
+  const CreatePackingListPage({super.key, required this.tripTitle, required this.tripId});
 
   @override
   _CreatePackingListPageState createState() => _CreatePackingListPageState();
@@ -180,13 +181,13 @@ class _CreatePackingListPageState extends State<CreatePackingListPage> {
         title: const Text('New Packing List'),
         centerTitle: true,
       ),
-      body: const Column(
+      body:  Column(
         children: [
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-                child: PackingListStepper(),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+                child: PackingListStepper(tripId: widget.tripId),
               ),
             ),
           ),

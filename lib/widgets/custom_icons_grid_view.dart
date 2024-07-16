@@ -2,23 +2,22 @@ import 'package:easypack/utils/string_extentsion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomGridView extends StatefulWidget {
+class CustomIconsGridView extends StatefulWidget {
   final List<String> activities;
   final String title;
 
-  const CustomGridView({
+  const CustomIconsGridView({
     super.key,
     required this.activities,
     required this.title,
   });
 
   @override
-  State<CustomGridView> createState() => _CustomGridViewState();
+  State<CustomIconsGridView> createState() => _CustomIconsGridViewState();
 }
 
-class _CustomGridViewState extends State<CustomGridView> {
-  Set<String> selectedOptions = {}; // State for tracking selected options
-
+class _CustomIconsGridViewState extends State<CustomIconsGridView> {
+  Set<String> selectedOptions = {}; 
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -81,7 +80,7 @@ class _CustomGridViewState extends State<CustomGridView> {
                       "assets/icons/${option.toLowerCase()}.svg",
                       width: 40,
                       height: 40,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                     ),
                     const SizedBox(height: 4), // Space between the icon and text
                     Text(

@@ -16,7 +16,7 @@ class CustomChoiceChip extends StatefulWidget {
   });
 
   @override
-  _CustomChoiceChipState createState() => _CustomChoiceChipState();
+  State<CustomChoiceChip> createState() => _CustomChoiceChipState();
 }
 
 class _CustomChoiceChipState extends State<CustomChoiceChip> {

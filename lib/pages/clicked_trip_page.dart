@@ -1,10 +1,6 @@
-import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/providers/click_trip_provider.dart';
-import 'package:easypack/providers/create_user_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
-import 'package:easypack/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:easypack/widgets/trip_header.dart';
@@ -62,6 +58,7 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
                     isMobile: isMobile,
                   ),
                   TripBottomSection(
+                    tripId:  clickTripProvider.clickedTrip!.id!,
                     tripTitle:clickTripProvider.destinationName.text,
                     weatherData: clickTripProvider.clickedTrip?.weatherData ?? [],
                     isMobile: isMobile,
