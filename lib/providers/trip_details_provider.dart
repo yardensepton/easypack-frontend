@@ -97,22 +97,18 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
     }
   }
 
-  Future<void> deleteTripById(String tripId) async {
+  Future<String?> deleteTripById(String tripId) async {
     try {
-      await _tripService.deleteTripById(tripId);
-
-      if (tripsBox.containsKey(tripId)) {
-        tripsBox.delete(tripId);
-        plannedTrips.removeWhere((trip) => trip.tripId == tripId);
-        pastTrips.removeWhere((trip) => trip.tripId == tripId);
-
-        // if (boxKey == Timeline.future) {
-        //   plannedTrips.removeWhere((trip) => trip.tripId == tripId);
-        // } else {
-        //   pastTrips.removeWhere((trip) => trip.tripId == tripId);
-        // }
-        notifyListeners();
+      String? response = await _tripService.deleteTripById(tripId);
+      if (response == null) {
+        if (tripsBox.containsKey(tripId)) {
+          tripsBox.delete(tripId);
+          plannedTrips.removeWhere((trip) => trip.tripId == tripId);
+          pastTrips.removeWhere((trip) => trip.tripId == tripId);
+          notifyListeners();
+        }
       }
+      return response;
     } catch (e) {
       throw Exception('$e');
     }

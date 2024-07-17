@@ -142,13 +142,14 @@ class TripService {
         if (response.statusCode == 200) {
           return null;
         } else {
-          throw Exception(ServerError.getErrorMsg(jsonDecode(response.body)));
+          return ServerError.getErrorMsg(jsonDecode(response.body));
         }
+      }else{
+        return ServerError.getErrorMsg(jsonDecode(response.body));
       }
     } catch (e) {
       throw Exception('Error: $e');
     }
-    return null;
   }
 
   Future<List<TripInfo>?> getPlannedTripsInfo() async {

@@ -2,13 +2,17 @@ import 'package:easypack/providers/items_provider.dart';
 import 'package:easypack/providers/packing_list_provider.dart';
 import 'package:easypack/widgets/custom_choice_chip.dart';
 import 'package:easypack/widgets/custom_icons_grid_view.dart';
+import 'package:easypack/widgets/loading_packing_list.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:easypack/widgets/trip_type_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
+
 class PackingListStepper extends StatefulWidget {
   final String tripId;
+
   const PackingListStepper({super.key, required this.tripId});
 
   @override
@@ -17,10 +21,13 @@ class PackingListStepper extends StatefulWidget {
 
 class _PackingListStepperState extends State<PackingListStepper> {
   int currentStep = 0;
+  late Future<void> _packingListCreation;
 
   @override
   void initState() {
     super.initState();
+    _packingListCreation =
+        Future.value(); // Initialize with an empty completed future
     Provider.of<ItemsProvider>(context, listen: false).fetchStepperData();
   }
 
@@ -28,35 +35,76 @@ class _PackingListStepperState extends State<PackingListStepper> {
   Widget build(BuildContext context) {
     return Consumer<ItemsProvider>(
       builder: (context, itemsProvider, child) {
-        return Stepper(
-          steps: getSteps(itemsProvider),
-          type: StepperType.vertical,
-          currentStep: currentStep,
-          onStepContinue: () {
-            if (currentStep < getSteps(itemsProvider).length - 1) {
-              setState(() {
-                currentStep += 1;
-              });
-            }
-            if (currentStep == 2) {
-              Provider.of<PackingListProvider>(context, listen: false)
-                  .ceatePackingList(context,widget.tripId);
-            }
-          },
-          onStepCancel: () {
-            if (currentStep > 0) {
-              setState(() {
-                currentStep -= 1;
-              });
-            }
-          },
-          onStepTapped: (step) => setState(() => currentStep = step),
+        PackingListProvider packingListProvider =
+            Provider.of<PackingListProvider>(context, listen: false);
+
+        return Stack(
+          children: [
+            Stepper(
+              steps: getSteps(itemsProvider, packingListProvider),
+              type: StepperType.vertical,
+              currentStep: currentStep,
+              onStepContinue: () async {
+                if (currentStep == 2) {
+                  setState(() {
+                    _packingListCreation = packingListProvider
+                        .createPackingList(context, widget.tripId);
+                  });
+                }
+
+                if (currentStep <
+                    getSteps(itemsProvider, packingListProvider).length - 1) {
+                  setState(() {
+                    currentStep += 1;
+                  });
+                }
+              },
+              onStepCancel: () {
+                if (currentStep > 0) {
+                  setState(() {
+                    currentStep -= 1;
+                  });
+                }
+              },
+              onStepTapped: (step) => setState(() => currentStep = step),
+            ),
+            FutureBuilder<void>(
+              future: _packingListCreation,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Container(
+                            color: Colors.white.withOpacity(0.80),
+                            child: const Center(
+                              child: LoadingPackingList(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  // Handle other states or display content once future completes
+                  return const SizedBox
+                      .shrink(); // or null depending on your layout needs
+                }
+              },
+            ),
+          ],
         );
       },
     );
   }
 
-  List<Step> getSteps(ItemsProvider itemsProvider) {
+  List<Step> getSteps(
+      ItemsProvider itemsProvider, PackingListProvider packingListProvider) {
     final specialItemsNames = itemsProvider.specialItemsNames ?? [];
     final activities = itemsProvider.activities ?? [];
 
@@ -92,7 +140,8 @@ class _PackingListStepperState extends State<PackingListStepper> {
             ? const LoadingWidget()
             : CustomIconsGridView(
                 title: "Any activities you're planning?",
-                activities: activities), // Replace with actual content widget
+                activities: activities,
+              ),
       ),
     ];
   }
