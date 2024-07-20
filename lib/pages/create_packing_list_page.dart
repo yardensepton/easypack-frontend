@@ -176,6 +176,7 @@ class _CreatePackingListPageState extends State<CreatePackingListPage> {
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: const Text('New Packing List'),

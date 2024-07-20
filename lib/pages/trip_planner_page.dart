@@ -47,6 +47,7 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
     return Scaffold(
       backgroundColor: Colors.white10,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white10,
         title: const Text('New Trip'),
         centerTitle: true,
@@ -64,7 +65,7 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
                     const SizedBox(
                       width: 350.0,
                       height: 56,
-                      child: CitiesBottomSheet(),
+                      child: CitiesBottomSheet(bottomSheetTitle: "Where to?",),
                     ),
                     const SizedBox(height: 20),
                     SizedBox(

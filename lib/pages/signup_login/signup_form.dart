@@ -94,7 +94,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     const SizedBox(height: 30),
                     const SizedBox(
                       height: 56, // Match the height of TextFormField
-                      child: CitiesBottomSheet(),
+                      child: CitiesBottomSheet(bottomSheetTitle: "Where do you live?",),
                     ),
                     const Spacer(),
                     Row(

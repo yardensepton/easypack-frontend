@@ -1,6 +1,6 @@
 
 class City {
-  final String text;
+  late final String text;
   final String placeId;
   final String cityName;
   final String countryName;

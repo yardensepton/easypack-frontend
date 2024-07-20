@@ -51,9 +51,11 @@ class PackingListProvider with ChangeNotifier {
     return groupedItems;
   }
 
-
   Future<String?> deletePackingListById(
       BuildContext context, String tripId) async {
+    if (currentPackingList == null) {
+      throw ("There is no packing list in this trip");
+    }
     try {
       String? response = await packingListService.deletePackingListById(
         tripId: tripId,
