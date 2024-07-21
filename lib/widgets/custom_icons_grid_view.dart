@@ -5,11 +5,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 class CustomIconsGridView extends StatefulWidget {
   final List<String> activities;
   final String title;
+  final Function(String) addSelection;
+  final Function(String) removeSelection;
 
   const CustomIconsGridView({
     super.key,
     required this.activities,
     required this.title,
+    required this.addSelection,
+    required this.removeSelection,
   });
 
   @override
@@ -17,7 +21,7 @@ class CustomIconsGridView extends StatefulWidget {
 }
 
 class _CustomIconsGridViewState extends State<CustomIconsGridView> {
-  Set<String> selectedOptions = {}; 
+  Set<String> selectedOptions = {};
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,7 +36,8 @@ class _CustomIconsGridViewState extends State<CustomIconsGridView> {
         ),
         GridView.builder(
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(), // Prevent scrolling within the grid
+          physics:
+              const NeverScrollableScrollPhysics(), // Prevent scrolling within the grid
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, // Number of columns
             crossAxisSpacing: 15.0, // Spacing between columns
@@ -49,15 +54,20 @@ class _CustomIconsGridViewState extends State<CustomIconsGridView> {
                 setState(() {
                   if (isSelected) {
                     selectedOptions.remove(option);
+                    print("removes $option");
+                    widget.removeSelection(option);
                   } else {
+                    print("adds $option");
                     selectedOptions.add(option);
+                    widget.addSelection(option);
                   }
                 });
               },
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isSelected ? Colors.grey.withOpacity(0.3) : Colors.white,
+                  color:
+                      isSelected ? Colors.grey.withOpacity(0.3) : Colors.white,
                   borderRadius: BorderRadius.circular(12.0),
                   border: Border.all(
                     color: isSelected ? Colors.grey : Colors.grey,
@@ -82,10 +92,12 @@ class _CustomIconsGridViewState extends State<CustomIconsGridView> {
                       height: 40,
                       fit: BoxFit.contain,
                     ),
-                    const SizedBox(height: 4), // Space between the icon and text
+                    const SizedBox(
+                        height: 4), // Space between the icon and text
                     Text(
                       option.removeUnderscores(),
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+                      style: const TextStyle(
+                          fontSize: 12, fontWeight: FontWeight.normal),
                       textAlign: TextAlign.center,
                     ),
                   ],

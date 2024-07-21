@@ -8,8 +8,6 @@ import 'package:easypack/widgets/trip_type_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-
 class PackingListStepper extends StatefulWidget {
   final String tripId;
 
@@ -138,10 +136,17 @@ class _PackingListStepperState extends State<PackingListStepper> {
         title: const Text('Activities'),
         content: itemsProvider.activities == null
             ? const LoadingWidget()
-            : CustomIconsGridView(
+            : Consumer<PackingListProvider>(
+                builder: (context, selectionProvider, child) {
+                  return  CustomIconsGridView(
                 title: "Any activities you're planning?",
                 activities: activities,
+                addSelection: selectionProvider.addAcivity,
+                removeSelection: selectionProvider.removeActivity,
+              );
+                },
               ),
+            
       ),
     ];
   }

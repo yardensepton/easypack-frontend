@@ -29,12 +29,12 @@ class PackingListProvider with ChangeNotifier {
   }
 
   void addAcivity(String item) {
-    _selectedActivites.add(item);
+    _selectedActivites.add(item.addUnderscores().toLowerCase());
     // notifyListeners();
   }
 
   void removeActivity(String item) {
-    _selectedActivites.remove(item);
+    _selectedActivites.remove(item.addUnderscores().toLowerCase());
     // notifyListeners();
   }
 

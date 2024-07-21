@@ -27,9 +27,11 @@ class PackingListService {
     // Conditionally add items_preferences and activities_preferences
     if (items != null) {
       bodyMap['items_preferences'] = items;
+      print(items);
     }
     if (activities != null) {
       bodyMap['activities_preferences'] = activities;
+      print(activities);
     }
 
     // Encode the body map to a JSON string
@@ -107,9 +109,11 @@ class PackingListService {
     }
   }
 
-  Future<String?> deletePackingListById({required String tripId,required String packingListId}) async {
+  Future<String?> deletePackingListById(
+      {required String tripId, required String packingListId}) async {
     String? token = await userService.getAccessToken();
-    final url = Uri.parse('${Urls.baseUrl}/packing-lists/$tripId/$packingListId');
+    final url =
+        Uri.parse('${Urls.baseUrl}/packing-lists/$tripId/$packingListId');
 
     final headers = {
       'Content-Type': 'application/json',

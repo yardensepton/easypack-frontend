@@ -95,7 +95,7 @@ class TripBottomSection extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 8.0),
                                   Text(
-                                    category.capitalize(),
+                                    category.capitalize().removeUnderscores(),
                                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                                   ),
                                 ],
