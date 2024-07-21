@@ -10,7 +10,7 @@ class ItemsProvider extends ChangeNotifier {
     try {
       specialItemsNames = await itemService.fetchItemsNamesByCategory();
       activities = await itemService.fetchCategories(activity: true);
-          print('Special Items Names: $specialItemsNames');
+      print('Special Items Names: $specialItemsNames');
       print('Activities: $activities');
     } catch (e) {
       throw Exception('$e');

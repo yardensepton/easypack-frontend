@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class LoadingPackingList extends StatelessWidget {
   const LoadingPackingList({super.key});
@@ -8,22 +9,25 @@ class LoadingPackingList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        
         children: [
           const SizedBox(height: 100),
-                    const Text(
-            'Building your personalized packing list!',
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+          AnimatedTextKit(
+            animatedTexts: [
+              TyperAnimatedText(
+                'Working on it!',
+                textStyle: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                speed: const Duration(milliseconds: 400),
+              ),
+            ],
           ),
           Lottie.asset(
-            "assets/lottie/flight_loading.json",width: 100,
+            "assets/lottie/flight_loading.json",
+            width: 100,
           ),
           const SizedBox(height: 100),
-
         ],
       ),
     );

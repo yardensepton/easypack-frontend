@@ -30,7 +30,6 @@ class ItemService {
           'Authorization': 'Bearer $token',
         };
         response = await http.get(url, headers: refreshedHeaders);
-
         if (response.statusCode == 200) {
           return fromJsonReturnItemName(response);
         } else if (response.statusCode == 404) {
@@ -74,6 +73,9 @@ class ItemService {
           'Authorization': 'Bearer $token',
         };
         response = await http.get(url, headers: refreshedHeaders);
+        if(response.statusCode == 401){
+
+        }
 
         if (response.statusCode == 200) {
           return fromJsonReturnCalculations(response);
