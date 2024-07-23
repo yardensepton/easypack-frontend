@@ -41,21 +41,12 @@ class _CustomChoiceChipState extends State<CustomChoiceChip> {
             crossAxisSpacing: 15.0, // Spacing between columns
             mainAxisSpacing: 10.0, // Spacing between rows
             childAspectRatio:
-                3, // Adjust this value to change height to width ratio of each item
+                3, 
           ),
           itemCount: widget.options.length,
           itemBuilder: (BuildContext context, int index) {
             String option = widget.options[index].capitalize();
             return GestureDetector(
-              // onTap: () {
-              //   setState(() {
-              //     if (selectedOptions.contains(option)) {
-              //       selectedOptions.remove(option);
-              //     } else {
-              //       selectedOptions.add(option);
-              //     }
-              //   });
-              // },
               child: Container(
                 alignment: Alignment.topLeft, // Align chips to the start
                 child: ChoiceChip(

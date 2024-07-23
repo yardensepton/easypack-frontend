@@ -1,4 +1,3 @@
-
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/pages/clicked_trip_page.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
@@ -46,7 +45,8 @@ class SmallTripCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -74,7 +74,6 @@ class SmallTripCard extends StatelessWidget {
       ),
     );
   }
-
 
   void _openClickTripPage(BuildContext context, String tripId) {
     Navigator.push(

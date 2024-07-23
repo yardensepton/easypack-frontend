@@ -40,6 +40,7 @@ class PackingListService {
     try {
       final response = await http.post(url, headers: headers, body: body);
       final Map<String, dynamic> responseData = jsonDecode(response.body);
+      print(responseData);
       if (response.statusCode == 400) {
         return ServerError.getErrorMsg(responseData);
       }

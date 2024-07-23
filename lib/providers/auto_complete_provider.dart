@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:easypack/models/city.dart';
 import 'package:easypack/services/city_search_service.dart';
 import 'package:flutter/material.dart';

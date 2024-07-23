@@ -38,18 +38,42 @@ class PackingListProvider with ChangeNotifier {
     // notifyListeners();
   }
 
-  Map<String, List<ItemList>> groupItemsByCategory() {
-    Map<String, List<ItemList>> groupedItems = {};
+  // Map<String, List<ItemList>> groupItemsByCategory() {
+  //   Map<String, List<ItemList>> groupedItems = {};
 
-    for (var item in currentPackingList!.items) {
-      if (groupedItems.containsKey(item.category)) {
-        groupedItems[item.category]!.add(item);
-      } else {
-        groupedItems[item.category] = [item];
-      }
+  //   for (var item in currentPackingList!.items) {
+  //     if (groupedItems.containsKey(item.category)) {
+  //       groupedItems[item.category]!.add(item);
+  //     } else {
+  //       groupedItems[item.category] = [item];
+  //     }
+  //   }
+
+  //   print(groupedItems[0]);
+  //   return groupedItems;
+  // }
+
+  Map<String, List<ItemList>> groupItemsByCategory() {
+  Map<String, List<ItemList>> groupedItems = {};
+
+  for (var item in currentPackingList!.items) {
+    if (groupedItems.containsKey(item.category)) {
+      groupedItems[item.category]!.add(item);
+    } else {
+      groupedItems[item.category] = [item];
     }
-    return groupedItems;
   }
+
+  // Print the contents of the groupedItems map for debugging
+  groupedItems.forEach((category, items) {
+    print('Category: $category');
+    for (var item in items) {
+      print('  Item: ${item.itemName}, Amount Per Trip: ${item.amountPerTrip}');
+    }
+  });
+
+  return groupedItems;
+}
 
   Future<String?> deletePackingListById(
       BuildContext context, String tripId) async {

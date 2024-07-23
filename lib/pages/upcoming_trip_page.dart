@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/widgets/loading_widget.dart';
-import 'package:easypack/widgets/no_upcoming_trip.dart';
 import 'package:easypack/widgets/trip_header.dart';
 import 'package:easypack/widgets/trip_bottom_section.dart';
 
@@ -19,48 +18,64 @@ class _UpcomingTripPageState extends State<UpcomingTripPage> {
     Size screenSize = MediaQuery.of(context).size;
     bool isMobile = screenSize.width < 600;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: FutureBuilder(
+    return FutureBuilder(
         future: Provider.of<TripDetailsProvider>(context, listen: false)
             .fetchUpcomingTrip(),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: LoadingWidget());
           } else if (snapshot.hasError) {
-            return const NoUpcomingTrip();
+            return const Center(child: Text('Error loading trip details'));
           } else {
             final tripDetailsProvider =
                 Provider.of<TripDetailsProvider>(context);
             if (tripDetailsProvider.isLoading) {
               return const LoadingWidget();
-            }
-
-            if (!tripDetailsProvider.hasUpcomingTrip) {
-              return const NoUpcomingTrip();
             } else {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TripHeader(
-                    imageUrl: tripDetailsProvider.cachedDestinationUrl ??
-                        'assets/background/gradient.jpg',
-                    tripTitle: 'Trip to ${tripDetailsProvider.destinationName.text}',
-                    tripDates: '${tripDetailsProvider.startDateController.text} - ${tripDetailsProvider.endDateController.text}',
-                    isMobile: isMobile,
+              return Scaffold(
+                body: CustomScrollView(slivers: [
+                  SliverAppBar(
+                    foregroundColor: Colors.white,
+                    expandedHeight: 200.0,
+                    flexibleSpace: FlexibleSpaceBar(
+                      titlePadding: const EdgeInsetsDirectional.only(
+                          start: 16.0, bottom: 16.0),
+                      centerTitle: false,
+                      title: Text(
+                        "Trip to ${tripDetailsProvider.destinationName.text}\n${tripDetailsProvider.startDateController.text} - ${tripDetailsProvider.endDateController.text}",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      background: TripHeader(
+                        imageUrl: tripDetailsProvider.cachedDestinationUrl ??
+                            'assets/background/gradient.jpg',
+                        tripTitle:
+                            'Trip to ${tripDetailsProvider.destinationName.text}',
+                        tripDates:
+                            '${tripDetailsProvider.startDateController.text} - ${tripDetailsProvider.endDateController.text}',
+                        isMobile: isMobile,
+                      ),
+                    ),
                   ),
-                  TripBottomSection(
-                    tripId: tripDetailsProvider.cachedTrip!.id!,
-                    tripTitle:tripDetailsProvider.destinationName.text ,
-                    weatherData: tripDetailsProvider.cachedTrip?.weatherData ?? [],
-                    isMobile: isMobile,
-                  ),
-                ],
+                  SliverToBoxAdapter(
+                    child: TripBottomSection(
+                      tripId: tripDetailsProvider.cachedTrip!.id!,
+                      tripTitle: tripDetailsProvider.destinationName.text,
+                      weatherData:
+                          tripDetailsProvider.cachedTrip?.weatherData ?? [],
+                      isMobile: isMobile,
+                    ),
+                  )
+                ]),
               );
             }
           }
-        },
-      ),
-    );
+        });
   }
 }
+
+
