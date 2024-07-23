@@ -96,29 +96,3 @@
       builder: (context) => PackingListBottomSheet(tripId: tripId),
     );
   }
-  Widget buildTitle(String tripTitleAndDates, bool isMobile) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Text(
-          tripTitleAndDates.split("\n")[0],
-          style: TextStyle(
-            fontSize: isMobile ? 20 : 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          tripTitleAndDates.split("\n")[1],
-          style: TextStyle(
-            fontSize: isMobile ? 12 : 10,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
-  }
-

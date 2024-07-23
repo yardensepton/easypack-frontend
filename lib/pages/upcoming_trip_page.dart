@@ -1,3 +1,4 @@
+import 'package:easypack/widgets/packing_list_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
@@ -31,7 +32,10 @@ class _UpcomingTripPageState extends State<UpcomingTripPage> {
                 Provider.of<TripDetailsProvider>(context);
             if (tripDetailsProvider.isLoading) {
               return const LoadingWidget();
-            } else {
+            } if(
+              tripDetailsProvider.cachedTrip == null){
+                return const Center(child: Text('No upcoming trip found.'));
+              }else {
               return Scaffold(
                 body: CustomScrollView(slivers: [
                   SliverAppBar(
@@ -60,6 +64,14 @@ class _UpcomingTripPageState extends State<UpcomingTripPage> {
                         isMobile: isMobile,
                       ),
                     ),
+                    actions: [
+                        IconButton(
+                          onPressed: () {
+                            _showBottomSheet(context, tripDetailsProvider.cachedTrip!.id!);
+                          },
+                          icon: const Icon(Icons.more_horiz),
+                        ),
+                      ],
                   ),
                   SliverToBoxAdapter(
                     child: TripBottomSection(
@@ -79,3 +91,9 @@ class _UpcomingTripPageState extends State<UpcomingTripPage> {
 }
 
 
+  void _showBottomSheet(BuildContext context, String tripId) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => PackingListBottomSheet(tripId: tripId),
+    );
+  }

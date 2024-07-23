@@ -49,10 +49,10 @@ class PackingListView extends StatelessWidget {
                 ),
               ],
             ),
-            const Divider(
+             Divider(
               thickness: 1,
               height: 1, 
-              color: Colors.grey,
+              color: Colors.indigo[900],
             ),
           ],
         ),
