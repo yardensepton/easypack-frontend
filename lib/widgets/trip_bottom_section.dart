@@ -111,7 +111,7 @@ class TripBottomSection extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    PackingListView(items: items),
+                    PackingListView(items: items,tripId: tripId),
                   ],
                 );
               }
@@ -121,13 +121,4 @@ class TripBottomSection extends StatelessWidget {
       ),
     );
   }
-}
-
-void showAddItemDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return const AddItemDialog();
-    },
-  );
 }

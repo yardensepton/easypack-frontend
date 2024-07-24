@@ -7,16 +7,16 @@ import 'package:easypack/widgets/snack_bars/success_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PackingListBottomSheet extends StatefulWidget {
+class TripBottomSheet extends StatefulWidget {
   final String tripId;
 
-  const PackingListBottomSheet({super.key, required this.tripId});
+  const TripBottomSheet({super.key, required this.tripId});
 
   @override
-  State<PackingListBottomSheet> createState() => _PackingListBottomSheetState();
+  State<TripBottomSheet> createState() => _TripBottomSheetState();
 }
 
-class _PackingListBottomSheetState extends State<PackingListBottomSheet> {
+class _TripBottomSheetState extends State<TripBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
@@ -34,7 +34,7 @@ class _PackingListBottomSheetState extends State<PackingListBottomSheet> {
           ),
           child: Consumer<PackingListProvider>(
             builder: (context, packingListProvider, child) {
-              if (packingListProvider.hasPackingList) {
+              if (packingListProvider.currentPackingList != null) {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -42,7 +42,8 @@ class _PackingListBottomSheetState extends State<PackingListBottomSheet> {
                       leading: const Icon(Icons.add, color: Colors.green),
                       title: const Text('Add An Item To The List'),
                       onTap: () {
-                        showAddItemDialog(context);
+                        Navigator.pop(context);
+                        showAddItemDialog(context, widget.tripId);
                       },
                     ),
                     ListTile(
@@ -53,7 +54,8 @@ class _PackingListBottomSheetState extends State<PackingListBottomSheet> {
                       },
                     ),
                     ListTile(
-                      leading: const Icon(Icons.delete_forever, color: Colors.red),
+                      leading:
+                          const Icon(Icons.delete_forever, color: Colors.red),
                       title: const Text('Delete Trip'),
                       onTap: () {
                         _showDeleteTripAlert(context, widget.tripId);
@@ -62,18 +64,16 @@ class _PackingListBottomSheetState extends State<PackingListBottomSheet> {
                   ],
                 );
               } else {
-                return  Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ListTile(
-                      leading: const Icon(Icons.delete_forever, color: Colors.red),
-                      title: const Text('Delete Trip'),
-                      onTap: () {
-                        _showDeleteTripAlert(context, widget.tripId);
-                      },
-                    ),
-                  ]
-                 );
+                return Column(mainAxisSize: MainAxisSize.min, children: [
+                  ListTile(
+                    leading:
+                        const Icon(Icons.delete_forever, color: Colors.red),
+                    title: const Text('Delete Trip'),
+                    onTap: () {
+                      _showDeleteTripAlert(context, widget.tripId);
+                    },
+                  ),
+                ]);
               }
             },
           ),
@@ -83,11 +83,11 @@ class _PackingListBottomSheetState extends State<PackingListBottomSheet> {
   }
 }
 
-void showAddItemDialog(BuildContext context) {
+void showAddItemDialog(BuildContext context, String tripId) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return const AddItemDialog();
+      return AddItemDialog(tripId: tripId);
     },
   );
 }

@@ -1,3 +1,4 @@
+import 'package:easypack/enums/enum_actions.dart';
 import 'package:easypack/models/item_list.dart';
 import 'package:easypack/models/packing_list.dart';
 import 'package:easypack/services/packing_list_service.dart';
@@ -60,7 +61,6 @@ class PackingListProvider with ChangeNotifier {
   Future<void> createPackingList(BuildContext context, String tripId) async {
     if (tripId.isNotEmpty) {
       isLoading = true;
-      // notifyListeners();
       String? response = await packingListService.createPackingList(
           tripId: tripId,
           items: _selectedSpecialItems,
@@ -86,18 +86,37 @@ class PackingListProvider with ChangeNotifier {
   }
 
   Future<PackingList?> getPackingList(String tripId) async {
-     hasPackingList = false;
+    // hasPackingList = false;
     if (tripId.isNotEmpty) {
       currentPackingList =
           await packingListService.getPackingList(tripId: tripId);
-      if (currentPackingList != null) {
-        hasPackingList = true;
-      }
+      // if (currentPackingList != null) {
+      //   hasPackingList = true;
+      // }
       return currentPackingList;
     }
     return null;
   }
 
+  bool getHasPackingList()  {
+    return hasPackingList;
+  }
+
+  Future<void> updatePackingList(
+      String tripId, EnumActions action, ItemList details) async {
+    print("in func");
+    if (tripId.isNotEmpty) {
+      String? response = await packingListService.updatePackingListById(
+        tripId: tripId,
+        packingListId: currentPackingList!.id!,
+        action: action,
+        details: details,
+      );
+
+      print(response);
+      notifyListeners();
+    }
+  }
 
   // void _updateControllers(PackingList packingList) {
   //   destinationName.text = trip.destination.text;

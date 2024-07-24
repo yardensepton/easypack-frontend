@@ -1,13 +1,17 @@
+import 'package:easypack/enums/enum_actions.dart';
 import 'package:easypack/models/item_list.dart';
+import 'package:easypack/providers/packing_list_provider.dart';
 import 'package:easypack/utils/string_extentsion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 
 class PackingListView extends StatelessWidget {
+  final String tripId;
   final List<ItemList> items;
-  const PackingListView({super.key, required this.items});
+  const PackingListView({super.key, required this.items,required this.tripId});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +70,9 @@ class PackingListView extends StatelessWidget {
                   backgroundColor: Colors.green,
                   icon: Icons.add,
                   label: 'Add',
-                  onPressed: onDismissed)
+                     onPressed:(context){
+                    onDismissed(context,item,EnumActions.add);
+                  })
               ],
               ),
               endActionPane:  ActionPane(
@@ -76,7 +82,10 @@ class PackingListView extends StatelessWidget {
                   backgroundColor: Colors.red,
                   icon: Icons.delete,
                   label: 'Remove',
-                  onPressed: onDismissed)
+                  onPressed:(context){
+                    onDismissed(context,item,EnumActions.remove);
+                  }
+                  )
               ],
               ),
             child: ListTile(
@@ -92,6 +101,7 @@ class PackingListView extends StatelessWidget {
     );
   }
 
-  void onDismissed(BuildContext context) {
+  void onDismissed(BuildContext context, ItemList item, EnumActions action) {
+     
   }
 }

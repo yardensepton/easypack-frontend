@@ -1,8 +1,5 @@
-import 'package:easypack/models/packing_list.dart';
 import 'package:easypack/providers/click_trip_provider.dart';
-import 'package:easypack/providers/packing_list_provider.dart';
-import 'package:easypack/widgets/add_item_dialog.dart';
-import 'package:easypack/widgets/packing_list_bottom_sheet.dart';
+import 'package:easypack/widgets/trip_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/widgets/loading_widget.dart';
@@ -93,18 +90,9 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
   }
 }
 
-void showAddItemDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return const AddItemDialog();
-    },
-  );
-}
-
 void _showBottomSheet(BuildContext context, String tripId) {
   showModalBottomSheet(
     context: context,
-    builder: (context) => PackingListBottomSheet(tripId: tripId),
+    builder: (context) => TripBottomSheet(tripId: tripId),
   );
 }
