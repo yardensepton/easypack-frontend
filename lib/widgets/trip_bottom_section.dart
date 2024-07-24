@@ -13,10 +13,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/utils/string_extentsion.dart';
 
-typedef ButtonCallBack = void Function(bool hasPackingList);
 
 class TripBottomSection extends StatelessWidget {
-  // final ButtonCallBack callback;
   final String tripTitle;
   final String tripId;
   final List<Weather> weatherData;
@@ -49,7 +47,6 @@ class TripBottomSection extends StatelessWidget {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (!snapshot.hasData) {
-                // callback(false);
                 return ElevatedButton.icon(
                   onPressed: () {
                     Navigator.push(

@@ -3,6 +3,7 @@ import 'package:easypack/utils/string_extentsion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PackingListView extends StatelessWidget {
   final List<ItemList> items;
@@ -57,9 +58,31 @@ class PackingListView extends StatelessWidget {
           ],
         ),
         itemBuilder: (context, item) {
-          return ListTile(
-            title: Text(item.itemName.capitalize()),
-            trailing: Text('${item.amountPerTrip}'),
+          return Slidable(
+            startActionPane: ActionPane(
+              motion: const StretchMotion(),
+              children: [
+                SlidableAction(
+                  backgroundColor: Colors.green,
+                  icon: Icons.add,
+                  label: 'Add',
+                  onPressed: onDismissed)
+              ],
+              ),
+              endActionPane:  ActionPane(
+              motion: const StretchMotion(),
+              children: [
+                SlidableAction(
+                  backgroundColor: Colors.red,
+                  icon: Icons.delete,
+                  label: 'Remove',
+                  onPressed: onDismissed)
+              ],
+              ),
+            child: ListTile(
+              title: Text(item.itemName.capitalize()),
+              trailing: Text('${item.amountPerTrip}'),
+            ),
           );
         },
         order: GroupedListOrder.ASC,
@@ -67,5 +90,8 @@ class PackingListView extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
       ),
     );
+  }
+
+  void onDismissed(BuildContext context) {
   }
 }

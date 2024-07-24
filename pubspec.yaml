@@ -49,6 +49,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_secure_storage: ^9.2.2
   syncfusion_flutter_datepicker: ^26.1.35
+  flutter_slidable: ^3.1.1
   rxdart: ^0.28.0
   lottie: ^3.1.2
   hive: ^2.2.3

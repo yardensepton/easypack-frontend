@@ -13,6 +13,7 @@ class PackingListProvider with ChangeNotifier {
   List<String> _selectedActivites = [];
   bool isLoading = false;
   PackingList? currentPackingList;
+  bool hasPackingList = false;
 
   List<String> get selectedSpecialItems => _selectedSpecialItems;
 
@@ -37,7 +38,6 @@ class PackingListProvider with ChangeNotifier {
     _selectedActivites.remove(item.addUnderscores().toLowerCase());
     // notifyListeners();
   }
-
 
   Future<String?> deletePackingListById(
       BuildContext context, String tripId) async {
@@ -86,17 +86,18 @@ class PackingListProvider with ChangeNotifier {
   }
 
   Future<PackingList?> getPackingList(String tripId) async {
+     hasPackingList = false;
     if (tripId.isNotEmpty) {
       currentPackingList =
           await packingListService.getPackingList(tripId: tripId);
+      if (currentPackingList != null) {
+        hasPackingList = true;
+      }
       return currentPackingList;
     }
     return null;
   }
 
-  bool hasPackingList(String tripId) {
-    return currentPackingList != null;
-  }
 
   // void _updateControllers(PackingList packingList) {
   //   destinationName.text = trip.destination.text;

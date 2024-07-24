@@ -1,5 +1,6 @@
 import 'package:easypack/providers/packing_list_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
+import 'package:easypack/widgets/add_item_dialog.dart';
 import 'package:easypack/widgets/custom_alert_dialog.dart';
 import 'package:easypack/widgets/snack_bars/error_snack_bar.dart';
 import 'package:easypack/widgets/snack_bars/success_snack_bar.dart';
@@ -31,29 +32,64 @@ class _PackingListBottomSheetState extends State<PackingListBottomSheet> {
             color: Colors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(Icons.delete, color: Colors.red),
-                title: const Text('Delete Packing List'),
-                onTap: () {
-                  _showDeleteListAlert(context, widget.tripId);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.delete_forever, color: Colors.red),
-                title: const Text('Delete Trip'),
-                onTap: () {
-                  _showDeleteTripAlert(context, widget.tripId);
-                },
-              ),
-            ],
+          child: Consumer<PackingListProvider>(
+            builder: (context, packingListProvider, child) {
+              if (packingListProvider.hasPackingList) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.add, color: Colors.green),
+                      title: const Text('Add An Item To The List'),
+                      onTap: () {
+                        showAddItemDialog(context);
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.delete, color: Colors.red),
+                      title: const Text('Delete Packing List'),
+                      onTap: () {
+                        _showDeleteListAlert(context, widget.tripId);
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.delete_forever, color: Colors.red),
+                      title: const Text('Delete Trip'),
+                      onTap: () {
+                        _showDeleteTripAlert(context, widget.tripId);
+                      },
+                    ),
+                  ],
+                );
+              } else {
+                return  Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.delete_forever, color: Colors.red),
+                      title: const Text('Delete Trip'),
+                      onTap: () {
+                        _showDeleteTripAlert(context, widget.tripId);
+                      },
+                    ),
+                  ]
+                 );
+              }
+            },
           ),
         ),
       ),
     );
   }
+}
+
+void showAddItemDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return const AddItemDialog();
+    },
+  );
 }
 
 void _showDeleteTripAlert(BuildContext context, String tripId) {
@@ -67,9 +103,8 @@ void _showDeleteTripAlert(BuildContext context, String tripId) {
         iconColor: Colors.red,
         okBtnText: 'Delete',
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.pop(context); // Close the dialog
           _deleteTrip(context, tripId);
-          Navigator.pop(context);
         },
       );
     },
@@ -87,7 +122,7 @@ void _showDeleteListAlert(BuildContext context, String tripId) {
         iconColor: Colors.red,
         okBtnText: 'Delete',
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.pop(context); // Close the dialog
           _deletePackingList(context, tripId);
         },
       );
@@ -111,11 +146,12 @@ Future<void> _deleteTrip(BuildContext context, String tripId) async {
     String? response =
         await Provider.of<TripDetailsProvider>(context, listen: false)
             .deleteTripById(tripId);
+
     if (context.mounted) {
       if (response != null) {
         ErrorSnackBar.showErrorSnackBar(context, response);
       } else {
-        SuccessSnackBar.showSuccessSnackBar(context, "trip deleted");
+        SuccessSnackBar.showSuccessSnackBar(context, "Trip deleted");
       }
     }
   } catch (e) {

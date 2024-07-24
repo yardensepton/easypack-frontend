@@ -99,7 +99,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      title: const Text('Add an Item'),
+      title: const Text('Add an item'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

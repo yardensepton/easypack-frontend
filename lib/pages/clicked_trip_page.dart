@@ -1,4 +1,6 @@
+import 'package:easypack/models/packing_list.dart';
 import 'package:easypack/providers/click_trip_provider.dart';
+import 'package:easypack/providers/packing_list_provider.dart';
 import 'package:easypack/widgets/add_item_dialog.dart';
 import 'package:easypack/widgets/packing_list_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,6 @@ class ClickedTripPage extends StatefulWidget {
 }
 
 class _ClickedTripPageState extends State<ClickedTripPage> {
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -79,12 +80,12 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
                       tripId: clickTripProvider.clickedTrip!.id!,
                       tripTitle: clickTripProvider.destinationName.text,
                       weatherData:
-                          clickTripProvider.clickedTrip?.weatherData ?? [],
+                          clickTripProvider.clickedTrip?.weatherData ??
+                              [],
                       isMobile: isMobile,
                     ),
                   )
                 ]),
-              
               );
             }
           }
