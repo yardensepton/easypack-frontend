@@ -16,7 +16,7 @@ class _CreatePackingListPageState extends State<CreatePackingListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFdfbfbfb),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,

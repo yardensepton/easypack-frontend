@@ -1,6 +1,7 @@
 import 'package:easypack/models/item_list.dart';
 import 'package:easypack/models/packing_list.dart';
 import 'package:easypack/models/weather.dart';
+import 'package:easypack/widgets/add_item_dialog.dart';
 import 'package:easypack/widgets/packing_list_view.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:easypack/pages/create_packing_list_page.dart';
@@ -12,7 +13,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/utils/string_extentsion.dart';
 
+typedef ButtonCallBack = void Function(bool hasPackingList);
+
 class TripBottomSection extends StatelessWidget {
+  // final ButtonCallBack callback;
   final String tripTitle;
   final String tripId;
   final List<Weather> weatherData;
@@ -37,13 +41,15 @@ class TripBottomSection extends StatelessWidget {
         children: [
           WeatherInfo(weatherData: weatherData),
           FutureBuilder<PackingList?>(
-            future: Provider.of<PackingListProvider>(context).getPackingList(tripId),
+            future: Provider.of<PackingListProvider>(context)
+                .getPackingList(tripId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: LoadingWidget());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (!snapshot.hasData) {
+                // callback(false);
                 return ElevatedButton.icon(
                   onPressed: () {
                     Navigator.push(
@@ -72,42 +78,43 @@ class TripBottomSection extends StatelessWidget {
                   ),
                 );
               } else {
-                String? description = Provider.of<PackingListProvider>(context).currentPackingList!.description;
-                List<ItemList> items = Provider.of<PackingListProvider>(context).currentPackingList!.items;
-        
+                String? description = Provider.of<PackingListProvider>(context)
+                    .currentPackingList!
+                    .description;
+                List<ItemList> items = Provider.of<PackingListProvider>(context)
+                    .currentPackingList!
+                    .items;
+
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 10),
                     Container(
                       padding: const EdgeInsets.all(16.0),
-                      margin: const EdgeInsets.only(bottom: 16.0,top: 16.0),
+                      margin: const EdgeInsets.only(bottom: 16.0, top: 16.0),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 3,
-                            offset: const Offset(0, 1), // changes position of shadow
+                            color: Colors.black26,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
                           ),
                         ],
                       ),
                       child: Text(
                         description!,
                         textAlign: TextAlign.center,
-                        style:  TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           color: Colors.indigo[900],
                           fontStyle: FontStyle.normal,
                         ),
                       ),
                     ),
-                                        const SizedBox(height: 10),
-
-                     PackingListView(items: items),
-              
+                    const SizedBox(height: 10),
+                    PackingListView(items: items),
                   ],
                 );
               }
@@ -117,4 +124,13 @@ class TripBottomSection extends StatelessWidget {
       ),
     );
   }
+}
+
+void showAddItemDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return const AddItemDialog();
+    },
+  );
 }

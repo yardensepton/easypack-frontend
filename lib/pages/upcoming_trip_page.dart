@@ -1,3 +1,4 @@
+import 'package:easypack/widgets/add_item_dialog.dart';
 import 'package:easypack/widgets/packing_list_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,10 +11,11 @@ class UpcomingTripPage extends StatefulWidget {
   const UpcomingTripPage({super.key});
 
   @override
-  _UpcomingTripPageState createState() => _UpcomingTripPageState();
+ State<UpcomingTripPage> createState() => _UpcomingTripPageState();
 }
 
 class _UpcomingTripPageState extends State<UpcomingTripPage> {
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -37,6 +39,7 @@ class _UpcomingTripPageState extends State<UpcomingTripPage> {
                 return const Center(child: Text('No upcoming trip found.'));
               }else {
               return Scaffold(
+                 backgroundColor: const Color(0xFdfbfbfb),
                 body: CustomScrollView(slivers: [
                   SliverAppBar(
                     foregroundColor: Colors.white,
@@ -83,13 +86,33 @@ class _UpcomingTripPageState extends State<UpcomingTripPage> {
                     ),
                   )
                 ]),
+
+                // floatingActionButton: hasPackingList
+                //     ? FloatingActionButton(
+                //         backgroundColor: Colors.indigo[900],
+                //         tooltip: 'Add Item',
+                //         onPressed: () {
+                //           showAddItemDialog(context);
+                //         },
+                //         child: const Icon(Icons.add,
+                //             color: Colors.white, size: 28),
+                //       )
+                //     : null,
+
               );
             }
           }
         });
   }
 }
-
+void showAddItemDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return const AddItemDialog();
+    },
+  );
+}
 
   void _showBottomSheet(BuildContext context, String tripId) {
     showModalBottomSheet(

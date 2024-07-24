@@ -31,35 +31,6 @@ class TripHeader extends StatelessWidget {
             ),
           ),
         ),
-        Positioned.fill(
-          child: Container(
-            color: Colors.black.withOpacity(0.3),
-            padding: const EdgeInsets.all(16.0),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                // Text(
-                //   tripTitle,
-                //   style: TextStyle(
-                //     fontSize: isMobile ? 20 : 18,
-                //     fontWeight: FontWeight.bold,
-                //     color: Colors.white,
-                //   ),
-                // ),
-                // const SizedBox(height: 8),
-                // Text(
-                //   tripDates,
-                //   style: TextStyle(
-                //     fontSize: isMobile ? 12 : 10,
-                //     color: Colors.white,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-        ),
       ],
     );
   }

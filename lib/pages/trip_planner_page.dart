@@ -45,10 +45,10 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: const Color(0xFdfbfbfb),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white10,
+        backgroundColor:  const Color(0xFdfbfbfb),
         title: const Text('New Trip'),
         centerTitle: true,
       ),

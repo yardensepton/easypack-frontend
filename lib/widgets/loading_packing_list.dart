@@ -10,7 +10,7 @@ class LoadingPackingList extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          const SizedBox(height: 100),
+          const SizedBox(height: 300),
           AnimatedTextKit(
             animatedTexts: [
               TyperAnimatedText(
@@ -27,7 +27,7 @@ class LoadingPackingList extends StatelessWidget {
             "assets/lottie/flight_loading.json",
             width: 100,
           ),
-          const SizedBox(height: 100),
+          const SizedBox(height: 300),
         ],
       ),
     );
