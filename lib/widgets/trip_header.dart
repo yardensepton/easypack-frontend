@@ -21,13 +21,13 @@ class TripHeader extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: isMobile
-              ? screenSize.height * 0.3
-              : screenSize.height * 0.3,
+          height: isMobile ? screenSize.height * 0.3 : screenSize.height * 0.3,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: NetworkImage(imageUrl),
               fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.3), BlendMode.srcOver),
             ),
           ),
         ),

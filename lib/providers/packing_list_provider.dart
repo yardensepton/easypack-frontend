@@ -66,6 +66,11 @@ class PackingListProvider with ChangeNotifier {
           SuccessSnackBar.showSuccessSnackBar(
               context, "Packing list created successfuly!");
           Navigator.pop(context);
+          isLoading = true;
+          notifyListeners();
+          currentPackingList = await getPackingList(tripId);
+          isLoading = false;
+          notifyListeners();
         } else {
           ErrorSnackBar.showErrorSnackBar(context, response);
         }
@@ -106,5 +111,4 @@ class PackingListProvider with ChangeNotifier {
       notifyListeners();
     }
   }
-
 }

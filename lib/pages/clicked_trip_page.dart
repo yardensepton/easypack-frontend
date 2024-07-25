@@ -35,12 +35,12 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
       builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor:  Color(0xFdfbfbfb),
             body: Center(child: LoadingWidget()),
           );
         } else if (snapshot.hasError) {
           return const Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor:  Color(0xFdfbfbfb),
             body: Center(child: Text('Error loading trip details')),
           );
         } else {
@@ -49,7 +49,7 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
             body: CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  foregroundColor: Colors.white,
+                  foregroundColor: const Color(0xFdfbfbfb),
                   expandedHeight: 200.0,
                   flexibleSpace: FlexibleSpaceBar(
                     titlePadding: const EdgeInsetsDirectional.only(
