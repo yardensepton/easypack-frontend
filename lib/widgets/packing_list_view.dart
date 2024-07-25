@@ -1,6 +1,5 @@
 import 'package:easypack/enums/enum_actions.dart';
 import 'package:easypack/models/item_list.dart';
-import 'package:easypack/pages/create_packing_list_page.dart';
 import 'package:easypack/providers/packing_list_provider.dart';
 import 'package:easypack/utils/string_extentsion.dart';
 import 'package:easypack/widgets/btn_create_packing_list.dart';
@@ -8,7 +7,6 @@ import 'package:easypack/widgets/custom_text_container.dart';
 import 'package:easypack/widgets/group_seperator_category.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -36,10 +34,9 @@ class PackingListView extends StatelessWidget {
           return const Center(child: LoadingWidget());
         }
         if (packingListProvider.currentPackingList == null) {
-          
           return Column(
             children: [
-               const SizedBox(height: 10),
+              const SizedBox(height: 10),
               BtnCreatePackingList(
                 tripId: tripId,
                 tripTitle: tripTitle,
@@ -52,7 +49,7 @@ class PackingListView extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
             if (description != null)
-            CustomTextContainer(description: description),
+              CustomTextContainer(description: description),
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -67,50 +64,59 @@ class PackingListView extends StatelessWidget {
                   ),
                 ],
               ),
-              child: GroupedListView<ItemList, String>(
-                elements: items,
-                groupBy: (item) => item.category,
-                groupSeparatorBuilder: (String category) => 
-                GroupSeperatorCategory(category: category),
-                itemBuilder: (context, item) {
-                  return Slidable(
-                    startActionPane: ActionPane(
-                      motion: const StretchMotion(),
-                      children: [
-                        SlidableAction(
-                          backgroundColor: Colors.green,
-                          icon: Icons.add,
-                          label: 'Add',
-                          onPressed: (context) {
-                            onDismissed(context, item, EnumActions.add,
-                                packingListProvider);
+              child: SlidableAutoCloseBehavior(
+                closeWhenOpened: true,
+                child: GroupedListView<ItemList, String>(
+                  elements: items,
+                  groupBy: (item) => item.category,
+                  groupSeparatorBuilder: (String category) =>
+                      GroupSeperatorCategory(category: category),
+                  itemBuilder: (context, item) {
+                    return Slidable(
+                      key: Key(item.itemName),
+                      startActionPane: ActionPane(
+                        motion: const StretchMotion(),
+                        children: [
+                          SlidableAction(
+                            backgroundColor: Colors.green,
+                            icon: Icons.add,
+                            label: 'Add',
+                            onPressed: (context) {
+                              onDismissed(context, item, EnumActions.add,
+                                  packingListProvider);
+                            },
+                          )
+                        ],
+                      ),
+                      endActionPane: ActionPane(
+                        motion: const StretchMotion(),
+                        children: [
+                          SlidableAction(
+                            backgroundColor: Colors.red,
+                            icon: Icons.delete,
+                            label: 'Remove',
+                            onPressed: (context) {
+                              onDismissed(context, item, EnumActions.remove,
+                                  packingListProvider);
+                            },
+                          )
+                        ],
+                      ),
+                      child: Builder(builder: (context) {
+                        return ListTile(
+                          title: Text(item.itemName.capitalize()),
+                          trailing: Text('${item.amountPerTrip}'),
+                          onTap: () {
+                            handleOpenCloseSlides(context);
                           },
-                        )
-                      ],
-                    ),
-                    endActionPane: ActionPane(
-                      motion: const StretchMotion(),
-                      children: [
-                        SlidableAction(
-                          backgroundColor: Colors.red,
-                          icon: Icons.delete,
-                          label: 'Remove',
-                          onPressed: (context) {
-                            onDismissed(context, item, EnumActions.remove,
-                                packingListProvider);
-                          },
-                        )
-                      ],
-                    ),
-                    child: ListTile(
-                      title: Text(item.itemName.capitalize()),
-                      trailing: Text('${item.amountPerTrip}'),
-                    ),
-                  );
-                },
-                order: GroupedListOrder.ASC,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+                        );
+                      }),
+                    );
+                  },
+                  order: GroupedListOrder.ASC,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                ),
               ),
             ),
           ],
@@ -122,5 +128,15 @@ class PackingListView extends StatelessWidget {
   void onDismissed(BuildContext context, ItemList item, EnumActions action,
       PackingListProvider provider) async {
     await provider.updatePackingList(tripId, action, item);
+  }
+}
+
+void handleOpenCloseSlides(BuildContext context) {
+  final slidable = Slidable.of(context)!;
+  final isClosed = slidable.actionPaneType.value == ActionPaneType.none;
+  if (isClosed) {
+    slidable.openStartActionPane();
+  } else {
+    slidable.close();
   }
 }

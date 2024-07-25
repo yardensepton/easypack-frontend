@@ -105,6 +105,7 @@ void _showDeleteTripAlert(BuildContext context, String tripId) {
         onPressed: () {
           Navigator.pop(context); // Close the dialog
           _deleteTrip(context, tripId);
+          Navigator.pop(context);
         },
       );
     },
