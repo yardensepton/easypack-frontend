@@ -22,22 +22,18 @@ class PackingListProvider with ChangeNotifier {
 
   void addSpecialItem(String item) {
     _selectedSpecialItems.add(item.removeUnderscores().toLowerCase());
-    // notifyListeners();
   }
 
   void removeSpecialItem(String item) {
     _selectedSpecialItems.remove(item.removeUnderscores().toLowerCase());
-    // notifyListeners();
   }
 
   void addAcivity(String item) {
     _selectedActivites.add(item.addUnderscores().toLowerCase());
-    // notifyListeners();
   }
 
   void removeActivity(String item) {
     _selectedActivites.remove(item.addUnderscores().toLowerCase());
-    // notifyListeners();
   }
 
   Future<String?> deletePackingListById(
@@ -86,41 +82,29 @@ class PackingListProvider with ChangeNotifier {
   }
 
   Future<PackingList?> getPackingList(String tripId) async {
-    // hasPackingList = false;
     if (tripId.isNotEmpty) {
       currentPackingList =
           await packingListService.getPackingList(tripId: tripId);
-      // if (currentPackingList != null) {
-      //   hasPackingList = true;
-      // }
       return currentPackingList;
     }
     return null;
   }
 
-  bool getHasPackingList()  {
-    return hasPackingList;
-  }
-
   Future<void> updatePackingList(
       String tripId, EnumActions action, ItemList details) async {
-    print("in func");
     if (tripId.isNotEmpty) {
-      String? response = await packingListService.updatePackingListById(
+      isLoading = true;
+      notifyListeners();
+      currentPackingList = await packingListService.updatePackingListById(
         tripId: tripId,
         packingListId: currentPackingList!.id!,
         action: action,
         details: details,
       );
 
-      print(response);
+      isLoading = false;
       notifyListeners();
     }
   }
 
-  // void _updateControllers(PackingList packingList) {
-  //   destinationName.text = trip.destination.text;
-  //   startDateController.text = FormatDate.getformatDate(trip.departureDate);
-  //   endDateController.text = FormatDate.getformatDate(trip.returnDate);
-  // }
 }

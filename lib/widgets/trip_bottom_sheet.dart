@@ -87,7 +87,7 @@ void showAddItemDialog(BuildContext context, String tripId) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return AddItemDialog(tripId: tripId);
+      return AddItemDialog(tripId: tripId,);
     },
   );
 }

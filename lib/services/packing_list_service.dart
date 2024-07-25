@@ -191,7 +191,7 @@ class PackingListService {
   //   }
   // }
 
-  Future<String?> updatePackingListById(
+  Future<PackingList?> updatePackingListById(
     {required String tripId,
     required String packingListId,
     required EnumActions action,
@@ -220,7 +220,7 @@ class PackingListService {
     print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
-      return null;
+      return fromJsonToPackingList(response);
     } else if (response.statusCode == 401) {
       await userService.refreshAccessToken();
       token = await userService.getAccessToken();
@@ -231,12 +231,12 @@ class PackingListService {
       response = await http.put(url, headers: refreshedHeaders, body: body);
 
       if (response.statusCode == 200) {
-        return null;
+        return fromJsonToPackingList(response);
       } else {
-        return ServerError.getErrorMsg(jsonDecode(response.body));
+        throw Exception('Server error: ${response.statusCode}');
       }
     } else {
-      return ServerError.getErrorMsg(jsonDecode(response.body));
+      throw Exception('Server error: ${response.statusCode}');
     }
   } catch (e) {
     print('Error: $e');

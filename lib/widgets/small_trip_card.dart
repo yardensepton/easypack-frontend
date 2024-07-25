@@ -1,9 +1,7 @@
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/pages/clicked_trip_page.dart';
-import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/utils/format_date.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SmallTripCard extends StatelessWidget {
   final TripInfo trip;
@@ -76,11 +74,24 @@ class SmallTripCard extends StatelessWidget {
   }
 
   void _openClickTripPage(BuildContext context, String tripId) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ClickedTripPage(tripId: tripId),
-      ),
-    );
+    Navigator.of(context).push(_createRoute(tripId));
   }
+}
+
+Route _createRoute(String tripId) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>   ClickedTripPage(tripId: tripId),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }
