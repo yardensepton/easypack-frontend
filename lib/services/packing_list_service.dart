@@ -149,48 +149,6 @@ class PackingListService {
     }
   }
 
-  // Future<String?> updatePackingListById(
-  //     {required String tripId,
-  //     required String packingListId,
-  //     required EnumActions ation,
-  //     required ItemList details}) async {
-  //       print("in service");
-  //   String? token = await userService.getAccessToken();
-  //   final url =
-  //       Uri.parse('${Urls.baseUrl}/packing-lists/$tripId/$packingListId');
-
-  //   final headers = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer $token',
-  //   };
-  //   PackingListUpdate update = PackingListUpdate(action: ation, details: details);
-    
-  //   try {
-  //     http.Response response = await http.put(url, headers: headers,body: update);
-  //     if (response.statusCode == 200) {
-  //       return null;
-  //     } else if (response.statusCode == 401) {
-  //       await userService.refreshAccessToken();
-  //       token = await userService.getAccessToken();
-  //       final refreshedHeaders = {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer $token',
-  //       };
-  //       response = await http.delete(url, headers: refreshedHeaders);
-
-  //       if (response.statusCode == 200) {
-  //         return null;
-  //       } else {
-  //         return ServerError.getErrorMsg(jsonDecode(response.body));
-  //       }
-  //     } else {
-  //       return ServerError.getErrorMsg(jsonDecode(response.body));
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Error: $e');
-  //   }
-  // }
-
   Future<PackingList?> updatePackingListById(
     {required String tripId,
     required String packingListId,

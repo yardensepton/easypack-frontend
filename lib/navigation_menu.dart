@@ -17,14 +17,10 @@ class NavigationMenu extends StatefulWidget {
 
 class _NavigationMenuState extends State<NavigationMenu> {
   void _clearData(int index) {
-    // switch (index) {
-    //   case 1:
-        Provider.of<AutoCompleteProvider>(context, listen: false)
-            .clearResultsBeforeNewSearch();
-        Provider.of<ChooseDateRangeProvider>(context, listen: false)
-            .clearControllers();
-        // break;
-    // }
+    Provider.of<AutoCompleteProvider>(context, listen: false)
+        .clearResultsBeforeNewSearch();
+    Provider.of<ChooseDateRangeProvider>(context, listen: false)
+        .clearControllers();
   }
 
   int _selectedIndex = 0;

@@ -34,7 +34,6 @@ class _AddItemDialogState extends State<AddItemDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
-                onChanged: (String newText) => print('$newText'),
                 controller: categoryController,
                 decoration: InputDecoration(
                   labelText: 'Category',
@@ -52,7 +51,6 @@ class _AddItemDialogState extends State<AddItemDialog> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                onChanged: (String newText) => print('$newText'),
                 controller: itemNameController,
                 decoration: InputDecoration(
                   labelText: 'Item Name',
@@ -118,7 +116,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
 Future<void> addNewItem(BuildContext context, String tripId, String itemName,
     String category, int amount) async {
   ItemList details =
-      ItemList(itemName: itemName, category: category, amountPerTrip: amount);
+      ItemList(itemName: itemName, category: category, amountPerTrip: amount,isPacked:false);
   await Provider.of<PackingListProvider>(context, listen: false)
       .updatePackingList(tripId, EnumActions.add, details);
 }

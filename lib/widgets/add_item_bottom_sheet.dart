@@ -33,11 +33,11 @@ class _AddItemBottomSheetState extends State<AddItemBottomSheet> {
             children: [
               TextField(
                 controller: categoryController,
-                decoration: InputDecoration(labelText: 'Category'),
+                decoration: const InputDecoration(labelText: 'Category'),
               ),
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Name'),
               ),
                   NumberPicker(
                     minValue: 1,
@@ -63,7 +63,7 @@ class _AddItemBottomSheetState extends State<AddItemBottomSheet> {
 
                   Navigator.of(context).pop(); // Close the bottom sheet
                 },
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ],
           ),

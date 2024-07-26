@@ -5,6 +5,7 @@ import 'package:easypack/utils/string_extentsion.dart';
 import 'package:easypack/widgets/btn_create_packing_list.dart';
 import 'package:easypack/widgets/custom_text_container.dart';
 import 'package:easypack/widgets/group_seperator_category.dart';
+import 'package:easypack/widgets/item_tile_in_packing_list.dart';
 import 'package:easypack/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -74,20 +75,20 @@ class PackingListView extends StatelessWidget {
                   itemBuilder: (context, item) {
                     return Slidable(
                       key: Key(item.itemName),
-                      startActionPane: ActionPane(
-                        motion: const StretchMotion(),
-                        children: [
-                          SlidableAction(
-                            backgroundColor: Colors.green,
-                            icon: Icons.add,
-                            label: 'Add',
-                            onPressed: (context) {
-                              onDismissed(context, item, EnumActions.add,
-                                  packingListProvider);
-                            },
-                          )
-                        ],
-                      ),
+                      // startActionPane: ActionPane(
+                      //   motion: const StretchMotion(),
+                      //   children: [
+                      //     SlidableAction(
+                      //       backgroundColor: Colors.green,
+                      //       icon: Icons.add,
+                      //       label: 'Add',
+                      //       onPressed: (context) {
+                      //         onDismissed(context, item, EnumActions.add,
+                      //             packingListProvider);
+                      //       },
+                      //     )
+                      //   ],
+                      // ),
                       endActionPane: ActionPane(
                         motion: const StretchMotion(),
                         children: [
@@ -103,12 +104,16 @@ class PackingListView extends StatelessWidget {
                         ],
                       ),
                       child: Builder(builder: (context) {
-                        return ListTile(
-                          title: Text(item.itemName.capitalize()),
-                          trailing: Text('${item.amountPerTrip}'),
-                          onTap: () {
-                            handleOpenCloseSlides(context);
+                        return ItemTileInPackingList(
+                          initialPackedState: item.isPacked,
+                          amount: item.amountPerTrip,
+                          name: item.itemName,
+                          onChanged: (value) {
+                            item.isPacked = value!;
+                            packingListProvider.updateCheckBoxInPackingList(tripId,item);
                           },
+                          packingListProvider: packingListProvider,
+                          // onTap: handleOpenCloseSlides(context),
                         );
                       }),
                     );
@@ -140,3 +145,4 @@ void handleOpenCloseSlides(BuildContext context) {
     slidable.close();
   }
 }
+

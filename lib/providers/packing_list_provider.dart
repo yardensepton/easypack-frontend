@@ -12,13 +12,21 @@ class PackingListProvider with ChangeNotifier {
   final TextEditingController tripTypeController = TextEditingController();
   List<String> _selectedSpecialItems = [];
   List<String> _selectedActivites = [];
+  List<ItemList> userChanges = [];
   bool isLoading = false;
   PackingList? currentPackingList;
-  bool hasPackingList = false;
 
   List<String> get selectedSpecialItems => _selectedSpecialItems;
 
   List<String> get selectedActivites => _selectedActivites;
+
+
+  Future<void> updateCheckBoxesBackBtn(String tripId) async{
+    for (ItemList item in userChanges) {
+      await updatePackingList(tripId, EnumActions.update, item); 
+    }
+    userChanges.clear();
+  }
 
   void addSpecialItem(String item) {
     _selectedSpecialItems.add(item.removeUnderscores().toLowerCase());
@@ -111,4 +119,19 @@ class PackingListProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  Future<void> updateCheckBoxInPackingList(
+      String tripId, ItemList details) async {
+    if (tripId.isNotEmpty) {
+      await packingListService.updatePackingListById(
+        tripId: tripId,
+        packingListId: currentPackingList!.id!,
+        action: EnumActions.update,
+        details: details,
+      );
+
+    }
+  }
+
 }
