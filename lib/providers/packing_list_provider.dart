@@ -121,7 +121,7 @@ class PackingListProvider with ChangeNotifier {
   }
 
 
-  Future<void> updateCheckBoxInPackingList(
+  Future<void> updatePackingListInBackground(
       String tripId, ItemList details) async {
     if (tripId.isNotEmpty) {
       await packingListService.updatePackingListById(

@@ -1,8 +1,8 @@
 class ItemList {
   final String itemName;
   final String category;
-  final int amountPerTrip;
-   bool isPacked;
+  int amountPerTrip;
+  bool isPacked;
 
   ItemList(
       {required this.itemName,
