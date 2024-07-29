@@ -57,9 +57,6 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
   }
 
   bool get hasNoTrips {
-    if (tripsBox.isEmpty) {
-      fetchPlannedTrips();
-    }
     return tripsBox.isEmpty;
   }
 

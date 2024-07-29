@@ -69,7 +69,7 @@ class BtnCreatePackingList extends StatelessWidget {
             ),
           );
         },
-        icon: const Icon(Icons.add, size: 20), // Adjusted size for better visibility
+        icon: const Icon(Icons.list, size: 20), // Adjusted size for better visibility
         label: Text(
           'Create Packing List',
           style: TextStyle(fontSize: isMobile ? 18 : 16), // Adjusted font size for better readability
@@ -82,7 +82,7 @@ class BtnCreatePackingList extends StatelessWidget {
           ),
           textStyle: TextStyle(
             fontSize: isMobile ? 18 : 16, // Consistent font size
-            fontWeight: FontWeight.bold, // Added bold font weight
+            fontWeight: FontWeight.normal, // Added bold font weight
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12), // Slightly more rounded corners
