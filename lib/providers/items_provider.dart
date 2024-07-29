@@ -17,19 +17,5 @@ class ItemsProvider extends ChangeNotifier {
     }
   }
 
-  // Future<void> fetchItemsNamesByCategory() async {
-  //   try {
-  //     specialItemsNames = await itemService.fetchItemsNamesByCategory();
-  //   } catch (e) {
-  //     throw Exception('$e');
-  //   }
-  // }
 
-  // Future<void> fectchActivitiesNames() async {
-  //   try {
-  //     activities = await itemService.fetchCategories();
-  //   } catch (e) {
-  //     throw Exception('$e');
-  //   }
-  // }
 }

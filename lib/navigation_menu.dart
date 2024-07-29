@@ -25,9 +25,6 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
-    // CreatePackingListPage(),
-    // const PackingListPage(),
-    // const HomeUser(),
     const MyTripsPage(),
     const TripPlannerPage(),
     const UpcomingTripPage()
@@ -64,18 +61,6 @@ class _NavigationMenuState extends State<NavigationMenu> {
               tabBackgroundColor: Colors.grey[100]!,
               color: Colors.black,
               tabs: const [
-                // GButton(
-                //   icon: LineIcons.globe,
-                //   text: 'New Trip',
-                // ),
-                // GButton(
-                //   icon: LineIcons.list,
-                //   text: 'Packing Lists',
-                // ),
-                // GButton(
-                //   icon: LineIcons.user,
-                //   text: 'Profile',
-                // ),
                 GButton(
                   icon: LineIcons.globe,
                   text: 'My Trips',

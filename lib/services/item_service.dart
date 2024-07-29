@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:easypack/constants/constants_classes.dart';
-import 'package:easypack/models/Calculation.dart';
 import 'package:easypack/services/user_service.dart';
 import 'package:http/http.dart' as http;
 
