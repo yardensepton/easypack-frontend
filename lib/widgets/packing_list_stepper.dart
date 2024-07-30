@@ -25,7 +25,7 @@ class _PackingListStepperState extends State<PackingListStepper> {
   void initState() {
     super.initState();
     _packingListCreation =
-        Future.value(); // Initialize with an empty completed future
+        Future.value(); 
     Provider.of<ItemsProvider>(context, listen: false).fetchStepperData();
   }
 

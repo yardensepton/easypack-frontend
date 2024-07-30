@@ -10,14 +10,13 @@ import 'package:easypack/services/user_service.dart';
 import 'package:http/http.dart' as http;
 
 class PackingListService {
-  UserService userService = UserService();
   String? token;
 
   Future<String?> createPackingList(
       {required String tripId,
       List<String>? items,
       List<String>? activities}) async {
-    token = await userService.getAccessToken();
+    token = await UserService.getAccessToken();
     final url = Uri.parse("${Urls.baseUrl}/packing-lists/$tripId");
 
     final headers = {
@@ -52,8 +51,8 @@ class PackingListService {
         print(responseData);
         return null;
       } else if (response.statusCode == 401) {
-        await userService.refreshAccessToken();
-        token = await userService.getAccessToken();
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
         final headers = {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -76,7 +75,7 @@ class PackingListService {
   }
 
   Future<PackingList?> getPackingList({required String tripId}) async {
-    token = await userService.getAccessToken();
+    token = await UserService.getAccessToken();
     final url = Uri.parse("${Urls.baseUrl}/packing-lists?trip_id=$tripId");
 
     final headers = {
@@ -92,8 +91,8 @@ class PackingListService {
       if (response.statusCode == 200) {
         return fromJsonToPackingList(response);
       } else if (response.statusCode == 401) {
-        await userService.refreshAccessToken();
-        token = await userService.getAccessToken();
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
         final headers = {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -115,7 +114,7 @@ class PackingListService {
 
   Future<String?> deletePackingListById(
       {required String tripId, required String packingListId}) async {
-    String? token = await userService.getAccessToken();
+    String? token = await UserService.getAccessToken();
     final url =
         Uri.parse('${Urls.baseUrl}/packing-lists/$tripId/$packingListId');
 
@@ -128,8 +127,8 @@ class PackingListService {
       if (response.statusCode == 200) {
         return null;
       } else if (response.statusCode == 401) {
-        await userService.refreshAccessToken();
-        token = await userService.getAccessToken();
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
         final refreshedHeaders = {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -156,7 +155,7 @@ class PackingListService {
     required ItemList details}) async {
   print("In service - updatePackingListById");
 
-  String? token = await userService.getAccessToken();
+  String? token = await UserService.getAccessToken();
   final url = Uri.parse('${Urls.baseUrl}/packing-lists/$tripId/$packingListId');
 
   final headers = {
@@ -180,8 +179,8 @@ class PackingListService {
     if (response.statusCode == 200) {
       return fromJsonToPackingList(response);
     } else if (response.statusCode == 401) {
-      await userService.refreshAccessToken();
-      token = await userService.getAccessToken();
+      await UserService.refreshAccessToken();
+      token = await UserService.getAccessToken();
       final refreshedHeaders = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',

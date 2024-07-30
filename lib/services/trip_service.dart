@@ -10,12 +10,42 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class TripService {
-  UserService userService = UserService();
   Box<TripInfo> tripsBox = Hive.box(Boxes.tripsBox);
   Timer? timer;
   String? token;
+
+  // Future<String?> updateTripsWeather() async {
+  //   token = await UserService.getAccessToken();
+  //   print("the token in the call back is $token");
+  //   final url = Uri.parse("${Urls.baseUrl}/trips/scheduled");
+  //   final headers = {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer $token',
+  //   };
+  //   final response = await http.put(url, headers: headers);
+  //   if (response.statusCode == 200) {
+  //     print(response.body);
+  //     return null;
+  //   } else if (response.statusCode == 401) {
+  //     await UserService.refreshAccessToken();
+  //     token = await UserService.getAccessToken();
+  //     print("in the trip service the token is $token");
+  //     final headers = {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer $token',
+  //     };
+  //     final response = await http.put(url, headers: headers);
+  //     if (response.statusCode == 200) {
+  //       print(response.body);
+  //       return null;
+  //     } else {
+  //       return ServerError.getErrorMsg(jsonDecode(response.body));
+  //     }
+  //   } else {
+  //     return ServerError.getErrorMsg(jsonDecode(response.body));
+  //   }
+  // }
 
   Future<String?> creatTrip({
     required City destination,
@@ -27,7 +57,7 @@ class TripService {
       departureDate: departureDate,
       returnDate: returnDate,
     );
-    token = await userService.getAccessToken();
+    token = await UserService.getAccessToken();
     print("in create new trip token is $token");
     final url = Uri.parse("${Urls.baseUrl}/trips");
     final headers = {
@@ -44,8 +74,8 @@ class TripService {
       saveInHive(trip);
       return null;
     } else if (response.statusCode == 401) {
-      await userService.refreshAccessToken();
-      token = await userService.getAccessToken();
+      await UserService.refreshAccessToken();
+      token = await UserService.getAccessToken();
       print("in the trip service the token is $token");
       final headers = {
         'Content-Type': 'application/json',
@@ -77,12 +107,13 @@ class TripService {
 
   Trip fromJsonToTrip(http.Response response) {
     Map<String, dynamic> result = jsonDecode(response.body);
+    print(result);
     Trip trip = Trip.fromJson(result);
     return trip;
   }
 
   Future<Trip?> getTripById(String tripId) async {
-    String? token = await userService.getAccessToken();
+    String? token = await UserService.getAccessToken();
     final url = Uri.parse('${Urls.baseUrl}/trips?trip_id=$tripId');
 
     final headers = {
@@ -96,8 +127,8 @@ class TripService {
       if (response.statusCode == 200) {
         return fromJsonToTrip(response);
       } else if (response.statusCode == 401) {
-        await userService.refreshAccessToken();
-        token = await userService.getAccessToken();
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
         final refreshedHeaders = {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -119,7 +150,7 @@ class TripService {
   }
 
   Future<String?> deleteTripById(String tripId) async {
-    String? token = await userService.getAccessToken();
+    String? token = await UserService.getAccessToken();
     final url = Uri.parse('${Urls.baseUrl}/trips/$tripId');
 
     final headers = {
@@ -131,8 +162,8 @@ class TripService {
       if (response.statusCode == 200) {
         return null;
       } else if (response.statusCode == 401) {
-        await userService.refreshAccessToken();
-        token = await userService.getAccessToken();
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
         final refreshedHeaders = {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -144,7 +175,7 @@ class TripService {
         } else {
           return ServerError.getErrorMsg(jsonDecode(response.body));
         }
-      }else{
+      } else {
         return ServerError.getErrorMsg(jsonDecode(response.body));
       }
     } catch (e) {
@@ -154,7 +185,7 @@ class TripService {
 
   Future<List<TripInfo>?> getPlannedTripsInfo() async {
     final url = Uri.parse('${Urls.baseUrl}/trips/sorted');
-    String? token = await userService.getAccessToken();
+    String? token = await UserService.getAccessToken();
 
     final headers = {
       'Content-Type': 'application/json',
@@ -166,8 +197,8 @@ class TripService {
         List<dynamic> jsonData = json.decode(response.body);
         return jsonData.map((json) => TripInfo.fromJson(json)).toList();
       } else if (response.statusCode == 401) {
-        await userService.refreshAccessToken();
-        token = await userService.getAccessToken();
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
         final refreshedHeaders = {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',

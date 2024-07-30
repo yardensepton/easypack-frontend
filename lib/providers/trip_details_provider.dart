@@ -128,6 +128,7 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
     }
   }
 
+
   void categorizeTrips() {
     DateTime now = DateTime.now();
     pastTrips.clear();

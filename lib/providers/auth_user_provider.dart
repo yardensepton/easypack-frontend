@@ -55,7 +55,7 @@ class AuthUserProvider with ChangeNotifier {
 
   Future<void> getAccessToken() async {
     try {
-      accessToken = await _userAPIService.getAccessToken();
+      accessToken = await UserService.getAccessToken();
       if (accessToken != null) {
         isAuthenticated = true;
       } else {
@@ -71,7 +71,7 @@ class AuthUserProvider with ChangeNotifier {
 
   Future<void> getRefreshToken() async {
     try {
-      refreshToken = await _userAPIService.getRefreshToken();
+      refreshToken = await UserService.getRefreshToken();
     } catch (e) {
       refreshToken = null;
     } finally {
@@ -85,13 +85,13 @@ class AuthUserProvider with ChangeNotifier {
     refreshToken = null;
     userName.clear();
     currentUserBox.clear();
-    await _userAPIService.logOutUser();
+    await UserService.logOutUser();
     notifyListeners();
   }
 
   Future<void> checklogOutUser() async {
-    accessToken = await _userAPIService.getAccessToken();
-    refreshToken = await _userAPIService.getRefreshToken();
+    accessToken = await UserService.getAccessToken();
+    refreshToken = await UserService.getRefreshToken();
     if (accessToken == null || refreshToken == null) {
       isAuthenticated = false;
       userName.clear();

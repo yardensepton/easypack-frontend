@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:easypack/providers/packing_list_provider.dart';
-import 'number_picker.dart';
+import 'package:flutter/material.dart';
+import 'number_picker.dart'; 
 
 class ItemTileInPackingList extends StatefulWidget {
   final bool initialPackedState;
@@ -58,6 +58,10 @@ class _ItemTileInPackingListState extends State<ItemTileInPackingList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onLongPress: () {
+        widget.onLongPress(currentAmount);
+        _toggleNumberPicker();
+      },
       child: ListTile(
         trailing: Checkbox(
           activeColor: Colors.indigo[900],
@@ -66,37 +70,38 @@ class _ItemTileInPackingListState extends State<ItemTileInPackingList> {
         ),
         title: Row(
           children: [
-            showNumberPicker
-                ? NumberPicker(
-                    minValue: 1,
-                    maxValue: 10,
-                    initialValue: currentAmount,
-                    onChanged: _handleAmountChanged,
-                  )
-                : Text(
-                    '$currentAmount',
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      decoration: isPacked
-                          ? TextDecoration.lineThrough
-                          : TextDecoration.none,
-                    ),
-                  ),
+            if (showNumberPicker)
+              NumberPicker(
+                minValue: 1,
+                maxValue: 10,
+                initialValue: currentAmount,
+                onChanged: _handleAmountChanged,
+              )
+            else
+              Text(
+                '$currentAmount',
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  decoration: isPacked
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+                ),
+              ),
             const SizedBox(width: 10),
-            Text(
-              widget.name,
-              style: TextStyle(
-                decoration:
-                    isPacked ? TextDecoration.lineThrough : TextDecoration.none,
+            Expanded(
+              child: Text(
+                widget.name,
+                style: TextStyle(
+                  overflow: showNumberPicker ? TextOverflow.ellipsis : TextOverflow.visible,
+                  decoration: isPacked
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+                ),
               ),
             ),
           ],
         ),
       ),
-      onLongPress: () {
-        widget.onLongPress(currentAmount);
-        _toggleNumberPicker();
-      },
     );
   }
 }

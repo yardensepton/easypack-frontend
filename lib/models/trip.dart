@@ -47,4 +47,9 @@ class Trip {
       'weather_info': weatherList,
     };
   }
+
+   @override
+  String toString() {
+    return 'Trip(id: $id, destination: $destination, departureDate: $departureDate, returnDate: $returnDate, weatherData: $weatherData)';
+  }
 }

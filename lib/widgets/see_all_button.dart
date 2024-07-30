@@ -21,7 +21,7 @@ class SeeAllButton extends StatelessWidget {
           onPressed: () {
             // Handle see all button press
           },
-          child: const Text('See all'),
+          child:  Text('See all',style:  TextStyle(color: Colors.indigo[900])),
         ),
       ],
     );

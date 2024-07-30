@@ -5,11 +5,10 @@ import 'package:easypack/services/user_service.dart';
 import 'package:http/http.dart' as http;
 
 class ItemService {
-  UserService userService = UserService();
   String? token;
 
   Future<List<String>?> fetchItemsNamesByCategory() async {
-    String? token = await userService.getAccessToken();
+    String? token = await UserService.getAccessToken();
     final url = Uri.parse("${Urls.baseUrl}/items?category=special items");
 
     final headers = {
@@ -22,8 +21,8 @@ class ItemService {
       if (response.statusCode == 200) {
         return fromJsonReturnItemName(response);
       } else if (response.statusCode == 401) {
-        await userService.refreshAccessToken();
-        token = await userService.getAccessToken();
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
         final refreshedHeaders = {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -46,7 +45,7 @@ class ItemService {
 
   Future<List<String>?> fetchCategories(
       {String? category, bool? activity}) async {
-    String? token = await userService.getAccessToken();
+    String? token = await UserService.getAccessToken();
 
     Map<String, String> queryParams = {};
     if (category != null) queryParams['category'] = category;
@@ -65,8 +64,8 @@ class ItemService {
       if (response.statusCode == 200) {
         return fromJsonReturnCalculations(response);
       } else if (response.statusCode == 401) {
-        await userService.refreshAccessToken();
-        token = await userService.getAccessToken();
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
         final refreshedHeaders = {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',

@@ -99,6 +99,7 @@ class _ClickedTripPageState extends State<ClickedTripPage> {
                       } else if (clickTripProvider.clickedTrip == null) {
                         return const Center(child: Text('No trip data available'));
                       } else {
+                         print(clickTripProvider.clickedTrip.toString());
                         return TripBottomSection(
                           tripId: clickTripProvider.clickedTrip!.id!,
                           tripTitle: clickTripProvider.destinationName.text,

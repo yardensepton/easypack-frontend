@@ -21,6 +21,7 @@ class ClickTripProvider extends ChangeNotifier {
       if (clickedTrip != null) {
         clickDestinationUrl = clickedTrip?.destination.cityUrl;
         _updateControllers(clickedTrip);
+        
       }
 
       isLoading = false;
