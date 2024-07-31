@@ -1,3 +1,4 @@
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -13,7 +14,7 @@ class TripTypeToggleButton extends StatefulWidget {
 }
 
 class _TripTypeToggleButtonState extends State<TripTypeToggleButton> {
-  String _selectedTripType = 'business'; // Default value is 'male'
+  String _selectedTripType = TripType.pleasure; // Default value is 'pleasure'
 
   @override
   void initState() {
@@ -45,12 +46,13 @@ class _TripTypeToggleButtonState extends State<TripTypeToggleButton> {
                 selectedColor: Colors.black,
                 borderRadius: BorderRadius.circular(10),
                 isSelected: [
-                  _selectedTripType == 'business',
-                  _selectedTripType == 'pleasure'
+                  _selectedTripType == TripType.business,
+                  _selectedTripType == TripType.pleasure
                 ],
                 onPressed: (int index) {
                   setState(() {
-                    _selectedTripType = index == 0 ? 'business' : 'pleasure';
+                    _selectedTripType =
+                        index == 0 ? TripType.business : TripType.pleasure;
                     if (widget.onChanged != null) {
                       widget.onChanged!(_selectedTripType);
                     }
@@ -62,14 +64,17 @@ class _TripTypeToggleButtonState extends State<TripTypeToggleButton> {
                     child: const Column(
                       children: [
                         Icon(LineIcons.businessTime),
-                        Text('Business')
+                        Text(TripType.business)
                       ],
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 30.0),
                     child: const Column(
-                      children: [Icon(LineIcons.glassCheers), Text('Pleasure')],
+                      children: [
+                        Icon(LineIcons.glassCheers),
+                        Text(TripType.pleasure)
+                      ],
                     ),
                   ),
                 ],

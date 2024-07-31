@@ -1,3 +1,4 @@
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/providers/items_provider.dart';
 import 'package:easypack/providers/packing_list_provider.dart';
 import 'package:easypack/widgets/custom_choice_chip.dart';
@@ -24,8 +25,7 @@ class _PackingListStepperState extends State<PackingListStepper> {
   @override
   void initState() {
     super.initState();
-    _packingListCreation =
-        Future.value(); 
+    _packingListCreation = Future.value();
     Provider.of<ItemsProvider>(context, listen: false).fetchStepperData();
   }
 
@@ -111,7 +111,11 @@ class _PackingListStepperState extends State<PackingListStepper> {
         isActive: currentStep >= 0,
         state: currentStep > 0 ? StepState.complete : StepState.indexed,
         title: const Text('Trip Type'),
-        content: const TripTypeToggleButton(),
+        content: TripTypeToggleButton(
+          onChanged: (type) {
+            packingListProvider.isWork = type == TripType.business;
+          },
+        ),
       ),
       Step(
         isActive: currentStep >= 1,
@@ -138,15 +142,14 @@ class _PackingListStepperState extends State<PackingListStepper> {
             ? const LoadingWidget()
             : Consumer<PackingListProvider>(
                 builder: (context, selectionProvider, child) {
-                  return  CustomIconsGridView(
-                title: "Any activities you're planning?",
-                activities: activities,
-                addSelection: selectionProvider.addAcivity,
-                removeSelection: selectionProvider.removeActivity,
-              );
+                  return CustomIconsGridView(
+                    title: "Any activities you're planning?",
+                    activities: activities,
+                    addSelection: selectionProvider.addAcivity,
+                    removeSelection: selectionProvider.removeActivity,
+                  );
                 },
               ),
-            
       ),
     ];
   }

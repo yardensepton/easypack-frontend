@@ -15,18 +15,11 @@ class PackingListProvider with ChangeNotifier {
   List<ItemList> userChanges = [];
   bool isLoading = false;
   PackingList? currentPackingList;
+  bool isWork = false;
 
   List<String> get selectedSpecialItems => _selectedSpecialItems;
 
   List<String> get selectedActivites => _selectedActivites;
-
-
-  Future<void> updateCheckBoxesBackBtn(String tripId) async{
-    for (ItemList item in userChanges) {
-      await updatePackingList(tripId, EnumActions.update, item); 
-    }
-    userChanges.clear();
-  }
 
   void addSpecialItem(String item) {
     _selectedSpecialItems.add(item.removeUnderscores().toLowerCase());
@@ -68,6 +61,7 @@ class PackingListProvider with ChangeNotifier {
       String? response = await packingListService.createPackingList(
           tripId: tripId,
           items: _selectedSpecialItems,
+          isWork: isWork,
           activities: _selectedActivites);
       if (context.mounted) {
         if (response == null) {
@@ -83,6 +77,8 @@ class PackingListProvider with ChangeNotifier {
           ErrorSnackBar.showErrorSnackBar(context, response);
         }
       }
+      _selectedSpecialItems.clear();
+      _selectedActivites.clear();
     } else {
       if (context.mounted) {
         ErrorSnackBar.showErrorSnackBar(context, "Problem");
@@ -92,6 +88,8 @@ class PackingListProvider with ChangeNotifier {
 
     //notify the trip page to rebuild to show the new packing list
     notifyListeners();
+    _selectedSpecialItems.clear();
+    _selectedActivites.clear();
   }
 
   Future<PackingList?> getPackingList(String tripId) async {
@@ -120,7 +118,6 @@ class PackingListProvider with ChangeNotifier {
     }
   }
 
-
   Future<void> updatePackingListInBackground(
       String tripId, ItemList details) async {
     if (tripId.isNotEmpty) {
@@ -130,8 +127,6 @@ class PackingListProvider with ChangeNotifier {
         action: EnumActions.update,
         details: details,
       );
-
     }
   }
-
 }

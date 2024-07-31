@@ -5,6 +5,7 @@ import 'package:easypack/enums/enum_actions.dart';
 import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/item_list.dart';
 import 'package:easypack/models/packing_list.dart';
+import 'package:easypack/models/packing_list_request.dart';
 import 'package:easypack/models/packing_list_update.dart';
 import 'package:easypack/services/user_service.dart';
 import 'package:http/http.dart' as http;
@@ -12,67 +13,132 @@ import 'package:http/http.dart' as http;
 class PackingListService {
   String? token;
 
-  Future<String?> createPackingList(
-      {required String tripId,
-      List<String>? items,
-      List<String>? activities}) async {
-    token = await UserService.getAccessToken();
-    final url = Uri.parse("${Urls.baseUrl}/packing-lists/$tripId");
+  // Future<String?> createPackingList(
+  //     {required String tripId,
+  //     required bool isWork,
+  //     List<String>? items,
+  //     List<String>? activities}) async {
+  //   token = await UserService.getAccessToken();
+  //   final url = Uri.parse("${Urls.baseUrl}/packing-lists/$tripId");
 
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
+  //   final headers = {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer $token',
+  //   };
 
-    final Map<String, dynamic> bodyMap = {};
+  //   final Map<String, dynamic> bodyMap = {};
+  //   bodyMap['is_work'] = isWork;
+  //   print(isWork);
+  //   // Conditionally add items_preferences and activities_preferences
+  //   if (items != null) {
+  //     bodyMap['items_preferences'] = items;
+  //     print(items);
+  //   }
+  //   if (activities != null) {
+  //     bodyMap['activities_preferences'] = activities;
+  //     print(activities);
+  //   }
 
-    // Conditionally add items_preferences and activities_preferences
-    if (items != null) {
-      bodyMap['items_preferences'] = items;
-      print(items);
+  //   print(bodyMap);
+
+  //   // Encode the body map to a JSON string
+  //   final body = jsonEncode(bodyMap);
+  //   print(body);
+
+  //   try {
+  //     final response = await http.post(url, headers: headers, body: body);
+  //     final Map<String, dynamic> responseData = jsonDecode(response.body);
+  //     print(responseData);
+  //     if (response.statusCode == 400) {
+  //       return ServerError.getErrorMsg(responseData);
+  //     }
+  //     if (response.statusCode == 200) {
+  //       final Map<String, dynamic> responseData = jsonDecode(response.body);
+  //       print(responseData);
+  //       return null;
+  //     } else if (response.statusCode == 401) {
+  //       await UserService.refreshAccessToken();
+  //       token = await UserService.getAccessToken();
+  //       final headers = {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $token',
+  //       };
+  //       final response = await http.post(url, headers: headers, body: body);
+
+  //       if (response.statusCode == 200) {
+  //         final Map<String, dynamic> responseData = jsonDecode(response.body);
+  //         print(responseData);
+  //         return null;
+  //       } else {
+  //         throw Exception('Server error: ${response.statusCode}');
+  //       }
+  //     } else {
+  //       throw Exception('Server error: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Error: $e');
+  //   }
+  // }
+
+  Future<String?> createPackingList({
+  required String tripId,
+  required bool isWork,
+  List<String>? items,
+  List<String>? activities,
+}) async {
+  token = await UserService.getAccessToken();
+  final url = Uri.parse("${Urls.baseUrl}/packing-lists/$tripId");
+
+  final headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $token',
+  };
+
+  // Create an instance of PackingListRequest
+  final packingListRequest = PackingListRequest(
+    isWork: isWork,
+    items: items,
+    activities: activities,
+  );
+
+  // Convert the request object to a JSON string
+  final body = jsonEncode(packingListRequest.toJson());
+
+  try {
+    final response = await http.post(url, headers: headers, body: body);
+    final Map<String, dynamic> responseData = jsonDecode(response.body);
+    print(responseData);
+    
+    if (response.statusCode == 400) {
+      return ServerError.getErrorMsg(responseData);
     }
-    if (activities != null) {
-      bodyMap['activities_preferences'] = activities;
-      print(activities);
-    }
-
-    // Encode the body map to a JSON string
-    final body = jsonEncode(bodyMap);
-
-    try {
-      final response = await http.post(url, headers: headers, body: body);
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
+    if (response.statusCode == 200) {
       print(responseData);
-      if (response.statusCode == 400) {
-        return ServerError.getErrorMsg(responseData);
-      }
+      return null;
+    } else if (response.statusCode == 401) {
+      await UserService.refreshAccessToken();
+      token = await UserService.getAccessToken();
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+      final response = await http.post(url, headers: headers, body: body);
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         print(responseData);
         return null;
-      } else if (response.statusCode == 401) {
-        await UserService.refreshAccessToken();
-        token = await UserService.getAccessToken();
-        final headers = {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        };
-        final response = await http.post(url, headers: headers, body: body);
-
-        if (response.statusCode == 200) {
-          final Map<String, dynamic> responseData = jsonDecode(response.body);
-          print(responseData);
-          return null;
-        } else {
-          throw Exception('Server error: ${response.statusCode}');
-        }
       } else {
         throw Exception('Server error: ${response.statusCode}');
       }
-    } catch (e) {
-      throw Exception('Error: $e');
+    } else {
+      throw Exception('Server error: ${response.statusCode}');
     }
+  } catch (e) {
+    throw Exception('Error: $e');
   }
+}
+
 
   Future<PackingList?> getPackingList({required String tripId}) async {
     token = await UserService.getAccessToken();
@@ -149,58 +215,60 @@ class PackingListService {
   }
 
   Future<PackingList?> updatePackingListById(
-    {required String tripId,
-    required String packingListId,
-    required EnumActions action,
-    required ItemList details}) async {
-  print("In service - updatePackingListById");
+      {required String tripId,
+      required String packingListId,
+      required EnumActions action,
+      required ItemList details}) async {
+    print("In service - updatePackingListById");
 
-  String? token = await UserService.getAccessToken();
-  final url = Uri.parse('${Urls.baseUrl}/packing-lists/$tripId/$packingListId');
+    String? token = await UserService.getAccessToken();
+    final url =
+        Uri.parse('${Urls.baseUrl}/packing-lists/$tripId/$packingListId');
 
-  final headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer $token',
-  };
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
 
-  PackingListUpdate update = PackingListUpdate(action: action, details: details);
-  final body = jsonEncode(update.toJson());
+    PackingListUpdate update =
+        PackingListUpdate(action: action, details: details);
+    final body = jsonEncode(update.toJson());
 
-  print('URL: $url');
-  print('Headers: $headers');
-  print('Body: $body');
+    print('URL: $url');
+    print('Headers: $headers');
+    print('Body: $body');
 
-  try {
-    http.Response response = await http.put(url, headers: headers, body: body);
+    try {
+      http.Response response =
+          await http.put(url, headers: headers, body: body);
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
-    if (response.statusCode == 200) {
-      return fromJsonToPackingList(response);
-    } else if (response.statusCode == 401) {
-      await UserService.refreshAccessToken();
-      token = await UserService.getAccessToken();
-      final refreshedHeaders = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      };
-      response = await http.put(url, headers: refreshedHeaders, body: body);
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         return fromJsonToPackingList(response);
+      } else if (response.statusCode == 401) {
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
+        final refreshedHeaders = {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        };
+        response = await http.put(url, headers: refreshedHeaders, body: body);
+
+        if (response.statusCode == 200) {
+          return fromJsonToPackingList(response);
+        } else {
+          throw Exception('Server error: ${response.statusCode}');
+        }
       } else {
         throw Exception('Server error: ${response.statusCode}');
       }
-    } else {
-      throw Exception('Server error: ${response.statusCode}');
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Error: $e');
     }
-  } catch (e) {
-    print('Error: $e');
-    throw Exception('Error: $e');
   }
-}
-
 
   PackingList fromJsonToPackingList(http.Response response) {
     Map<String, dynamic> result = jsonDecode(response.body);

@@ -68,19 +68,19 @@ Future<String?> updateTripsWeather() async {
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     try {
-      final now = DateTime.now();
-      final hour = now.hour;
+      // final now = DateTime.now();
+      // final hour = now.hour;
 
       // Check if the current time is around 23:00
-      if (hour == 23) {
-        print("Executing scheduled task");
-        final result = await updateTripsWeather();
 
-        if (result != null) {
-          print("Error updating weather data: $result");
-          return Future.value(false);
-        }
+      print("Executing scheduled task");
+      final result = await updateTripsWeather();
+
+      if (result != null) {
+        print("Error updating weather data: $result");
+        return Future.value(false);
       }
+
       return Future.value(true);
     } catch (err) {
       print("Error in background task: $err");
@@ -93,17 +93,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   if (!kIsWeb) {
-    Workmanager().initialize(
-        callbackDispatcher, 
-        isInDebugMode:
-            true 
-        );
+    Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
     Workmanager().registerPeriodicTask(
       "task-identifier",
       "simpleTask",
       frequency: const Duration(days: 1),
     );
-
   }
 
   Hive.registerAdapter(TripInfoAdapter());
