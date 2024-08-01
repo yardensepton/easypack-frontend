@@ -14,39 +14,7 @@ class TripService {
   Box<TripInfo> tripsBox = Hive.box(Boxes.tripsBox);
   Timer? timer;
   String? token;
-
-  // Future<String?> updateTripsWeather() async {
-  //   token = await UserService.getAccessToken();
-  //   print("the token in the call back is $token");
-  //   final url = Uri.parse("${Urls.baseUrl}/trips/scheduled");
-  //   final headers = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer $token',
-  //   };
-  //   final response = await http.put(url, headers: headers);
-  //   if (response.statusCode == 200) {
-  //     print(response.body);
-  //     return null;
-  //   } else if (response.statusCode == 401) {
-  //     await UserService.refreshAccessToken();
-  //     token = await UserService.getAccessToken();
-  //     print("in the trip service the token is $token");
-  //     final headers = {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': 'Bearer $token',
-  //     };
-  //     final response = await http.put(url, headers: headers);
-  //     if (response.statusCode == 200) {
-  //       print(response.body);
-  //       return null;
-  //     } else {
-  //       return ServerError.getErrorMsg(jsonDecode(response.body));
-  //     }
-  //   } else {
-  //     return ServerError.getErrorMsg(jsonDecode(response.body));
-  //   }
-  // }
-
+  
   Future<String?> creatTrip({
     required City destination,
     required String departureDate,

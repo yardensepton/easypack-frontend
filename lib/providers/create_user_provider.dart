@@ -8,7 +8,6 @@ import 'package:easypack/services/user_service.dart';
 import 'package:flutter_login/flutter_login.dart';
 
 class CreateUserProvider with ChangeNotifier {
-  final UserService _userAPIService = UserService();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
 
@@ -33,7 +32,7 @@ class CreateUserProvider with ChangeNotifier {
       isLoading = true;
       notifyListeners(); // Notify listeners to update UI for loading state
 
-      String? response = await _userAPIService.createUser(
+      String? response = await UserService().createUser(
         name: name,
         password: password,
         email: email,

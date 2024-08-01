@@ -121,11 +121,12 @@
 //     }
 //   }
 // }
-  
-  import 'dart:convert';
+
+import 'dart:convert';
 import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/city.dart';
+import 'package:easypack/models/user_update.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:easypack/models/user.dart';
@@ -231,7 +232,8 @@ class UserService {
       throw Exception('No refresh token available');
     }
 
-    final url = Uri.parse('${Urls.baseUrl}/users/refresh?refresh_token=$refreshToken');
+    final url =
+        Uri.parse('${Urls.baseUrl}/users/refresh?refresh_token=$refreshToken');
     final headers = {'Content-Type': 'application/json'};
 
     final response = await http.post(url, headers: headers);
@@ -243,5 +245,105 @@ class UserService {
     } else {
       throw Exception('Failed to refresh access token');
     }
+  }
+
+  Future<User?> updateCurrentUser(
+      {String? newGender, String? newName, City? newCity}) async {
+    print("In service - updateUser");
+
+    String? token = await UserService.getAccessToken();
+    final url = Uri.parse('${Urls.baseUrl}/users');
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    UserUpdate update =
+        UserUpdate(name: newName, gender: newGender, city: newCity);
+    final body = jsonEncode(update.toJson());
+
+    print('URL: $url');
+    print('Headers: $headers');
+    print('Body: $body');
+
+    try {
+      http.Response response =
+          await http.put(url, headers: headers, body: body);
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        User user = fromJsonToUser(response);
+        currentUserBox.put("name", user.name);
+        return user;
+      } else if (response.statusCode == 401) {
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
+        final refreshedHeaders = {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        };
+        response = await http.put(url, headers: refreshedHeaders, body: body);
+
+        if (response.statusCode == 200) {
+          User user = fromJsonToUser(response);
+          currentUserBox.put("name", user.name);
+          return user;
+        } else {
+          throw Exception('Server error: ${response.statusCode}');
+        }
+      } else {
+        throw Exception('Server error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Error: $e');
+    }
+  }
+
+  User fromJsonToUser(http.Response response) {
+    Map<String, dynamic> result = jsonDecode(response.body);
+    print(result);
+    User user = User.fromJson(result);
+    return user;
+  }
+
+  Future<User?> getCurrentUser() async {
+    String? token = await UserService.getAccessToken();
+    final url = Uri.parse('${Urls.baseUrl}/users');
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    try {
+      http.Response response = await http.get(url, headers: headers);
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        return fromJsonToUser(response);
+      } else if (response.statusCode == 401) {
+        await UserService.refreshAccessToken();
+        token = await UserService.getAccessToken();
+        final refreshedHeaders = {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        };
+        response = await http.get(url, headers: refreshedHeaders);
+
+        if (response.statusCode == 200) {
+          return fromJsonToUser(response);
+        } else if (response.statusCode == 404) {
+          return null;
+        } else {
+          throw Exception(ServerError.getErrorMsg(jsonDecode(response.body)));
+        }
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+    return null;
   }
 }

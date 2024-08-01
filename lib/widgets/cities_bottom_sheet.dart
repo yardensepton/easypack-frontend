@@ -7,11 +7,14 @@ import 'package:provider/provider.dart';
 
 class CitiesBottomSheet extends StatefulWidget {
   final String bottomSheetTitle;
-  const CitiesBottomSheet({super.key,required this.bottomSheetTitle});
+  final String defaultValue;
+  const CitiesBottomSheet({super.key,required this.bottomSheetTitle,required this.defaultValue});
+
 
   @override
   _CitiesBottomSheetState createState() => _CitiesBottomSheetState();
 }
+
 
 class _CitiesBottomSheetState extends State<CitiesBottomSheet> {
   void _showModalBottomSheet(BuildContext context) {
@@ -80,7 +83,7 @@ class _CitiesBottomSheetState extends State<CitiesBottomSheet> {
               child: Consumer<AutoCompleteProvider>(
                 builder: (context, autoCompleteProvider, child) {
                   return Text(
-                    autoCompleteProvider.selectedCity?.text ?? "City",
+                    autoCompleteProvider.selectedCity?.text ?? widget.defaultValue,
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 16,

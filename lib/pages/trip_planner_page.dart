@@ -65,7 +65,7 @@ class _TripPlannerPageState extends State<TripPlannerPage> {
                     const SizedBox(
                       width: 350.0,
                       height: 56,
-                      child: CitiesBottomSheet(bottomSheetTitle: "Where to?",),
+                      child: CitiesBottomSheet(bottomSheetTitle: "Where to?",defaultValue: "City",),
                     ),
                     const SizedBox(height: 20),
                     SizedBox(

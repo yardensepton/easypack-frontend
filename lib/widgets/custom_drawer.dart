@@ -1,3 +1,4 @@
+import 'package:easypack/pages/edit_profile_page.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/providers/create_user_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
@@ -27,6 +28,7 @@ class CustomDrawer extends StatelessWidget {
                   title: const Text('Edit your profile'),
                   onTap: () {
                     Navigator.pop(context);
+                    _openEditProfilePage(context);
                   },
                 ),
                 ListTile(
@@ -63,4 +65,26 @@ void logOutButton(BuildContext context) {
   Provider.of<AuthUserProvider>(context, listen: false).logOutUser(context);
   Provider.of<CreateUserProvider>(context, listen: false)
       .moveToLoginScreen(context);
+}
+  void _openEditProfilePage(BuildContext context) {
+    Navigator.of(context).push(_createRoute());
+  }
+
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => EditProfilePage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }

@@ -1,7 +1,6 @@
 import 'package:easypack/navigation_menu.dart';
 import 'package:easypack/pages/signup_login/signup_form.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
-import 'package:easypack/providers/trip_details_provider.dart';
 import 'package:easypack/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
@@ -47,8 +46,8 @@ class SignUpLoginScreen extends StatelessWidget {
     return FlutterLogin(
       title: 'Easy Pack',
       theme: LoginTheme(
-        primaryColor: const Color.fromARGB(255, 25, 68, 123),
-        accentColor: const Color.fromARGB(255, 239, 226, 226),
+        primaryColor:  Colors.indigo[900],
+        accentColor:  Colors.white,
         buttonTheme: const LoginButtonTheme(backgroundColor: Colors.grey),
       ),
       logo: const AssetImage('assets/logo/suitcase_airplane.png'),

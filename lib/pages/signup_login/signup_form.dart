@@ -1,3 +1,4 @@
+import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/pages/signup_login/sign_up_login_screen.dart';
 import 'package:easypack/utils/validators.dart';
 import 'package:easypack/widgets/cities_bottom_sheet.dart';
@@ -82,6 +83,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             ),
                             const SizedBox(height: 15),
                             GenderToggleButton(
+                              defaultValue: Gender.male,
                               onChanged: (gender) {
                                 userProvider.genderController.text = gender;
                               },
@@ -93,7 +95,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     const SizedBox(height: 30),
                     const SizedBox(
                       height: 56, // Match the height of TextFormField
-                      child: CitiesBottomSheet(bottomSheetTitle: "Where do you live?",),
+                      child: CitiesBottomSheet(bottomSheetTitle: "Where do you live?",defaultValue: "City"),
                     ),
                     const Spacer(),
                     Row(
