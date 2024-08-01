@@ -6,6 +6,7 @@ import 'package:easypack/widgets/custom_text_container.dart';
 import 'package:easypack/widgets/group_seperator_category.dart';
 import 'package:easypack/widgets/item_tile_in_packing_list.dart';
 import 'package:easypack/widgets/loading_widget.dart';
+import 'package:easypack/widgets/tooltip_custom_shape.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -16,19 +17,20 @@ class PackingListView extends StatelessWidget {
   final String tripTitle;
   final bool isMobile;
 
-  const PackingListView({
-    super.key,
-    required this.tripId,
-    required this.isMobile,
-    required this.tripTitle
-  });
+  const PackingListView(
+      {super.key,
+      required this.tripId,
+      required this.isMobile,
+      required this.tripTitle});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<PackingListProvider>(
       builder: (context, packingListProvider, child) {
-        String? description = packingListProvider.currentPackingList?.description;
-        List<ItemList> items = packingListProvider.currentPackingList?.items ?? [];
+        String? description =
+            packingListProvider.currentPackingList?.description;
+        List<ItemList> items =
+            packingListProvider.currentPackingList?.items ?? [];
         if (packingListProvider.isLoading) {
           return const Center(child: LoadingWidget());
         }
@@ -48,7 +50,15 @@ class PackingListView extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
             if (description != null)
-              CustomTextContainer(description: description),
+              Tooltip(
+                message:
+                    "Home average temp' is ${packingListProvider.currentPackingList!.homeAverageTemp}°C\nTrip average temp' is ${packingListProvider.currentPackingList!.tripAverageTemp}°C",
+                child: CustomTextContainer(description: description),
+                decoration: ShapeDecoration(
+                  color: Colors.grey,
+                  shape: ToolTipCustomShape(),
+                ),
+              ),
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -81,7 +91,8 @@ class PackingListView extends StatelessWidget {
                             icon: Icons.delete,
                             label: 'Remove',
                             onPressed: (context) {
-                              onDismissed(context, item, EnumActions.remove, packingListProvider);
+                              onDismissed(context, item, EnumActions.remove,
+                                  packingListProvider);
                             },
                           )
                         ],
@@ -93,12 +104,14 @@ class PackingListView extends StatelessWidget {
                           name: item.itemName,
                           onChanged: (value) {
                             item.isPacked = value!;
-                            packingListProvider.updatePackingListInBackground(tripId, item);
+                            packingListProvider.updatePackingListInBackground(
+                                tripId, item);
                           },
                           packingListProvider: packingListProvider,
                           onLongPress: (newAmount) {
                             item.amountPerTrip = newAmount;
-                            packingListProvider.updatePackingListInBackground(tripId, item);
+                            packingListProvider.updatePackingListInBackground(
+                                tripId, item);
                           },
                         );
                       }),
@@ -116,7 +129,8 @@ class PackingListView extends StatelessWidget {
     );
   }
 
-  void onDismissed(BuildContext context, ItemList item, EnumActions action, PackingListProvider provider) async {
+  void onDismissed(BuildContext context, ItemList item, EnumActions action,
+      PackingListProvider provider) async {
     await provider.updatePackingList(tripId, action, item);
   }
 }

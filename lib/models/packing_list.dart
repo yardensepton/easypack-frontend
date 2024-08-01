@@ -5,13 +5,17 @@ final String? id;
 final String tripId;
 final String? description;
 final List<ItemList> items;
+final int homeAverageTemp;
+final int tripAverageTemp;
 
 
 PackingList({
   this.id,
   required this.tripId,
   required this.items,
-  this.description
+  this.description,
+  required this.homeAverageTemp,
+  required this.tripAverageTemp,
 });
 
 
@@ -28,6 +32,8 @@ PackingList({
       description: json['description'],
       tripId: json['trip_id'],
       items: allItems,
+      homeAverageTemp: json['home_average_temp'],
+      tripAverageTemp: json['trip_average_temp'],
     );
   }
 
@@ -39,6 +45,8 @@ PackingList({
       'description':description,
       'trip_id': tripId,
       'items': allItems,
+      'home_average_temp': homeAverageTemp,
+      'trip_average_temp': tripAverageTemp,
     };
   }
 
