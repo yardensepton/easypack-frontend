@@ -2,12 +2,11 @@
 
 EasyPack is a Flutter application designed to help users create customized packing lists for trips based on the weather conditions and temperatures. This repository contains the frontend code for the EasyPack app.
 
-<img src="https://github.com/yardensepton/easypack-frontend/blob/ce82672abd3e5d3a93b73b971fd8bd6dba95444b/assets/background/EasyPack.png" width="100" />
-
-
 The app uses [Provider](https://pub.dev/packages/provider) for state management to handle state updates and data flow throughout the application.
 
 The server of EasyPack is maintained in a separate repository [easypack-server](https://github.com/yardensepton/easypack-server).
+
+<img src="https://github.com/yardensepton/easypack-frontend/blob/ce82672abd3e5d3a93b73b971fd8bd6dba95444b/assets/background/EasyPack.png" width="100" />
 
 
 ## Table of Contents
