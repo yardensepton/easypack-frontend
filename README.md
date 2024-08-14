@@ -19,7 +19,7 @@ The server of EasyPack is maintained in a separate repository [easypack-server](
     * Edit user profile data to keep your information up-to-date.
 * Trip Planning
     * Create upcoming trips with ease.
-    * View the upcoming weather conditions for your trips.
+    * View the upcoming weather conditions for your trips, which are updated daily.
     * Generate packing lists with a single click, based on:
         * Weather conditions at your destination.
         * Your profile data.
