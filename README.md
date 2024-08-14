@@ -1,4 +1,4 @@
-# Easy Pack Frontend :briefcase: :memo:
+# Easy Pack Frontend :luggage: :memo:
 
 EasyPack is a Flutter application designed to help users create customized packing lists for trips based on the weather conditions and temperatures. This repository contains the frontend code for the EasyPack app.
 
