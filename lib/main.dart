@@ -68,11 +68,6 @@ Future<String?> updateTripsWeather() async {
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     try {
-      // final now = DateTime.now();
-      // final hour = now.hour;
-
-      // Check if the current time is around 23:00
-
       print("Executing scheduled task");
       final result = await updateTripsWeather();
 

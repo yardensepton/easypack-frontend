@@ -101,17 +101,24 @@ class _MyTripsPageState extends State<MyTripsPage> {
                             },
                           ),
                           const SizedBox(height: 20),
-                          const SeeAllButton(title: 'Planned trips'),
+                          SeeAllButton(
+                              title: 'Planned trips',
+                              trips: tripDetailsProvider.plannedTrips),
                           const SizedBox(height: 10),
                           TripList(
-                            trips: tripDetailsProvider.plannedTrips,
+                            trips: tripDetailsProvider.plannedTrips
+                                .take(5)
+                                .toList(),
                             timeline: Timeline.future,
                           ),
                           const SizedBox(height: 30),
-                          const SeeAllButton(title: 'Past trips'),
+                          SeeAllButton(
+                              title: 'Past trips',
+                              trips: tripDetailsProvider.pastTrips),
                           const SizedBox(height: 10),
                           TripList(
-                            trips: tripDetailsProvider.pastTrips,
+                            trips:
+                                tripDetailsProvider.pastTrips.take(5).toList(),
                             timeline: Timeline.past,
                           ),
                         ],

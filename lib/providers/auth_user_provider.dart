@@ -109,7 +109,6 @@ class AuthUserProvider with ChangeNotifier {
       cityName = currentUser!.city!.text;
       gender = currentUser.gender;
       userNameUpdate.text = currentUser.name;
-      // print(userNameUpdate.text);
       print(cityName);
     } catch (e) {
       throw Exception('$e');
