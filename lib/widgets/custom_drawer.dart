@@ -41,19 +41,6 @@ class CustomDrawer extends StatelessWidget {
               ],
             ),
           ),
-          ListTile(
-            leading: const Icon(
-              LineIcons.removeUser,
-              color: Color.fromARGB(255, 150, 50, 43),
-            ),
-            title: const Text(
-              'Delete your account',
-              style: TextStyle(color: Color.fromARGB(255, 150, 50, 43)),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
         ],
       ),
     );

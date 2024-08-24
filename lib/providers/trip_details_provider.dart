@@ -33,9 +33,6 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
       await fetchPlannedTrips();
       notifyListeners();
     }
-//     fetchPlannedTrips().then((_) {
-//   notifyListeners();
-// });
   }
 
   @override

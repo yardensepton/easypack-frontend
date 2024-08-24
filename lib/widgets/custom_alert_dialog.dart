@@ -23,7 +23,6 @@ class CustomAlertDialog extends StatelessWidget {
       title: Row(
         children: [
           icon,
-          // Icon(color: iconColor),
           const SizedBox(width: 8),
           Text(title),
         ],
@@ -40,7 +39,6 @@ class CustomAlertDialog extends StatelessWidget {
           onPressed: () {
             onPressed();
             Navigator.of(context).pop();
-            // Navigator.popUntil(context, (route) => route.isFirst);
           },
           child: Text(okBtnText),
         ),
