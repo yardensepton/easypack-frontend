@@ -11,7 +11,7 @@ class CitySearchService {
         '/cities/city-autocomplete/$input?page=$page&size=$size';
 
     try {
-      http.Response response = await http.get(Uri.parse("${Urls.baseUrl}$apiUrl"));
+      http.Response response = await http.get(Uri.parse("${Urls.backendUrl}$apiUrl"));
 
       if (response.statusCode == 200) {
         final decodedData =

@@ -34,4 +34,32 @@ The server of EasyPack is maintained in a separate repository [easypack-server](
 * Past and Future Trips Management:
     * Separate sections for managing and viewing your past and future trips.
 
+## Installation
+To get started with the EasyPack frontend, follow these steps:
+1. Clone the repository:
+```bash
+git clone https://github.com/yardensepton/easypack-frontend.git
+```
+2. Navigate to the project directory:
+```bash
+cd easypack-frontend
+```
+3. Install the required dependencies:
+```bash
+flutter pub get
+```
+## Usage
+To run the frontend application:
+1. Ensure you have Flutter installed on your machine.
+2. Start an emulator or connect a physical device.
+3. Configure Frontend to Connect to Backend:
+* Set the backend URL in the [constants_classes.dart](lib\constants\constants_classes.dart) file to the URL of your backend server.
+* If you followed the instructions for running the server, use http://localhost:8000.
+4. Run the application:
+```
+flutter run
+```
+
+Important: The frontend application requires the EasyPack backend server to be running. Make sure to follow the instructions to start the backend server.
+
 

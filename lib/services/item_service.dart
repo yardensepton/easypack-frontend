@@ -9,7 +9,7 @@ class ItemService {
 
   Future<List<String>?> fetchItemsNamesByCategory() async {
     String? token = await UserService.getAccessToken();
-    final url = Uri.parse("${Urls.baseUrl}/items?category=special items");
+    final url = Uri.parse("${Urls.backendUrl}/items?category=special items");
 
     final headers = {
       'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ class ItemService {
     if (category != null) queryParams['category'] = category;
     if (activity != null) queryParams['activity'] = activity.toString();
 
-    final url = Uri.parse("${Urls.baseUrl}/items/calculations")
+    final url = Uri.parse("${Urls.backendUrl}/items/calculations")
         .replace(queryParameters: queryParams);
 
     final headers = {

@@ -8,7 +8,7 @@ class CityPhotoService {
     String stringResponse;
 
     try {
-      http.Response response = await http.get(Uri.parse("${Urls.baseUrl}$apiUrl"));
+      http.Response response = await http.get(Uri.parse("${Urls.backendUrl}$apiUrl"));
 
       if (response.statusCode == 200) {
         stringResponse = response.body;

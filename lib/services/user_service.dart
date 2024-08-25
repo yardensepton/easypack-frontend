@@ -37,7 +37,7 @@ class UserService {
       city: city,
     );
 
-    final url = Uri.parse('${Urls.baseUrl}$createUserUrl');
+    final url = Uri.parse('${Urls.backendUrl}$createUserUrl');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode(newUser.toJson());
 
@@ -52,7 +52,7 @@ class UserService {
 
   Future<String?> authUser(String username, String password) async {
     final response = await http.post(
-      Uri.parse('${Urls.baseUrl}$loginUserUrl'),
+      Uri.parse('${Urls.backendUrl}$loginUserUrl'),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: {
         'username': username,
@@ -79,7 +79,7 @@ class UserService {
 
   Future<String?> forgotPassword(String email) async {
     final response = await http.post(
-      Uri.parse('${Urls.baseUrl}$forgotPasswordUrl?user_email=$email'),
+      Uri.parse('${Urls.backendUrl}$forgotPasswordUrl?user_email=$email'),
       headers: {'Content-Type': 'application/json'},
     );
     if (response.statusCode == 200) {
@@ -109,7 +109,7 @@ class UserService {
     }
 
     final url =
-        Uri.parse('${Urls.baseUrl}/users/refresh?refresh_token=$refreshToken');
+        Uri.parse('${Urls.backendUrl}/users/refresh?refresh_token=$refreshToken');
     final headers = {'Content-Type': 'application/json'};
 
     final response = await http.post(url, headers: headers);
@@ -128,7 +128,7 @@ class UserService {
     print("In service - updateUser");
 
     String? token = await UserService.getAccessToken();
-    final url = Uri.parse('${Urls.baseUrl}/users');
+    final url = Uri.parse('${Urls.backendUrl}/users');
 
     final headers = {
       'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ class UserService {
 
   Future<User?> getCurrentUser() async {
     String? token = await UserService.getAccessToken();
-    final url = Uri.parse('${Urls.baseUrl}/users');
+    final url = Uri.parse('${Urls.backendUrl}/users');
 
     final headers = {
       'Content-Type': 'application/json',

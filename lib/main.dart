@@ -35,7 +35,7 @@ Future<String?> updateTripsWeather() async {
     print("token is null");
     return null;
   }
-  final url = Uri.parse("${Urls.baseUrl}/trips/scheduled");
+  final url = Uri.parse("${Urls.backendUrl}/trips/scheduled");
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer $token',

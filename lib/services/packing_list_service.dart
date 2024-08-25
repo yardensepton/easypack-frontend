@@ -19,7 +19,7 @@ class PackingListService {
   List<String>? activities,
 }) async {
   token = await UserService.getAccessToken();
-  final url = Uri.parse("${Urls.baseUrl}/packing-lists/$tripId");
+  final url = Uri.parse("${Urls.backendUrl}/packing-lists/$tripId");
 
   final headers = {
     'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ class PackingListService {
 
   Future<PackingList?> getPackingList({required String tripId}) async {
     token = await UserService.getAccessToken();
-    final url = Uri.parse("${Urls.baseUrl}/packing-lists?trip_id=$tripId");
+    final url = Uri.parse("${Urls.backendUrl}/packing-lists?trip_id=$tripId");
 
     final headers = {
       'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ class PackingListService {
       {required String tripId, required String packingListId}) async {
     String? token = await UserService.getAccessToken();
     final url =
-        Uri.parse('${Urls.baseUrl}/packing-lists/$tripId/$packingListId');
+        Uri.parse('${Urls.backendUrl}/packing-lists/$tripId/$packingListId');
 
     final headers = {
       'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ class PackingListService {
 
     String? token = await UserService.getAccessToken();
     final url =
-        Uri.parse('${Urls.baseUrl}/packing-lists/$tripId/$packingListId');
+        Uri.parse('${Urls.backendUrl}/packing-lists/$tripId/$packingListId');
 
     final headers = {
       'Content-Type': 'application/json',
