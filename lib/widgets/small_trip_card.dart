@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easypack/widgets/slide_page_route.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/pages/clicked_trip_page.dart';
@@ -95,19 +96,7 @@ class SmallTripCard extends StatelessWidget {
 }
 
 Route _createRoute(String tripId) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => ClickedTripPage(tripId: tripId),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
+  return SlidePageRoute(
+    page: ClickedTripPage(tripId: tripId),
   );
 }

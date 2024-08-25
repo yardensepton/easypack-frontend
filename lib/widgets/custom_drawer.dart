@@ -2,6 +2,7 @@ import 'package:easypack/pages/edit_profile_page.dart';
 import 'package:easypack/providers/auth_user_provider.dart';
 import 'package:easypack/providers/create_user_provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
+import 'package:easypack/widgets/slide_page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -58,20 +59,8 @@ void logOutButton(BuildContext context) {
   }
 
 
-Route _createRoute() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => EditProfilePage(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
+  Route _createRoute() {
+  return SlidePageRoute(
+    page: EditProfilePage(),
   );
 }

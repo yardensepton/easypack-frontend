@@ -1,5 +1,7 @@
 import 'package:easypack/models/trip_info.dart';
+import 'package:easypack/pages/clicked_trip_page.dart';
 import 'package:easypack/utils/format_date.dart';
+import 'package:easypack/widgets/slide_page_route.dart';
 import 'package:flutter/material.dart';
 
 class AllTripsList extends StatefulWidget {
@@ -65,6 +67,7 @@ class _AllTripsListState extends State<AllTripsList> {
                     '${FormatDate.getformatDate(trip.departureDate)} - ${FormatDate.getformatDate(trip.returnDate)}',
                   ),
                   onTap: () {
+                    _openClickedTripsPage(context,trip.tripId);
                     // Handle tap event here, like navigating to trip details
                   },
                 );
@@ -75,4 +78,16 @@ class _AllTripsListState extends State<AllTripsList> {
       ),
     );
   }
+}
+
+
+
+void _openClickedTripsPage(BuildContext context,String tripId) {
+  Navigator.of(context).push(_createRoute(tripId));
+}
+
+Route _createRoute(String tripId) {
+  return SlidePageRoute(
+    page: ClickedTripPage(tripId: tripId),
+  );
 }

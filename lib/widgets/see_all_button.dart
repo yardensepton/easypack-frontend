@@ -1,5 +1,6 @@
 import 'package:easypack/models/trip_info.dart';
 import 'package:easypack/pages/all_trips_list.dart';
+import 'package:easypack/widgets/slide_page_route.dart';
 import 'package:flutter/material.dart';
 
 class SeeAllButton extends StatelessWidget {
@@ -34,21 +35,8 @@ void _openAllTripsPage(BuildContext context, List<TripInfo> trips, String title)
   Navigator.of(context).push(_createRoute(trips,title));
 }
 
-Route _createRoute(List<TripInfo> trips,String title) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) =>
-        AllTripsList(trips: trips,title: title,),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
+Route _createRoute(List<TripInfo> trips, String title) {
+  return SlidePageRoute(
+    page: AllTripsList(trips: trips, title: title),
   );
 }
