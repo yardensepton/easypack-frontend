@@ -15,13 +15,6 @@ class GroupSeperatorCategory extends StatelessWidget {
         Row(
           children: [
             CustomSvg(svgPath: 'assets/icons/${category.addUnderscores().toLowerCase()}.svg'),
-            // SvgPicture.asset(
-            //   'assets/icons/${category.addUnderscores().toLowerCase()}.svg',
-            //   width: 30.0,
-            //   height: 30.0,
-            //   colorFilter: const ColorFilter.mode(
-            //       Color.fromRGBO(26, 35, 126, 1), BlendMode.srcIn),
-            // ),
             const SizedBox(width: 8.0),
             Text(
               category.capitalize().removeUnderscores(),
