@@ -32,100 +32,105 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 25, 68, 123),
-      body: Center(
-        child: SizedBox(
-          width: 400,
-          height: 600,
-          child: Card(
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Please fill in this form to complete the signup',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(255, 116, 111, 111),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 25, 68, 123),
+        body: Center(
+          child: SizedBox(
+            width: 400,
+            height: 600,
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Please fill in this form to complete the signup',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 116, 111, 111),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Consumer<CreateUserProvider>(
-                      builder: (context, userProvider, child) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextFormField(
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.person_outline,
-                                    color: Colors.grey),
-                                labelText: "Name",
-                                filled: true,
-                                fillColor:
-                                    const Color.fromARGB(255, 240, 232, 245),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide.none,
+                      const SizedBox(height: 20),
+                      Consumer<CreateUserProvider>(
+                        builder: (context, userProvider, child) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  prefixIcon: const Icon(Icons.person_outline,
+                                      color: Colors.grey),
+                                  labelText: "Name",
+                                  filled: true,
+                                  fillColor:
+                                      const Color.fromARGB(255, 240, 232, 245),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide.none,
+                                  ),
                                 ),
+                                controller: userProvider.nameController,
+                                validator: (value) =>
+                                    Validators.validateNotEmpty(value, 'Name'),
                               ),
-                              controller: userProvider.nameController,
-                              validator: (value) =>
-                                  Validators.validateNotEmpty(value, 'Name'),
-                            ),
-                            const SizedBox(height: 15),
-                            GenderToggleButton(
-                              defaultValue: Gender.male,
-                              onChanged: (gender) {
-                                userProvider.genderController.text = gender;
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 30),
-                    const SizedBox(
-                      height: 56, // Match the height of TextFormField
-                      child: CitiesBottomSheet(bottomSheetTitle: "Where do you live?",defaultValue: "City"),
-                    ),
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Provider.of<CreateUserProvider>(context,
-                                    listen: false)
-                                .moveToLoginScreen(context);
-                          },
-                          child: const Text(
-                            'BACK',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
+                              const SizedBox(height: 15),
+                              GenderToggleButton(
+                                defaultValue: Gender.male,
+                                onChanged: (gender) {
+                                  userProvider.genderController.text = gender;
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                      const SizedBox(
+                        height: 56, // Match the height of TextFormField
+                        child: CitiesBottomSheet(
+                            bottomSheetTitle: "Where do you live?",
+                            defaultValue: "City"),
+                      ),
+                      const Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Provider.of<CreateUserProvider>(context,
+                                      listen: false)
+                                  .moveToLoginScreen(context);
+                            },
+                            child: const Text(
+                              'BACK',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        ),
-                        LoadingButton<CreateUserProvider>(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              _callCreateUser();
-                            }
-                          },
-                          buttonText: 'SUBMIT',
-                        ),
-                      ],
-                    ),
-                  ],
+                          LoadingButton<CreateUserProvider>(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                _callCreateUser();
+                              }
+                            },
+                            buttonText: 'SUBMIT',
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -144,3 +149,4 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 }
+

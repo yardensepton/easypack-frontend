@@ -57,6 +57,8 @@ class CreateUserProvider with ChangeNotifier {
         ErrorSnackBar.showErrorSnackBar(context, "Choose a city");
       }
     }
+    isLoading = false;
+    notifyListeners();
   }
 
   void moveToLoginScreen(BuildContext context) {

@@ -43,22 +43,25 @@ class SignUpLoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlutterLogin(
-      title: 'Easy Pack',
-      theme: LoginTheme(
-        primaryColor:  Colors.indigo[900],
-        accentColor:  Colors.white,
-        buttonTheme: const LoginButtonTheme(backgroundColor: Colors.grey),
-      ),
-      logo: const AssetImage('assets/logo/suitcase_airplane.png'),
-      onLogin: (LoginData data) => _authUser(context, data),
-      passwordValidator: (String? password) =>
-          Validators.validatePasswordStrength(password),
-      onSignup: (SignupData data) => _moreInfo(context, data),
-      onRecoverPassword: (String name) => _forgotPassword(context, name),
-      messages: LoginMessages(
-        recoverPasswordDescription:
-            "Hang tight! We'll send you an email with a link to reset your password.",
+    return PopScope(
+      canPop: false,
+      child: FlutterLogin(
+        title: 'Easy Pack',
+        theme: LoginTheme(
+          primaryColor:  Colors.indigo[900],
+          accentColor:  Colors.white,
+          buttonTheme: const LoginButtonTheme(backgroundColor: Colors.grey),
+        ),
+        logo: const AssetImage('assets/logo/suitcase_airplane.png'),
+        onLogin: (LoginData data) => _authUser(context, data),
+        passwordValidator: (String? password) =>
+            Validators.validatePasswordStrength(password),
+        onSignup: (SignupData data) => _moreInfo(context, data),
+        onRecoverPassword: (String name) => _forgotPassword(context, name),
+        messages: LoginMessages(
+          recoverPasswordDescription:
+              "Hang tight! We'll send you an email with a link to reset your password.",
+        ),
       ),
     );
   }
