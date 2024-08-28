@@ -100,6 +100,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       const SizedBox(height: 20),
                       Center(
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.indigo[900],
+                            fixedSize: const Size(200.0, 50.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
                           onPressed: () => _saveChanges(authUserProvider),
                           child: const Text('Save Changes'),
                         ),
