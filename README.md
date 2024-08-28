@@ -62,5 +62,3 @@ flutter run
 ```
 
 Important: The frontend application requires the EasyPack backend server to be running. Make sure to follow the instructions to start the backend server.
-
-## Demo 📸
