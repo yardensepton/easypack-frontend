@@ -69,7 +69,7 @@ class _CitiesBottomSheetState extends State<CitiesBottomSheet> {
         width: 350,
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 240, 232, 245),
+          color:Colors.grey[200]!,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -88,7 +88,6 @@ class _CitiesBottomSheetState extends State<CitiesBottomSheet> {
                       fontWeight: FontWeight.normal,
                       fontSize: 16,
                       color: Colors.black,
-                      // Color.fromARGB(255, 100, 99, 99)
                     ),
                   );
                 },

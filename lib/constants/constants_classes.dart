@@ -22,5 +22,5 @@ class Boxes {
 
 class Urls {
   // static const String backendUrl = 'http://localhost:8000';
-  static const String backendUrl = 'http://192.168.1.197:8000';
+  static const String backendUrl = 'http://192.168.32.43:8000';
 }

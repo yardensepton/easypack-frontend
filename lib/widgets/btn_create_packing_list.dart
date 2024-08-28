@@ -34,7 +34,8 @@ class BtnCreatePackingList extends StatelessWidget {
           style: TextStyle(fontSize: isMobile ? 18 : 16), // Adjusted font size for better readability
         ),
         style: ElevatedButton.styleFrom(
-          foregroundColor:  Colors.indigo[900], // Use onPrimary for the icon color
+          foregroundColor: Colors.white,
+          backgroundColor:  Colors.indigo[900], // Use onPrimary for the icon color
           padding: EdgeInsets.symmetric(
             horizontal: isMobile ? 24 : 30, // Adjusted padding for better button size
             vertical: isMobile ? 12 : 15, // Adjusted padding for better button size
@@ -44,9 +45,9 @@ class BtnCreatePackingList extends StatelessWidget {
             fontWeight: FontWeight.normal, // Added bold font weight
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12), // Slightly more rounded corners
+            borderRadius: BorderRadius.circular(50), // Slightly more rounded corners
           ),
-          elevation: 5, // Added shadow for a more modern look
+          elevation: 2, // Added shadow for a more modern look
         ),
       ),
     );

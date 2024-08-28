@@ -18,6 +18,7 @@ class LoadingButton<T extends ChangeNotifier> extends StatelessWidget {
         final isLoading = (provider as dynamic).isLoading;
         return ElevatedButton(
           style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.indigo[900],
             fixedSize: const Size(200.0, 50.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
@@ -25,8 +26,8 @@ class LoadingButton<T extends ChangeNotifier> extends StatelessWidget {
           ),
           onPressed: isLoading ? null : onPressed,
           child: isLoading
-              ? const CircularProgressIndicator(color: Colors.purple)
-              : Text(buttonText),
+              ?  CircularProgressIndicator(color: Colors.indigo[900])
+              : Text(buttonText,style: TextStyle(color: Colors.white),),
         );
       },
     );

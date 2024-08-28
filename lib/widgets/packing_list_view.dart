@@ -37,7 +37,7 @@ class PackingListView extends StatelessWidget {
         if (packingListProvider.currentPackingList == null) {
           return Column(
             children: [
-              const SizedBox(height: 10),
+              const SizedBox(height: 50),
               BtnCreatePackingList(
                 tripId: tripId,
                 tripTitle: tripTitle,

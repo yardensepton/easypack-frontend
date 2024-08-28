@@ -37,7 +37,7 @@ class _GenderToggleButtonState extends State<GenderToggleButton> {
             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
           ),
           ToggleButtons(
-            fillColor: const Color.fromARGB(255, 240, 232, 245),
+            fillColor: Colors.grey[200]!,
             selectedColor: Colors.black,
             borderRadius: BorderRadius.circular(10),
             isSelected: [_selectedGender == Gender.male, _selectedGender == Gender.female],

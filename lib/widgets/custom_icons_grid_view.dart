@@ -67,10 +67,10 @@ class _CustomIconsGridViewState extends State<CustomIconsGridView> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color:
-                      isSelected ? Colors.grey.withOpacity(0.3) : Colors.white,
+                      isSelected ?  Colors.grey[300]! : Colors.white,
                   borderRadius: BorderRadius.circular(12.0),
                   border: Border.all(
-                    color: isSelected ? Colors.grey : Colors.grey,
+                    color: Colors.grey,
                     width: 1,
                   ),
                   boxShadow: [
@@ -106,6 +106,9 @@ class _CustomIconsGridViewState extends State<CustomIconsGridView> {
             );
           },
         ),
+                  const SizedBox(
+            height: 20,
+          ),
       ],
     );
   }

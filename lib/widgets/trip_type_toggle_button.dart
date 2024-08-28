@@ -42,7 +42,7 @@ class _TripTypeToggleButtonState extends State<TripTypeToggleButton> {
                 MainAxisAlignment.start, // Align text and buttons properly
             children: <Widget>[
               ToggleButtons(
-                fillColor: const Color.fromARGB(255, 240, 232, 245),
+                fillColor: Colors.grey[300]!,
                 selectedColor: Colors.black,
                 borderRadius: BorderRadius.circular(10),
                 isSelected: [
@@ -80,6 +80,9 @@ class _TripTypeToggleButtonState extends State<TripTypeToggleButton> {
                 ],
               )
             ],
+          ),
+          const SizedBox(
+            height: 20,
           ),
         ],
       ),

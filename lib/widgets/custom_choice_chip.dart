@@ -40,8 +40,7 @@ class _CustomChoiceChipState extends State<CustomChoiceChip> {
             crossAxisCount: 2, // Number of columns
             crossAxisSpacing: 15.0, // Spacing between columns
             mainAxisSpacing: 10.0, // Spacing between rows
-            childAspectRatio:
-                3, 
+            childAspectRatio: 3,
           ),
           itemCount: widget.options.length,
           itemBuilder: (BuildContext context, int index) {
@@ -50,6 +49,15 @@ class _CustomChoiceChipState extends State<CustomChoiceChip> {
               child: Container(
                 alignment: Alignment.topLeft, // Align chips to the start
                 child: ChoiceChip(
+                   side: BorderSide(
+                  color:  Colors.grey, // Border color changes based on selection
+                  width: 1.5, // Border width
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                  selectedColor: Colors.grey[300]!,
+                  backgroundColor: Colors.grey[100]!,
                   label: Text(option),
                   labelStyle: const TextStyle(
                     fontSize: 13,
@@ -63,17 +71,21 @@ class _CustomChoiceChipState extends State<CustomChoiceChip> {
                     setState(() {
                       if (isSelected) {
                         selectedOptions.add(option);
-                         widget.addSelection(option);
+                        widget.addSelection(option);
                       } else {
                         selectedOptions.remove(option);
                         widget.removeSelection(option);
                       }
                     });
+                    
                   },
                 ),
               ),
             );
           },
+        ),
+        const SizedBox(
+          height: 20,
         ),
       ],
     );

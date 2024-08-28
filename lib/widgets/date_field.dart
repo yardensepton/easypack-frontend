@@ -25,7 +25,7 @@ class DateField extends StatelessWidget {
         prefixIcon: icon,
         labelText: labelText,
         filled: true,
-        fillColor: const Color.fromARGB(255, 240, 232, 245),
+        fillColor:  Colors.grey[200]!,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide.none,

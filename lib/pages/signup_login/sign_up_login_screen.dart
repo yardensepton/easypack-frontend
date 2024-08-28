@@ -48,9 +48,15 @@ class SignUpLoginScreen extends StatelessWidget {
       child: FlutterLogin(
         title: 'Easy Pack',
         theme: LoginTheme(
+          cardTheme: CardTheme(color: Colors.white),
+          inputTheme: InputDecorationTheme(
+            filled: true,
+            fillColor:   Colors.grey[200]!,
+            
+          ),
           primaryColor:  Colors.indigo[900],
           accentColor:  Colors.white,
-          buttonTheme: const LoginButtonTheme(backgroundColor: Colors.grey),
+          buttonTheme:  LoginButtonTheme(backgroundColor:Colors.indigo[900]),
         ),
         logo: const AssetImage('assets/logo/suitcase_airplane.png'),
         onLogin: (LoginData data) => _authUser(context, data),

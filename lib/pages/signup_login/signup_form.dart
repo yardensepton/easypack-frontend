@@ -39,8 +39,9 @@ class _SignUpFormState extends State<SignUpForm> {
         body: Center(
           child: SizedBox(
             width: 400,
-            height: 600,
+            height: 470,
             child: Card(
+              color: Colors.white,
               elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -53,14 +54,18 @@ class _SignUpFormState extends State<SignUpForm> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Please fill in this form to complete the signup',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color.fromARGB(255, 116, 111, 111),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: const Text(
+                          "Let's get you all set!\nComplete this form to join us.",
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.black,
+                          ),
+                             textAlign: TextAlign.start,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 25),
                       Consumer<CreateUserProvider>(
                         builder: (context, userProvider, child) {
                           return Column(
@@ -68,12 +73,12 @@ class _SignUpFormState extends State<SignUpForm> {
                             children: [
                               TextFormField(
                                 decoration: InputDecoration(
-                                  prefixIcon: const Icon(Icons.person_outline,
-                                      color: Colors.grey),
+                                  prefixIcon:  Icon(Icons.person_outline,
+                                      color: Colors.grey[700]),
                                   labelText: "Name",
                                   filled: true,
                                   fillColor:
-                                      const Color.fromARGB(255, 240, 232, 245),
+                                       Colors.grey[200]!,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20),
                                     borderSide: BorderSide.none,
@@ -83,7 +88,7 @@ class _SignUpFormState extends State<SignUpForm> {
                                 validator: (value) =>
                                     Validators.validateNotEmpty(value, 'Name'),
                               ),
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 25),
                               GenderToggleButton(
                                 defaultValue: Gender.male,
                                 onChanged: (gender) {
@@ -94,7 +99,7 @@ class _SignUpFormState extends State<SignUpForm> {
                           );
                         },
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 25),
                       const SizedBox(
                         height: 56, // Match the height of TextFormField
                         child: CitiesBottomSheet(

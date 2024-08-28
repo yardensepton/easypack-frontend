@@ -39,6 +39,35 @@ class _PackingListStepperState extends State<PackingListStepper> {
         return Stack(
           children: [
             Stepper(
+              controlsBuilder: (context, details) {
+                return Row(
+                  children: <Widget>[
+                    TextButton(
+                      style: ButtonStyle(
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        backgroundColor: WidgetStatePropertyAll(
+                          const Color.fromRGBO(26, 35, 126, 1),
+                          
+                        ),
+                        foregroundColor: WidgetStatePropertyAll(
+                           Colors.white
+                
+                        ),
+                      ),
+                      onPressed: details.onStepContinue,
+                      child: const Text('NEXT'),
+                    ),
+                    TextButton(
+                      onPressed: details.onStepCancel,
+                      child: const Text('BACK'),
+                    ),
+                  ],
+                );
+              },
               steps: getSteps(itemsProvider, packingListProvider),
               type: StepperType.vertical,
               currentStep: currentStep,
@@ -65,6 +94,9 @@ class _PackingListStepperState extends State<PackingListStepper> {
                 }
               },
               onStepTapped: (step) => setState(() => currentStep = step),
+              connectorColor: WidgetStatePropertyAll(
+                const Color.fromRGBO(26, 35, 126, 1),
+              ),
             ),
             FutureBuilder<void>(
               future: _packingListCreation,
@@ -89,9 +121,7 @@ class _PackingListStepperState extends State<PackingListStepper> {
                     ),
                   );
                 } else {
-                  // Handle other states or display content once future completes
-                  return const SizedBox
-                      .shrink(); // or null depending on your layout needs
+                  return const SizedBox.shrink();
                 }
               },
             ),
