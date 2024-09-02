@@ -54,7 +54,7 @@ To run the frontend application:
 1. Ensure you have Flutter installed on your machine.
 2. Start an emulator or connect a physical device.
 3. Configure Frontend to Connect to Backend:
-* Set the backend URL in the [constants_classes.dart](lib/constants/constants_classes.dart) file to the URL of your backend server.
+* Set the backend URL in the [config.json](assets/config.json) file to the URL of your backend server.
 * If you followed the instructions for running the server, use http://localhost:8080.
 4. Run the application:
 ```
