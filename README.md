@@ -13,7 +13,7 @@ The server of EasyPack is maintained in a separate repository [easypack-server](
 * [Features](#features)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Screenshots](#Screenshots-📸)
+* [Screenshots](#screenshots-📸)
 
 ## Features
 * Profile Management
