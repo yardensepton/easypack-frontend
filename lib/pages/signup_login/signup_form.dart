@@ -35,7 +35,7 @@ class _SignUpFormState extends State<SignUpForm> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 25, 68, 123),
+        backgroundColor:Colors.indigo[900],
         body: Center(
           child: SizedBox(
             width: 400,

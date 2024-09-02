@@ -1,5 +1,4 @@
 import 'package:easypack/config.dart';
-import 'package:easypack/constants/constants_classes.dart';
 import 'package:http/http.dart' as http;
 
 class CityPhotoService {

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:easypack/config.dart';
-import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/enums/enum_actions.dart';
 import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/item_list.dart';

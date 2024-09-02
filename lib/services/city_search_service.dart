@@ -1,5 +1,4 @@
 import 'package:easypack/config.dart';
-import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/exception/server_exception.dart';
 import 'package:easypack/models/city.dart';
 import 'package:http/http.dart' as http;
