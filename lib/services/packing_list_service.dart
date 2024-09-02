@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easypack/config.dart';
 import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/enums/enum_actions.dart';
 import 'package:easypack/exception/server_error.dart';
@@ -19,7 +20,7 @@ class PackingListService {
   List<String>? activities,
 }) async {
   token = await UserService.getAccessToken();
-  final url = Uri.parse("${Urls.backendUrl}/packing-lists/$tripId");
+  final url = Uri.parse("${Config.backendUrl}/packing-lists/$tripId");
 
   final headers = {
     'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ class PackingListService {
 
   Future<PackingList?> getPackingList({required String tripId}) async {
     token = await UserService.getAccessToken();
-    final url = Uri.parse("${Urls.backendUrl}/packing-lists?trip_id=$tripId");
+    final url = Uri.parse("${Config.backendUrl}/packing-lists?trip_id=$tripId");
 
     final headers = {
       'Content-Type': 'application/json',
@@ -114,7 +115,7 @@ class PackingListService {
       {required String tripId, required String packingListId}) async {
     String? token = await UserService.getAccessToken();
     final url =
-        Uri.parse('${Urls.backendUrl}/packing-lists/$tripId/$packingListId');
+        Uri.parse('${Config.backendUrl}/packing-lists/$tripId/$packingListId');
 
     final headers = {
       'Content-Type': 'application/json',
@@ -155,7 +156,7 @@ class PackingListService {
 
     String? token = await UserService.getAccessToken();
     final url =
-        Uri.parse('${Urls.backendUrl}/packing-lists/$tripId/$packingListId');
+        Uri.parse('${Config.backendUrl}/packing-lists/$tripId/$packingListId');
 
     final headers = {
       'Content-Type': 'application/json',

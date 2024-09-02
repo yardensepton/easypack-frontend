@@ -1,3 +1,4 @@
+import 'package:easypack/config.dart';
 import 'package:easypack/constants/constants_classes.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,7 +9,7 @@ class CityPhotoService {
     String stringResponse;
 
     try {
-      http.Response response = await http.get(Uri.parse("${Urls.backendUrl}$apiUrl"));
+      http.Response response = await http.get(Uri.parse("${Config.backendUrl}$apiUrl"));
 
       if (response.statusCode == 200) {
         stringResponse = response.body;

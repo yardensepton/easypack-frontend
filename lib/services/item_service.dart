@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easypack/config.dart';
 import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/services/user_service.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +10,7 @@ class ItemService {
 
   Future<List<String>?> fetchItemsNamesByCategory() async {
     String? token = await UserService.getAccessToken();
-    final url = Uri.parse("${Urls.backendUrl}/items?category=special items");
+    final url = Uri.parse("${Config.backendUrl}/items?category=special items");
 
     final headers = {
       'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ class ItemService {
     if (category != null) queryParams['category'] = category;
     if (activity != null) queryParams['activity'] = activity.toString();
 
-    final url = Uri.parse("${Urls.backendUrl}/items/calculations")
+    final url = Uri.parse("${Config.backendUrl}/items/calculations")
         .replace(queryParameters: queryParams);
 
     final headers = {

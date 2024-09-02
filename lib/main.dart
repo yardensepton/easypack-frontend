@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easypack/config.dart';
 import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/trip_info.dart';
@@ -35,7 +36,7 @@ Future<String?> updateTripsWeather() async {
     print("token is null");
     return null;
   }
-  final url = Uri.parse("${Urls.backendUrl}/trips/scheduled");
+  final url = Uri.parse("${Config.backendUrl}/trips/scheduled");
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer $token',
@@ -86,6 +87,10 @@ void callbackDispatcher() {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+   // Load configuration
+  await Config.loadConfig();
+
   await Hive.initFlutter();
   if (!kIsWeb) {
     Workmanager().initialize(callbackDispatcher, isInDebugMode: true);

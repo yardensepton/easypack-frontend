@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easypack/config.dart';
 import 'package:easypack/constants/constants_classes.dart';
 import 'package:easypack/exception/server_error.dart';
 import 'package:easypack/models/city.dart';
@@ -27,7 +28,7 @@ class TripService {
     );
     token = await UserService.getAccessToken();
     print("in create new trip token is $token");
-    final url = Uri.parse("${Urls.backendUrl}/trips");
+    final url = Uri.parse("${Config.backendUrl}/trips");
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
@@ -82,7 +83,7 @@ class TripService {
 
   Future<Trip?> getTripById(String tripId) async {
     String? token = await UserService.getAccessToken();
-    final url = Uri.parse('${Urls.backendUrl}/trips?trip_id=$tripId');
+    final url = Uri.parse('${Config.backendUrl}/trips?trip_id=$tripId');
 
     final headers = {
       'Content-Type': 'application/json',
@@ -119,7 +120,7 @@ class TripService {
 
   Future<String?> deleteTripById(String tripId) async {
     String? token = await UserService.getAccessToken();
-    final url = Uri.parse('${Urls.backendUrl}/trips/$tripId');
+    final url = Uri.parse('${Config.backendUrl}/trips/$tripId');
 
     final headers = {
       'Content-Type': 'application/json',
@@ -152,7 +153,7 @@ class TripService {
   }
 
   Future<List<TripInfo>?> getPlannedTripsInfo() async {
-    final url = Uri.parse('${Urls.backendUrl}/trips/sorted');
+    final url = Uri.parse('${Config.backendUrl}/trips/sorted');
     String? token = await UserService.getAccessToken();
 
     final headers = {
