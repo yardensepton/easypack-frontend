@@ -13,7 +13,7 @@ The server of EasyPack is maintained in a separate repository [easypack-server](
 * [Features](#features)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Screenshots](#screenshots-📸)
+* [Screenshots](#screenshots)
 
 ## Features
 * Profile Management
@@ -64,5 +64,5 @@ flutter run
 Important: The frontend application requires the EasyPack backend server to be running. Make sure to follow the instructions to start the backend server.
 
 
-## Screenshots 📸
+## Screenshots
 <img src="https://github.com/user-attachments/assets/2a7cb42c-5630-4167-801c-35dff28289cd" width="30%"></img> <img src="https://github.com/user-attachments/assets/24233325-55c8-4881-9d87-68c46e6fb22b" width="30%"></img> <img src="https://github.com/user-attachments/assets/b4cf8a5a-287c-4d20-9918-e7bc4d32c729" width="30%"></img> <img src="https://github.com/user-attachments/assets/9c8799af-f327-48cf-a1d2-94a3070a3c2f" width="30%"></img> <img src="https://github.com/user-attachments/assets/26421c06-5555-4101-9d9a-b68e24f95548" width="30%"></img> <img src="https://github.com/user-attachments/assets/ed8584f3-9f07-4cb8-8717-74ba6d11f95a" width="30%"></img> <img src="https://github.com/user-attachments/assets/d61e369d-34e9-4eab-a9ef-58463892c42c" width="30%"></img> <img src="https://github.com/user-attachments/assets/1ec7bc96-0447-4d07-96c7-bb21df770357" width="30%"></img> <img src="https://github.com/user-attachments/assets/210f9025-5cbe-47dd-a63d-c41491b0f047" width="30%"></img> 
