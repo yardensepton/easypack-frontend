@@ -54,9 +54,9 @@ To run the frontend application:
 1. Ensure you have Flutter installed on your machine.
 2. Start an emulator or connect a physical device.
 3. Configure Frontend to Connect to Backend:
-    * Set the backend URL in the config.json file to the URL of your backend server.
-    * If you’re using an emulator, use http://localhost:8080.
-    * If you’re using an actual device, ensure that the device is connected to the same WiFi network as the server. Since the server is local, use the IPv4 address of the machine running the server instead of localhost.
+* Set the backend URL in the config.json file to the URL of your backend server.
+* If you’re using an emulator, use http://localhost:8080.
+* If you’re using an actual device, ensure that the device is connected to the same WiFi network as the server. Since the server is local, use the IPv4 address of the machine running the server instead of localhost.
 4. Run the application:
 ```
 flutter run
