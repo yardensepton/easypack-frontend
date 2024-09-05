@@ -19,7 +19,6 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
   String? cachedDestinationUrl;
   List<TripInfo> plannedTrips = [];
   List<TripInfo> pastTrips = [];
-  bool hasUpcomingTrip = false;
 
   TripDetailsProvider() {
     WidgetsBinding.instance.addObserver(this);
@@ -46,7 +45,6 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
     cachedTrip = null;
     isLoading = false;
     cachedDestinationUrl = null;
-    hasUpcomingTrip = false;
     pastTrips.clear();
     plannedTrips.clear();
     tripsBox.clear();
@@ -62,7 +60,6 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
       isLoading = true;
 
       if (plannedTrips.isEmpty) {
-        hasUpcomingTrip = false;
         cachedTrip = null;
         destinationName.text = '';
         startDateController.text = '';
@@ -74,11 +71,9 @@ class TripDetailsProvider with ChangeNotifier, WidgetsBindingObserver {
       cachedTrip = await _tripService.getTripById(plannedTrips.first.tripId);
 
       if (cachedTrip != null) {
-        hasUpcomingTrip = true;
         _updateControllers(cachedTrip!);
         cachedDestinationUrl = cachedTrip!.destination.cityUrl;
       } else {
-        hasUpcomingTrip = false;
         destinationName.text = '';
         startDateController.text = '';
         endDateController.text = '';

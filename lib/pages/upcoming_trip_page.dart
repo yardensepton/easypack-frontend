@@ -1,4 +1,4 @@
-import 'package:easypack/widgets/trip_bottom_sheet.dart';
+// import 'package:easypack/widgets/trip_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easypack/providers/trip_details_provider.dart';
@@ -66,14 +66,14 @@ class _UpcomingTripPageState extends State<UpcomingTripPage> {
                         isMobile: isMobile,
                       ),
                     ),
-                    actions: [
-                        IconButton(
-                          onPressed: () {
-                            _showBottomSheet(context, tripDetailsProvider.cachedTrip!.id!);
-                          },
-                          icon: const Icon(Icons.more_horiz),
-                        ),
-                      ],
+                    // actions: [
+                    //     IconButton(
+                    //       onPressed: () {
+                    //         _showBottomSheet(context, tripDetailsProvider.cachedTrip!.id!);
+                    //       },
+                    //       icon: const Icon(Icons.more_horiz),
+                    //     ),
+                    //   ],
                   ),
                   SliverToBoxAdapter(
                     child: TripBottomSection(
@@ -91,9 +91,9 @@ class _UpcomingTripPageState extends State<UpcomingTripPage> {
         });
   }
 }
-  void _showBottomSheet(BuildContext context, String tripId) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => TripBottomSheet(tripId: tripId),
-    );
-  }
+  // void _showBottomSheet(BuildContext context, String tripId) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (context) => TripBottomSheet(tripId: tripId),
+  //   );
+  // }
