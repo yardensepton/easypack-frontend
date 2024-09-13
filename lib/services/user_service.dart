@@ -129,7 +129,7 @@ class UserService {
     print("In service - updateUser");
 
     String? token = await UserService.getAccessToken();
-    final url = Uri.parse('$Config.backendUrl}/users');
+    final url = Uri.parse('${Config.backendUrl}/users');
 
     final headers = {
       'Content-Type': 'application/json',
